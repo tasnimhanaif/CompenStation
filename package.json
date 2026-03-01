@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/fahadMasood7/CompenStation#readme",
   "dependencies": {
+    "dotenv": "^17.3.1",
     "mysql2": "^3.18.2"
   }
 }
