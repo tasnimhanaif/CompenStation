@@ -1,48 +1,53 @@
-const { makeMemoryStore } = require("./store.memory");
+const store = require("./Store/storeMemory.js"); // ← use MySQL store
 const {
   addEmployee,
   submitTimesheet,
   approveTimesheet,
   runPayroll,
   viewMyTimesheets
-} = require("./algorithms");
+} = require("./algorithms.js");
 
 (async () => {
-  const store = makeMemoryStore();
+  try {
+    // Admin adds employee
+    const emp = await addEmployee(store, {
+      fullName: "Mahir Shahriyar",
+      email: "mahir@mail.com",
+      hourlyRate: 25
+    });
 
-  // Admin adds employee
-  const emp = await addEmployee(store, {
-    fullName: "Mahir Shahriyar",
-    email: "mahir@mail.com",
-    hourlyRate: 25
-  });
+    // Employee submits timesheet
+    const ts = await submitTimesheet(store, {
+      employeeId: emp.id,
+      periodStart: "2026-02-01",
+      periodEnd: "2026-02-15",
+      hoursWorked: 72,
+      notes: "Normal pay period"
+    });
 
-  // Employee submits timesheet
-  const ts = await submitTimesheet(store, {
-    employeeId: emp.id,
-    periodStart: "2026-02-01",
-    periodEnd: "2026-02-15",
-    hoursWorked: 72,
-    notes: "Normal pay period"
-  });
+    // Admin approves
+    const approved = await approveTimesheet(store, {
+      timesheetId: ts.id,
+      reviewedBy: 999
+    });
 
-  // Admin approves
-  const approved = await approveTimesheet(store, { timesheetId: ts.id, reviewedBy: 999 });
+    // Admin runs payroll
+    const payroll = await runPayroll(store, {
+      periodStart: "2026-02-01",
+      periodEnd: "2026-02-15",
+      executedBy: 999
+    });
 
-  // Admin runs payroll
-  const payroll = await runPayroll(store, {
-    periodStart: "2026-02-01",
-    periodEnd: "2026-02-15",
-    executedBy: 999
-  });
+    // Employee views history
+    const myTs = await viewMyTimesheets(store, emp.id);
 
-  // Employee views history
-  const myTs = await viewMyTimesheets(store, emp.id);
+    console.log("EMP:", emp);
+    console.log("SUBMITTED:", ts);
+    console.log("APPROVED:", approved);
+    console.log("PAYROLL:", payroll);
+    console.log("MY TIMESHEETS:", myTs);
 
-  console.log("EMP:", emp);
-  console.log("SUBMITTED:", ts);
-  console.log("APPROVED:", approved);
-  console.log("PAYROLL:", payroll);
-  console.log("MY TIMESHEETS:", myTs);
-  console.log("DUMP:", store._dump());
+  } catch (err) {
+    console.error("ERROR:", err.message);
+  }
 })();

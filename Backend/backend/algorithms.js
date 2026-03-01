@@ -72,10 +72,15 @@ async function submitTimesheet(store, { employeeId, periodStart, periodEnd, hour
   );
   assert(!existing, "Timesheet already exists for this period");
 
+  //Helper function to convert JS date to MySQL datetime string
+function toMySQLDate(date) {
+  return date.toISOString().slice(0, 19).replace("T", " ");
+}
+
   const ts = await store.createTimesheet({
     employeeId,
-    periodStart: start.toISOString(),
-    periodEnd: end.toISOString(),
+    periodStart: toMySQLDate(start),
+    periodEnd: toMySQLDate(end),
     hoursWorked: round2(hours),
     notes: notes || "",
   });
@@ -188,8 +193,8 @@ async function runPayroll(store, { periodStart, periodEnd, executedBy }) {
   }
 
   const payrollRun = await store.createPayrollRun({
-    periodStart: start.toISOString(),
-    periodEnd: end.toISOString(),
+    periodStart: toMySQLDate(start),
+    periodEnd: toMySQLDate(end),
     executedBy: executedBy ?? null,
     totalGross,
   });
