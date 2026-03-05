@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Admin</title>
+        <link rel="icon" href="img/logo.png">
+        <link rel="stylesheet" href="css/reset.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/admin.css">
+    </head>
+    <body>
+
+        <!--Top Bar-->
+        <header>
+            <p id="screen" class="regular-text">Dashboard</p>
+            <p id="userName" class="regular-text">Admin Name</p>
+        </header>
+
+        <!--Side Menu-->
+        <aside>
+            <nav>
+                <div>
+                    <button class="menu-toggle regular-text">
+                        <img class="logo" src="img/logo.png" alt="logo">
+                        CompenStation
+                    </button>
+                    <a class="regular-text" href="#">
+                        <div class="side-icon">
+                        <img src="icons/home_dark.svg" alt="home">
+                        </div>
+                        Dashboard
+                    </a>
+                    <a class="regular-text" href="#">
+                        <div class="side-icon">
+                        <img src="icons/groups_dark.svg" alt="people">
+                        </div>
+                        Employees
+                    </a>
+                    <a class="regular-text" href="#">
+                        <div class="side-icon">
+                        <img src="icons/settings_dark.svg" alt="gear">
+                        </div>
+                        Settings
+                    </a>
+                </div>
+                <a class="regular-text" href="index.html">
+                    <div class="side-icon">
+                    <img src="icons/logout_dark.svg">
+                    </div>
+                    Logout
+                </a>
+            </nav>
+        </aside>
+
+        <!--Main content section-->
+        <main>
+
+            <!--Dashboard screen-->
+            <section id="dashboard" class="page">
+
+                <div class="outline-container-header">
+                    <button class="btn-secondary">Run payroll</button>
+                </div>
+
+                <!--Main box outline container-->
+                <div class="outline-container">
+
+                    <!--Content cards-->
+                    <div class="content-cards">
+                        <div class="content-card">
+                            <p class="regular-text">Employees</p>
+                        </div>
+                        <div class="content-card">
+                            <p class="regular-text">Total pay</p>
+                        </div>
+                        <div class="content-card">
+                            <p class="regular-text">Pending</p>
+                        </div>
+                        <div class="content-card">
+                            <p class="regular-text">Absent</p>
+                        </div>
+                        <div class="content-card">
+                            <p class="regular-text">Leaves</p>
+                        </div>
+                        <div class="content-card">
+                            <p class="regular-text">Requests</p>
+                        </div>
+                    </div>
+
+                    <!--Payroll History Section-->
+                    <div class="payroll-history">
+                        <p class="regular-text">Payroll history</p>
+                    </div>
+                </div>
+            </section>
+
+            <!--Run payroll screen-->
+            <section id="runPayroll" class="page">
+
+                <div class="outline-container-header">
+                    <label class="regular-text">Pay period:</label>
+                    <p id="payPeriod" class="regular-text"></p>
+                </div>
+
+                <div class="outline-container">
+                    <!--Employee table-->
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Employee Name</th>
+                                <th>Pay</th>
+                                <th>Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody id="runPayrollList">
+                            <!--javascript goes here-->
+                        </tbody>
+                    </table>
+                    <div class="run-payroll-footer">
+                        <p class="regular-text">Total pay: $</p>
+                        <p id="totalPayrollAmount" class="regular-text"></p>
+
+                        <div class="cancel-submit">
+                            <button class="btn-tertiary">Cancel</button> 
+                            <button class="btn-secondary" type="submit">Submit</button>
+                        </div> 
+                    </div>
+                </div>  
+            </section>
+
+            <!--Employees screen-->
+            <section id="employees" class="page">
+                
+                <div class="outline-container">
+                    <div class="search-and-add-employee">
+                        <div class="search-bar">
+                            <input type="search" placeholder="search employees">
+                        </div>
+                        <button class="btn-primary">Add employee</button>
+                    </div>
+
+                    <!--List-->
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Pay</th>
+                                <th>Role</th>
+                                <th>Hours</th>
+                                <th>Pay date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="employeeList">
+                            <!--javascript goes here-->
+                        </tbody>
+                    </table>
+                </div> 
+            </section>
+
+            <!--Add Employee screen-->
+            <section id="addEmployee" class="page">
+                <div class="outline-container">
+                        <!--Employee info-->
+                    <form class="employee-info">
+                        <input type="text" placeholder="First name">
+                        <input type="text" placeholder="Middle name (optional)">
+                        <input type="text" placeholder="Last name">
+                        <input type="date" placeholder="Birth date">
+                        <select name="sex" id="sex">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                        <input type="text" placeholder="Employee ID">
+                        <input type="email" placeholder="Email">
+                        <input type="text" placeholder="Salary">
+                        <select id="payFrequency" class="input-select"></select>
+                        <input type="text" placeholder="Address">
+                        <input type="text" placeholder="City">
+                        <select id="stateSelect" class="input-select"></select>
+                        <input type="text" placeholder="ZIP">
+                        <input type="tel" placeholder="Phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                        <input type="password" placeholder="SSN">
+                        <input type="text" placeholder="Job title">
+                        <select id="benefitSelect" class="input-select" multiple></select>
+                        <div class="add-employee-footer">
+                            <button class="btn-tertiary">Cancel</button>
+                            <button class="btn-primary" type="submit">Add</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!--Settings screen-->
+            <section id="settings" class="page">
+                <div class="outline-container">
+                    <div class="settings-options">
+
+                        <!--Benefits-->
+                        <div class="benefits-panel">
+                            <h3 class="regular-text">Benefits</h3>
+
+                            <!--benefits list-->
+                            <ul id="benefitsList" class="item-list">
+                            </ul>
+                            <button class="btn-primary">Add benefit</button>
+                            <div class="benefits-input">
+                                <label class="regular-text">Name</label>
+                                <input type="text">
+                                <label class="regular-text">Percentage</label>
+                                <input type="text">
+                            </div>
+                        </div>
+
+                        <!--Taxes-->
+                        <div class="taxes-panel">
+                            <h3>State Tax</h3>
+                            <ul id="stateTaxList" class="item-list">
+                            </ul>
+                            <button class="btn-primary">Add state tax</button>
+                        </div>
+                        <div class="taxes-panel">
+                            <h3>Federal Tax</h3>
+                            <ul id="federalTaxList" class="item-list">
+                            </ul>
+                            <button class="btn-primary">Add federal tax</button>
+                        </div>
+                    </div>
+                </div>
+                
+            </section>
+        </main>
+
+        <!--JavaScript-->
+        <script src="js/scripts.js"></script>
+    </body>
+</html>

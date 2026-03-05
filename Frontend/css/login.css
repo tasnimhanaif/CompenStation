@@ -1,0 +1,38 @@
+/* Styles the login / create account pages */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10%;
+}
+
+.login-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 50%;
+}
+
+a {
+    display: flex;
+    margin-top: 10%;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    margin-top: 100%;
+}
+
+footer {
+    display: flex;
+    flex-direction: column;
+    margin-top: 25%;
+}
