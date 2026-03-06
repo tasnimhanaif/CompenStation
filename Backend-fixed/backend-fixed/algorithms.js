@@ -44,6 +44,11 @@ function round2(n) {
   return Math.round(n * 100) / 100;
 }
 
+/** Converts a JS Date to MySQL DATETIME string (YYYY-MM-DD HH:MM:SS) */
+function toMySQLDate(date) {
+  return date.toISOString().slice(0, 19).replace("T", " ");
+}
+
 /** =========================
  * EMPLOYEE ALGORITHMS
  * ========================= */
@@ -71,11 +76,6 @@ async function submitTimesheet(store, { employeeId, periodStart, periodEnd, hour
     (t) => +new Date(t.periodStart) === +start && +new Date(t.periodEnd) === +end
   );
   assert(!existing, "Timesheet already exists for this period");
-
-  //Helper function to convert JS date to MySQL datetime string
-function toMySQLDate(date) {
-  return date.toISOString().slice(0, 19).replace("T", " ");
-}
 
   const ts = await store.createTimesheet({
     employeeId,
