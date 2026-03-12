@@ -65,6 +65,52 @@ app.post("/api/login", (req, res) => {
 });
 
 // ================================================================
+// REGISTER
+// POST /api/register  { fullName, email, phone, username, password, role, employeeId, jobTitle }
+// Returns a token and user object (same as login)
+// ================================================================
+app.post("/api/register", async (req, res) => {
+  try {
+    const { fullName, email, phone, username, password, role = "employee", employeeId, jobTitle } = req.body;
+    
+    // Validation
+    if (!fullName || !email || !username || !password) {
+      return res.status(400).json({ message: "Missing required fields: fullName, email, username, password" });
+    }
+
+    // For demo purposes, we'll create an employee record
+    const employeeData = {
+      fullName,
+      email,
+      phone,
+      jobTitle: jobTitle || "Employee",
+      employeeId: employeeId || `EMP${Date.now()}`,
+      isActive: true,
+    };
+
+    // Add employee to store (this generates an ID)
+    const employee = await addEmployee(store, employeeData);
+    
+    // Generate token
+    const tokenData = { id: employee.id, role };
+    const token = Buffer.from(JSON.stringify(tokenData)).toString("base64");
+    
+    res.status(201).json({ 
+      token, 
+      user: { 
+        id: employee.id, 
+        username, 
+        role,
+        fullName: employee.fullName,
+        email: employee.email
+      } 
+    });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+// ================================================================
 // EMPLOYEE ROUTES  (any authenticated user)
 // ================================================================
 
@@ -314,10 +360,11 @@ app.listen(PORT, () => {
   console.log(`   In-memory store — no database needed. Data resets on restart.\n`);
   console.log("📋 QUICK DEMO STEPS:");
   console.log("   1) POST /api/login             { username, role, id }");
-  console.log("   2) POST /api/admin/employees   Add employee");
-  console.log("   3) POST /api/admin/employees/:id/benefits   Add medical benefit");
-  console.log("   4) POST /api/admin/employees/:id/deductions  Add tax deductions");
-  console.log("   5) POST /api/employee/timesheets/submit      Submit timesheet");
-  console.log("   6) POST /api/admin/timesheets/:id/approve    Approve timesheet");
-  console.log("   7) POST /api/admin/payroll/run               Run payroll (gross→net)\n");
+  console.log("   2) POST /api/register          { fullName, email, username, password, role }");
+  console.log("   3) POST /api/admin/employees   Add employee");
+  console.log("   4) POST /api/admin/employees/:id/benefits   Add medical benefit");
+  console.log("   5) POST /api/admin/employees/:id/deductions  Add tax deductions");
+  console.log("   6) POST /api/employee/timesheets/submit      Submit timesheet");
+  console.log("   7) POST /api/admin/timesheets/:id/approve    Approve timesheet");
+  console.log("   8) POST /api/admin/payroll/run               Run payroll (gross→net)\n");
 });
