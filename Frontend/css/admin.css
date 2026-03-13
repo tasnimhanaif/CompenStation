@@ -7,6 +7,8 @@
 }
 
 #runPayroll {
+    display: flex;
+    flex-direction: column; 
     display: none;
 }
 #employees {
@@ -22,7 +24,6 @@
     display: none;
 }
 #settings {
-    
     display: flex;
     flex-direction: column; 
 }
@@ -65,10 +66,14 @@ aside {
 }
 
 aside nav > div > a:hover {
+    background-color: var(--lightGreen);
+    color: var(--darkerGreen);
+}
+aside nav > div > a:focus {
     background-color: var(--mainGreen);
     color: white;
 }
-aside nav > div > a:focus {
+aside nav > div > a.active {
     background-color: var(--mainGreen);
     color: white;
 }
@@ -145,6 +150,10 @@ main {
     text-align: center;
 }
 
+.card-info {
+    margin: 10px;
+}
+
 .pay-history {
     display: grid;
     grid-template-rows: 100px;
@@ -161,8 +170,9 @@ main {
     right: 5%;
     bottom: 2%;
     border: 2px solid var(--darkerGreen);
-    overflow-y: auto;
+    /*overflow-y: auto;*/
     padding: 15px;
+    width: 65%;
 }
 
 .outline-container > form > input, select {
@@ -180,6 +190,13 @@ main {
     z-index: 5;
 }
 
+.outline-box-bg {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 2;
+}
+
 /*Run payroll button*/
 .outline-container-header button,
 .outline-container-header label {
@@ -189,17 +206,41 @@ main {
 
 table {
     margin-top: 50px;
-    width: 100%;
     border-collapse: collapse;
+    width: 100%;
 }
 
-td, th {
+.table-scroll {
+    overflow-y: auto;
+    min-height: 0;
+    flex: 1;
+}
+
+td {
     text-align: left;
-    width: 5%;
+    height: 50px;
+    padding-top: 10px;
+    border-bottom: 2px solid var(--lightGreen);
+}
+
+tr:not(#rowHeader):hover {
+    background-color: var(--lightGreen);
 }
 
 th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
     border-bottom: 2px solid var(--darkerGreen);
+    text-align: left;
+    background-color: white;
+}
+
+.edit-btn {
+    background-color: lightgray;
+    width: 100px;
+    height: 25px;
+    color: var(--darkerGreen);
 }
 
 .run-payroll-footer {
@@ -240,6 +281,45 @@ th {
 
 .employee-info > input {
     font-size: var(--regularFontSize);
+}
+
+/* When adding/editing an employee */
+.benefits-selection {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    border: 2px solid lightgray;
+    padding: 10px;
+    height: 200px;
+    overflow-y: auto;
+    margin-bottom: -10%;
+}
+
+/* hide the default checkbox */
+input[type="checkbox"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  border: 2px solid #ccc;
+  cursor: pointer;
+  margin-right: 10px;
+  overflow-y: hidden;
+  position: relative;
+}
+
+/* style the checked state */
+input[type="checkbox"]:checked {
+  background-color: var(--vibrantGreen);
+  border-color: var(--vibrantGreen);
+}
+
+/* optional: add a checkmark */
+input[type="checkbox"]:checked::after {
+  content: '✓';
+  color: white;
+  position: absolute;
 }
 
 select {
@@ -343,4 +423,45 @@ select {
 
 .taxes-panel button {
     margin: 10px;
+}
+
+.taxes-panel > #federalTaxPercentageInput {
+    margin-top: -10px;
+}
+
+
+.list-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    background-color: white;
+    padding-left: 10px;
+}
+
+.list-item:hover {
+    background-color: var(--lightGreen);
+}
+
+.list-item.selected {
+    background-color: var(--mainGreen);
+    color: white;
+}
+
+.remove {
+    background-color: var(--red);
+    width: 20px;
+    height: 20px;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.remove img {
+    width: 16px;
+    height: 16px;
 }
