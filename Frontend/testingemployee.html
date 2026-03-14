@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompenStation - Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/testemployeecss.css">
+    
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <img src="img/logo.png" alt="CompenStation">
+            <span class="brand-name serif">CompenStation</span>
+        </div>
+        <div class="header-tab">Dashboard</div>
+        <div class="user-nav">
+            <div class="nav-avatar serif" id="navInitials">JD</div>
+            <span id="navName">John Doe</span>
+            <i class='bx bx-chevron-down'></i>
+        </div>
+    </header>
+
+    <div class="container">
+        <aside>
+            <div class="card">
+                <div class="profile-box">
+                    <div class="large-avatar serif" id="profileInitials">JD</div>
+                    <div>
+                        <h2 class="serif" id="profileName" style="font-size:1.4rem;">John Doe</h2>
+                        <p id="profileRole" style="color:var(--text-muted); font-size:0.9rem; margin:4px 0;">Project Manager</p>
+                        <div>
+                            <span class="badge" id="profileDept">Operations</span>
+                            <span class="badge">Salaried</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Administrative Actions</h3>
+                <div id="statusBox" class="status-msg">
+                    <i class='bx bx-check-circle'></i> Timesheet Approved
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Employee Portal</h3>
+                <button class="portal-btn" onclick="generateFile('Paystub.txt', 'Paystub Data...')">
+                    <i class='bx bx-download'></i> Download Paystub
+                </button>
+                <button class="portal-btn" onclick="toggleModal('timeOffModal', true)">
+                    <i class='bx bx-calendar'></i> Request Time Off
+                </button>
+                <button class="portal-btn" onclick="generateFile('TaxForms_2025.txt', 'W-2 & 1099 Forms...')">
+                    <i class='bx bx-file'></i> View Tax Forms
+                </button>
+                <button class="portal-btn" onclick="toggleModal('updateInfoModal', true)">
+                    <i class='bx bx-user'></i> Update Personal Info
+                </button>
+            </div>
+        </aside>
+
+        <main>
+            <div class="card">
+                <h3 class="card-title serif">Personal Information</h3>
+                <div class="info-grid">
+                    <div class="info-item"><label><i class='bx bx-envelope'></i> Email</label><p id="infoEmail">john.doe@compenstation.com</p></div>
+                    <div class="info-item"><label><i class='bx bx-phone'></i> Phone</label><p id="infoPhone">(555) 010-9988</p></div>
+                    <div class="info-item"><label><i class='bx bx-map'></i> Address</label><p id="infoAddress">456 Oak Avenue, New York, NY 10001</p></div>
+                    <div class="info-item"><label><i class='bx bx-hash'></i> Tax ID</label><p id="infoTaxID">***-**-9876</p></div>
+                    <div class="info-item"><label><i class='bx bx-credit-card'></i> Bank Account</label><p id="infoBank">****4321</p></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title">Current Pay Period (Jan 20 - Feb 02, 2026)</h3>
+                <div class="pay-row"><span>Hours Worked</span><span id="calcHours" style="font-weight:600;">80 hours</span></div>
+                <div class="pay-row"><span>Gross Pay</span><span id="calcGross" style="font-weight:600;">$5000.00</span></div>
+                
+                <div class="pay-row deduction"><span>Federal Tax</span><span class="val-red" id="calcFed">-$1100.00</span></div>
+                <div class="pay-row deduction"><span>State Tax</span><span class="val-red" id="calcState">-$400.00</span></div>
+                <div class="pay-row deduction"><span>Social Security</span><span class="val-red">-$310.00</span></div>
+                <div class="pay-row deduction"><span>Medicare</span><span class="val-red">-$72.50</span></div>
+
+                <div class="pay-row" style="border-top:2px solid #f0f0f0; margin-top:10px; font-weight:700;">
+                    <span class="serif" style="font-size:1.1rem;">Net Pay</span>
+                    <span class="val-green" id="calcNet">$3117.50</span>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="timeOffModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="toggleModal('timeOffModal', false)">&times;</span>
+            <h3 class="serif">Request Time Off</h3>
+            <label>Start Date</label><input type="date" id="leaveStart" value="2026-03-05">
+            <label>End Date</label><input type="date" id="leaveEnd" value="2026-03-05">
+            <label>Reason</label><textarea id="leaveReason" rows="3" placeholder="Vacation, sick leave, personal..."></textarea>
+            <button class="btn-black" onclick="submitLeave()">Submit Request</button>
+        </div>
+    </div>
+
+    <div id="updateInfoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="toggleModal('updateInfoModal', false)">&times;</span>
+            <h3 class="serif">Update Personal Information</h3>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+                <div><label>Address</label><input type="text" id="upAddress" value="456 Oak Avenue, New York, NY 10001"></div>
+                <div><label>Phone Number</label><input type="text" id="upPhone" value="(555) 010-9988"></div>
+            </div>
+            <label>Bank Account</label><input type="text" id="upBank" value="****4321">
+            <button class="btn-black" onclick="saveInfo()">Update Information</button>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"><i class='bx bxs-check-circle' style="color:#16a34a; font-size:1.2rem;"></i> <span id="toastText">Success</span></div>
+    <script src="js/testemployeejs.js"></script>
+
+</body>
+</html>

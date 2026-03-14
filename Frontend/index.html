@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CompenStation</title>
+        <link rel="icon" type="image/logo" href="img/logo.png">
+        <link rel="stylesheet" href="css/reset.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/login.css">
+    </head>
+    <body>
+
+        <!--Login-->
+        <div id="login-view" class="login-container">
+            <h1 class="large-text">Login</h1>
+
+            <!--Login Input-->
+            <form class="login-input">
+                <label class="regular-text">Username / Employee ID</label>
+                <input type="text">
+                <label class="regular-text">Password</label>
+                <input type="password">
+                <button class="btn-primary" type="submit">Login</button>
+            </form>
+
+            <!--Create account and footer-->
+            <a href="#" id="go-to-create">Create account</a>
+
+            <div class="brand">
+                <img class="logo" src="img/logo.png" alt="logo">
+                <p>CompenStation</p>
+            </div>
+
+            <footer class="regular-text">© 2026 CompenStation</footer>
+        </div>
+
+        <!--Create Account-->
+        <div id="create-account-view" class="create-account">
+            <a href="#" id="go-to-login" class="back-link regular-text">&#8592; Back to Login</a>
+            <h1 class="large-text">Create Account</h1>
+
+            <!--Account Type-->
+            <div class="account-type">
+                <p class="regular-text">Account Type</p>
+                <div class="account-toggle">
+                    <button type="button" class="toggle-btn active" id="btn-employee">Employee</button>
+                    <button type="button" class="toggle-btn" id="btn-admin">Admin</button>
+                </div>
+            </div>
+
+            <form class="create-account-input" id="create-account-form">
+                <div class="field-group">
+                    <label class="regular-text">First name</label>
+                    <input type="text">
+                </div>
+                <div class="field-group">
+                    <label class="regular-text">Middle name <span>(optional)</span></label>
+                    <input type="text">
+                </div>
+                <div class="field-group">
+                    <label class="regular-text">Last name</label>
+                    <input type="text">
+                </div>
+                <div class="field-group">
+                    <label class="regular-text">Email</label>
+                    <input type="email">
+                </div>
+                <div class="field-group">
+                    <label class="regular-text">Phone</label>
+                    <input type="tel">
+                </div>
+                <div class="field-group" id="job-title-field">
+                    <label class="regular-text" id="job-title-label">Job Title</label>
+                    <input type="text" id="job-title-input">
+                </div>
+                <div class="field-group">
+                    <label class="regular-text">Employee ID</label>
+                    <input type="text">
+                </div>
+                <div class="field-group">
+                    <label class="regular-text">Username</label>
+                    <input type="text">
+                </div>
+                <div class="field-group">
+                    <label class="regular-text">Password</label>
+                    <input type="password">
+                </div>
+                <div class="field-group">
+                    <label class="regular-text">Re-type Password</label>
+                    <input type="password">
+                </div>
+                <button class="btn-primary" type="submit">Create Account</button>
+            </form>
+        </div>
+
+        <!--Employee Home (placeholder)-->
+        <div id="employee-home-view" style="display:none;"></div>
+
+        <script src="js/scripts.js"></script>
+        <script src="js/login.js"></script>
+
+        <!--
+            <script src="js/api-service.js"></script>
+            <script src="js/admin-dashboard.js"></script>
+        -->
+    </body>
+</html>

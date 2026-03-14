@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Admin</title>
+        <link rel="icon" href="img/logo.png">
+        <link rel="stylesheet" href="css/reset.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/admin.css">
+    </head>
+    <body>
+
+        <!--Top Bar-->
+        <header>
+            <p id="screen" class="regular-text">Dashboard</p>
+            <p id="userName" class="regular-text">Admin Name</p>
+        </header>
+
+        <!--Side Menu-->
+        <aside>
+            <nav>
+                <div>
+                    <button id="menuToggleBtn" class="menu-toggle regular-text">
+                        <img class="logo" src="img/logo.png" alt="logo">
+                        CompenStation
+                    </button>
+                    <a id="navItem" class="regular-text nav-link" data-target="dashboard" href="#">
+                        <div class="side-icon">
+                        <img src="icons/home_dark.svg" alt="home">
+                        </div>
+                        Dashboard
+                    </a>
+                    <a id="navItem" class="regular-text nav-link" data-target="employees" href="#">
+                        <div class="side-icon">
+                        <img src="icons/groups_dark.svg" alt="people">
+                        </div>
+                        Employees
+                    </a>
+                    <a id="navItem" class="regular-text nav-link" data-target="settings" href="#">
+                        <div class="side-icon">
+                        <img src="icons/settings_dark.svg" alt="gear">
+                        </div>
+                        Settings
+                    </a>
+                </div>
+                <a id="navItem" class="regular-text" href="index.html">
+                    <div class="side-icon">
+                        <img src="icons/logout_dark.svg">
+                    </div>
+                    Logout
+                </a>
+            </nav>
+        </aside>
+
+        <!--Main content section-->
+        <main>
+
+            <!--Dashboard screen-->
+            <section id="dashboard" class="page">
+
+                <div class="outline-container-header">
+                    <button id="runPayrollBtn" class="btn-secondary">Run payroll</button>
+                </div>
+
+                <!--Main box outline container-->
+                <div class="outline-container">
+
+                    <!--Content cards-->
+                    <div class="content-cards">
+                        <div class="content-card">
+                            <p class="regular-text">Employees</p>
+                            <p class="large-text card-info">3</p>
+                        </div>
+                        <div class="content-card">
+                            <p class="regular-text">Total pay</p>
+                            <p class="large-text card-info">$23,140</p>
+                        </div>
+                        <div class="content-card">
+                            <p class="regular-text">Pending</p>
+                            <p class="large-text card-info">$0</p>
+                        </div>
+                        <div class="content-card">
+                            <p class="regular-text">Absent</p>
+                            <p class="large-text card-info">0</p>
+                        </div>
+                        <div class="content-card">
+                            <p class="regular-text">Leaves</p>
+                            <p class="large-text card-info">0</p>
+                        </div>
+                        <div class="content-card">
+                            <p class="regular-text">Requests</p>
+                            <p class="large-text card-info">2</p>
+                        </div>
+                    </div>
+
+                    <!--Payroll History Section-->
+                    <div class="payroll-history">
+                        <p class="regular-text">Payroll history</p>
+                    </div>
+                </div>
+            </section>
+
+            <!--Run payroll screen-->
+            <section id="runPayroll" class="page">
+
+                <div class="outline-container-header">
+                    <label class="regular-text">Pay period:</label>
+                    <p id="payPeriod" class="regular-text"></p>
+                </div>
+
+                <div class="outline-container">
+                    <!--Employee table-->
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Employee Name</th>
+                                <th>Pay</th>
+                                <th>Hours</th>
+                            </tr>
+                        </thead>
+                        <tbody id="runPayrollList">
+                            <!--javascript goes here-->
+                        </tbody>
+                    </table>
+                    <div class="run-payroll-footer">
+                        <p class="regular-text">Total pay: $</p>
+                        <p id="totalPayrollAmount" class="regular-text"></p>
+
+                        <div class="cancel-submit">
+                            <button class="btn-tertiary">Cancel</button> 
+                            <button class="btn-secondary" type="submit">Submit</button>
+                        </div> 
+                    </div>
+                </div>  
+            </section>
+
+            <!--Employees screen-->
+            <section id="employees" class="page">
+                
+                <div class="outline-container">
+                    <div class="outline-box-bg">
+                        <div class="search-and-add-employee">
+                            <div id="searchEmployees" class="search-bar">
+                                <input type="search" placeholder="search employees">
+                            </div>
+                            <button class="btn-primary">Add employee</button>
+                        </div>
+                    </div>
+
+                    <div class="table-scroll">
+                        <!--Employee List-->
+                        <table id="employeeTable">
+                            <thead>
+                                <tr id="rowHeader">
+                                    <th>Name</th>
+                                    <th>Pay</th>
+                                    <th>Role</th>
+                                    <th>Hours</th>
+                                    <th>Pay date</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="employeeTableBody">
+                                <!--javascript goes here-->
+                            </tbody>
+                        </table>
+                    </div>
+                </div> 
+            </section>
+
+            <!--Add Employee screen-->
+            <section id="addEmployee" class="page">
+                <div class="outline-container">
+                        <!--Employee info-->
+                    <form id="addEmployeeForm" class="employee-info">
+                        <input id="firstNameInput" type="text" placeholder="First name">
+                        <input type="text" placeholder="Middle name (optional)">
+                        <input id="LastNameInput" type="text" placeholder="Last name">
+                        <input type="date" placeholder="Birth date">
+                        <select name="sex" id="sex">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                        <input type="text" placeholder="Employee ID">
+                        <input type="email" placeholder="Email">
+                        <input id="salaryInput" type="text" placeholder="Salary">
+                        <select id="payFrequency" class="input-select">
+                            <option value="weekly">Weekly</option>
+                            <option value="bi-weekly">Bi-weekly</option>
+                        </select>
+                        <input type="text" placeholder="Address">
+                        <input type="text" placeholder="City">
+                        <select id="stateSelect" class="input-select">
+                            <option value="">Select a state</option>
+                            <option value="AL">Alabama</option>
+                            <option value="AK">Alaska</option>
+                            <option value="AZ">Arizona</option>
+                            <option value="AR">Arkansas</option>
+                            <option value="CA">California</option>
+                            <option value="CO">Colorado</option>
+                            <option value="CT">Connecticut</option>
+                            <option value="DE">Delaware</option>
+                            <option value="FL">Florida</option>
+                            <option value="GA">Georgia</option>
+                            <option value="HI">Hawaii</option>
+                            <option value="ID">Idaho</option>
+                            <option value="IL">Illinois</option>
+                            <option value="IN">Indiana</option>
+                            <option value="IA">Iowa</option>
+                            <option value="KS">Kansas</option>
+                            <option value="KY">Kentucky</option>
+                            <option value="LA">Louisiana</option>
+                            <option value="ME">Maine</option>
+                            <option value="MD">Maryland</option>
+                            <option value="MA">Massachusetts</option>
+                            <option value="MI">Michigan</option>
+                            <option value="MN">Minnesota</option>
+                            <option value="MS">Mississippi</option>
+                            <option value="MO">Missouri</option>
+                            <option value="MT">Montana</option>
+                            <option value="NE">Nebraska</option>
+                            <option value="NV">Nevada</option>
+                            <option value="NH">New Hampshire</option>
+                            <option value="NJ">New Jersey</option>
+                            <option value="NM">New Mexico</option>
+                            <option value="NY">New York</option>
+                            <option value="NC">North Carolina</option>
+                            <option value="ND">North Dakota</option>
+                            <option value="OH">Ohio</option>
+                            <option value="OK">Oklahoma</option>
+                            <option value="OR">Oregon</option>
+                            <option value="PA">Pennsylvania</option>
+                            <option value="RI">Rhode Island</option>
+                            <option value="SC">South Carolina</option>
+                            <option value="SD">South Dakota</option>
+                            <option value="TN">Tennessee</option>
+                            <option value="TX">Texas</option>
+                            <option value="UT">Utah</option>
+                            <option value="VT">Vermont</option>
+                            <option value="VA">Virginia</option>
+                            <option value="WA">Washington</option>
+                            <option value="WV">West Virginia</option>
+                            <option value="WI">Wisconsin</option>
+                            <option value="WY">Wyoming</option>
+                        </select>
+                        <input type="text" placeholder="ZIP">
+                        <input type="tel" placeholder="Phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                        <input type="password" placeholder="SSN">
+                        <input id="roleInput" type="text" placeholder="Job title">
+                        <div id="benefitsCheckboxes" class="benefits-selection">
+                            <!--populated by javascript-->
+                        </div>
+                        <div class="add-employee-footer">
+                            <button class="btn-tertiary" type="button">Cancel</button>
+                            <button class="btn-primary" type="submit">Add</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!--Settings screen-->
+            <section id="settings" class="page">
+                <div class="outline-container">
+                    <div class="settings-options">
+
+                        <!--Benefits-->
+                        <div class="benefits-panel">
+                            <h3>Benefits</h3>
+                            <div class="panel-box">
+                                <ul id="benefitsList" class="item-list">
+                                    
+                                </ul>
+                            </div>
+
+                            <button id="addBenefitBtn" class="btn-primary">Add benefit</button>
+
+                            <div class="benefits-input">
+                                <label class="regular-text">Name</label>
+                                <input id="benefitNameInput" type="text">
+                                <label class="regular-text">Percentage</label>
+                                <input id="benefitPercentageInput" type="text" inputmode="decimal">
+                            </div>
+                        </div>
+
+                        <!--Taxes-->
+                        <!-- State Tax -->
+                        <div class="taxes-panel">
+                            <h3>State Tax</h3>
+                            <div class="panel-box">
+                                <ul id="stateTaxList" class="item-list">
+
+                                </ul>
+                            </div>
+                            <button id="addStateTaxBtn" class="btn-primary">Add state tax</button>
+                            <input id="stateTaxPercentageInput" type="text" inputmode="decimal" placeholder="Percentage">
+                        </div>
+
+                        <!-- Federal Tax -->
+                        <div class="taxes-panel">
+                            <h3>Federal Tax</h3>
+                            <div class="panel-box">
+                                <ul id="federalTaxList" class="item-list">
+
+                                </ul>
+                            </div>
+                            <button id="addFederalTaxBtn" class="btn-primary">Add federal tax</button>
+                            <input id="federalTaxPercentageInput" type="text" inputmode="decimal" placeholder="Percentage">
+                        </div>
+                    </div>
+                </div>
+                
+            </section>
+        </main>
+
+        <!--JavaScript-->
+        <script src="js/sampleData.js"></script>
+        <script src="js/scripts.js"></script>
+
+        <!--
+        <script src="js/admin-dashboard.js"></script>
+        <script src="js/api-service.js"></script>
+    -->
+    </body>
+</html>

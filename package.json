@@ -19,7 +19,9 @@
   },
   "homepage": "https://github.com/fahadMasood7/CompenStation#readme",
   "dependencies": {
+    "cors": "^2.8.6",
     "dotenv": "^17.3.1",
+    "express": "^5.2.1",
     "mysql2": "^3.18.2"
   }
 }

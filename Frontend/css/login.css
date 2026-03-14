@@ -1,0 +1,110 @@
+/* Styles the login/create account pages */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10%;
+}
+
+.login-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 50%;
+}
+
+a {
+    display: flex;
+    margin-top: 10%;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    margin-top: 100%;
+}
+
+footer {
+    display: flex;
+    flex-direction: column;
+    margin-top: 25%;
+}
+
+.create-account {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 600px;
+    padding: 40px 0;
+}
+
+.back-link {
+    align-self: flex-start;
+    margin-top: 0;
+}
+
+.account-type {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+    gap: 12px;
+}
+
+.account-toggle {
+    display: flex;
+    border: 2px solid var(--mainGreen);
+    overflow: hidden;
+}
+
+.toggle-btn {
+    font-family: var(--fontMain);
+    font-size: var(--regularFontSize);
+    cursor: pointer;
+    border: none;
+    height: var(--buttonHeight);
+    width: var(--buttonWidth);
+    background-color: white;
+    color: var(--darkerGreen);
+}
+
+.toggle-btn.active {
+    background-color: var(--mainGreen);
+    color: white;
+}
+
+.create-account-input {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+label span {
+    color: grey;
+}
+
+.create-account-input input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.create-account-input button {
+    grid-column: 1 / -1;
+    margin-top: 10px;
+    width: 100%;
+}

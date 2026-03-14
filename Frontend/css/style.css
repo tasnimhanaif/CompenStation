@@ -1,0 +1,91 @@
+/* General CSS file */
+
+:root {
+    /*---Colors---*/
+    --mainGreen: rgb(41, 87, 54);
+    --darkerGreen: rgb(59, 65, 50);
+    --red: rgb(178, 84, 66);
+    --vibrantGreen: rgb(109, 151, 48);
+    --blue: rgb(79, 121, 196);
+    --lightGreen: rgb(182, 207, 186);
+    
+    /*---Sizes and dimensions---*/
+    --navWidth: 25%;
+    --navHeight: 100vh;
+    --headerHeight: 70px;
+    --buttonHeight: 50px;
+    --buttonWidth: 150px;
+
+    /* Typography */
+    --fontMain: Lora;
+    --xSmallFontSize: 12px;
+    --largeFontSize: 32px;
+    --regularFontSize: 16px;
+    --smallFontSize: 14px;
+}
+
+@font-face {
+    font-family: Lora;
+    src: url(../Fonts/Lora-Regular.ttf);
+}
+
+.logo {
+    width: 48px;
+}
+
+body {
+    font-family: var(--fontMain);
+    color: var(--darkerGreen);
+}
+
+.regular-text {
+    font-size: var(--regularFontSize);
+}
+
+.large-text {
+    font-size: var(--largeFontSize);
+}
+
+.small-text {
+    font-size: var(--smallFontSize);
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    height: var(--buttonHeight);
+    margin: 10px;
+    padding: 0 20px;
+    width: var(--buttonWidth);
+    color: white;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: var(--mainGreen);
+}
+.btn-secondary {
+    background-color: var(--vibrantGreen);
+}
+.btn-tertiary {
+    background-color: var(--red);
+}
+
+input, select {
+    font-family: var(--fontMain);
+    font-size: var(--smallFontSize);
+    height: var(--buttonHeight);
+    padding: 0 12px;
+    border: 2px solid var(--mainGreen);
+    outline: none;
+}
+input:focus, select:focus {
+    border-color: var(--vibrantGreen);
+}
+
+a {
+    font-family: var(--fontMain);
+    font-size: var(--regularFontSize);
+    text-decoration: none;
+    color: var(--darkerGreen);
+}

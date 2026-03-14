@@ -1,0 +1,467 @@
+/* Styles admin or employee pages */
+
+#dashboard {
+    display: flex;
+    flex-direction: column;
+    display: none;
+}
+
+#runPayroll {
+    display: flex;
+    flex-direction: column; 
+    display: none;
+}
+#employees {
+    display: flex;
+    flex-direction: column; 
+    height: calc(100vh - var(--headerHeight));
+    display: none;
+}
+#addEmployee {
+    height: calc(100vh - var(--headerHeight));
+    display: flex;
+    flex-direction: column; 
+    display: none;
+}
+#settings {
+    display: flex;
+    flex-direction: column; 
+}
+
+header {
+    position: fixed;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    top: 0;
+    left: 0;
+    align-items: center;
+    height: var(--headerHeight);
+    width: 100%;
+    z-index: 9;
+    background-color: var(--mainGreen);
+    color: white;
+}
+
+/*keep the screen title at same width as side menu*/
+header #screen {
+    margin-left: calc(var(--navWidth) + 5%);
+}
+
+header #userName {
+    margin-right: 5%;
+}
+
+/*Entire side menu*/
+aside {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    left: 0;
+    width: var(--navWidth);
+    height: 100vh;
+    z-index: 10;
+    background-color: white;
+}
+
+aside nav > div > a:hover {
+    background-color: var(--lightGreen);
+    color: var(--darkerGreen);
+}
+aside nav > div > a:focus {
+    background-color: var(--mainGreen);
+    color: white;
+}
+aside nav > div > a.active {
+    background-color: var(--mainGreen);
+    color: white;
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    width: 100%;
+}
+
+/*Top items on side menu*/
+nav div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/*Nav links*/
+nav div a {
+    display: flex;
+    align-items: center;
+    height: var(--buttonHeight);
+    width: 100%;
+}
+
+/*Logout button*/
+nav > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--buttonHeight);
+    padding: 0 30px 30px;
+}
+
+/*Top Logo button on side menu*/
+.menu-toggle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: var(--headerHeight);
+    color: var(--darkerGreen);
+    margin: 0;
+    width: 100%;
+    justify-content: space-between;
+    padding-right: 33%;
+}
+
+.side-icon {
+    margin-left: 30px;
+    margin-right: 30px;
+    width: 24px;
+}
+
+/*Main content area*/
+main {
+    display: flex;
+    flex-direction: column;
+    margin-left: var(--navWidth);
+    margin-top: var(--headerHeight);
+}
+
+/*Top items in admin dashboard*/
+.content-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 300px);
+    grid-template-rows: 100px 100px 20px;      
+    gap: 20px;
+}
+
+.content-card {
+    border: 2px solid lightgray;
+    text-align: center;
+}
+
+.card-info {
+    margin: 10px;
+}
+
+.pay-history {
+    display: grid;
+    grid-template-rows: 100px;
+    border: 2px solid lightgray;
+}
+
+/*Outlined box with main content*/
+.outline-container {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: calc(var(--headerHeight) + 50px + 20px);
+    left: calc(var(--navWidth) + 5%);
+    right: 5%;
+    bottom: 2%;
+    border: 2px solid var(--darkerGreen);
+    /*overflow-y: auto;*/
+    padding: 15px;
+    width: 65%;
+}
+
+.outline-container > form > input, select {
+    border: 2px solid var(--lightGreen);
+}
+
+/*space in between header and outlined box*/
+.outline-container-header {
+    position: fixed;
+    top: var(--headerHeight);
+    display: flex;
+    flex-direction: row;
+    width: calc(100% - var(--navWidth));
+    height: 50px;
+    z-index: 5;
+}
+
+.outline-box-bg {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 2;
+}
+
+/*Run payroll button*/
+.outline-container-header button,
+.outline-container-header label {
+    margin-left: auto;
+    margin-right: 7%;
+}
+
+table {
+    margin-top: 50px;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table-scroll {
+    overflow-y: auto;
+    min-height: 0;
+    flex: 1;
+}
+
+td {
+    text-align: left;
+    height: 50px;
+    padding-top: 10px;
+    border-bottom: 2px solid var(--lightGreen);
+}
+
+tr:not(#rowHeader):hover {
+    background-color: var(--lightGreen);
+}
+
+th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    border-bottom: 2px solid var(--darkerGreen);
+    text-align: left;
+    background-color: white;
+}
+
+.edit-btn {
+    background-color: lightgray;
+    width: 100px;
+    height: 25px;
+    color: var(--darkerGreen);
+}
+
+.run-payroll-footer {
+    display: flex;
+    flex-direction: row;
+    margin-top: auto;
+}
+
+.cancel-submit {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 15%;
+    margin-left: 65%;
+}
+
+.search-and-add-employee {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.search-bar {
+    width: 250px;
+}
+
+.search-bar input {
+    width: 100%;
+}
+
+.employee-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.employee-info > input {
+    font-size: var(--regularFontSize);
+}
+
+/* When adding/editing an employee */
+.benefits-selection {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    border: 2px solid lightgray;
+    padding: 10px;
+    height: 200px;
+    overflow-y: auto;
+    margin-bottom: -10%;
+}
+
+/* hide the default checkbox */
+input[type="checkbox"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  border: 2px solid #ccc;
+  cursor: pointer;
+  margin-right: 10px;
+  overflow-y: hidden;
+  position: relative;
+}
+
+/* style the checked state */
+input[type="checkbox"]:checked {
+  background-color: var(--vibrantGreen);
+  border-color: var(--vibrantGreen);
+}
+
+/* optional: add a checkmark */
+input[type="checkbox"]:checked::after {
+  content: '✓';
+  color: white;
+  position: absolute;
+}
+
+select {
+    appearance: none;
+    background-color: var(--lightGreen);
+    color: var(--darkerGreen);
+    font-size: var(--regularFontSize);
+    align-items: center;
+    background-image: url('../icons/arrow_drop_down_dark.svg');
+    background-repeat: no-repeat;
+    background-position: right;
+    padding-right: 30px;
+}
+
+.employee-info :nth-child(18) {
+    grid-column: auto / span 3;
+    margin-top: 50px;
+}
+
+.add-employee-footer {
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    border-top: 2px solid var(--darkerGreen);
+    padding: 10px 0;
+}
+
+.settings-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.settings-options > div > button {
+    margin-left: 0px;
+}
+
+.item-list {
+    margin-bottom: 10px;
+}
+
+.benefits-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column: 1 / 3;
+    column-gap: 20px;
+}
+
+.benefits-panel > :nth-child(1),
+.benefits-panel > :nth-child(2),
+.benefits-panel > :nth-child(3) {
+    grid-column: 1;
+}
+
+.benefits-panel > :nth-child(4) {
+    grid-column: 2;
+    grid-row: 1 / 4;
+    margin-right: 20%;
+}
+
+.benefits-input {
+    margin-top: -20px;
+}
+
+.benefits-input > label {
+    margin-top: 20px;
+
+}
+
+.benefits-input > input {
+    border-color: lightgray;
+}
+
+.benefits-input > input:focus {
+    border-color: var(--vibrantGreen);
+}
+
+.panel-box {
+    border: 2px solid lightgray;
+    height: 200px;
+    width: 80%;
+    overflow-y: auto;
+}
+
+.benefits-input {
+    display: flex;
+    flex-direction: column;
+}
+
+.benefits-panel button {
+    margin: 10px;
+}
+
+.taxes-panel {
+    grid-row: 2;
+}
+
+.taxes-panel button {
+    margin: 10px;
+}
+
+.taxes-panel > #federalTaxPercentageInput {
+    margin-top: -10px;
+}
+
+
+.list-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    background-color: white;
+    padding-left: 10px;
+}
+
+.list-item:hover {
+    background-color: var(--lightGreen);
+}
+
+.list-item.selected {
+    background-color: var(--mainGreen);
+    color: white;
+}
+
+.remove {
+    background-color: var(--red);
+    width: 20px;
+    height: 20px;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.remove img {
+    width: 16px;
+    height: 16px;
+}
