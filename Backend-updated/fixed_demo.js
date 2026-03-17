@@ -1,8 +1,3 @@
-// demo.js
-// Demo server using the real algorithms with an in-memory store.
-// Run with: node demo.js
-// No database needed — great for midterm demos and frontend development.
-
 const express = require("express");
 const cors    = require("cors");
 const { makeMemoryStore } = require("./Store/storeMemory");
@@ -26,8 +21,6 @@ app.use(express.json());
 const store = makeMemoryStore();
 
 // ================================================================
-// AUTH MIDDLEWARE
-// Token format (base64-encoded JSON): { id, role }
 // role is either "admin" or "employee"
 // ================================================================
 function auth(req, res, next) {
@@ -370,9 +363,9 @@ app.get("/api/debug/dump", (req, res) => {
 // ================================================================
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`\n🚀 Demo server running at http://localhost:${PORT}`);
+  console.log(`\n Demo server running at http://localhost:${PORT}`);
   console.log(`   In-memory store — no database needed. Data resets on restart.\n`);
-  console.log("📋 QUICK DEMO STEPS:");
+  console.log("QUICK DEMO STEPS:");
   console.log("   1) POST /api/login             { username, role, id }");
   console.log("   2) POST /api/register          { fullName, email, username, password, role }");
   console.log("   3) POST /api/admin/employees   Add employee");
