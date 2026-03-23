@@ -13,6 +13,10 @@ function makeMemoryStore() {
   const payrollRuns = [];
   const payrollLines = [];
   const paystubs    = [];
+    const users             = [];
+    const settingsBenefits  = [];
+    const settingsStateTaxes = [];
+    const settingsFederalTaxes = [];
 
   return {
     // ----------------------------------------------------------------
@@ -203,6 +207,55 @@ function makeMemoryStore() {
     },
     async listAllPaystubs() {
       return [...paystubs];
+    },
+
+    // ----------------------------------------------------------------
+    // USERS (for login/registration)
+    // ----------------------------------------------------------------
+    async createUser({ fullName, email, phone, username, password, role, employeeId, jobTitle }) {
+      const existing = users.find(u => u.username === username);
+      if (existing) throw new Error('Username already exists');
+      const u = {
+        id: id(), fullName, email: email || null, phone: phone || null,
+        username, password, role: role || 'employee',
+        employeeId: employeeId || null, jobTitle: jobTitle || null,
+        createdAt: new Date().toISOString(),
+      };
+      users.push(u);
+      return u;
+    },
+    async findUserByCredentials(username, password) {
+      return users.find(u => u.username === username && u.password === password) || null;
+    },
+    async findUserById(userId) {
+      return users.find(u => u.id === userId) || null;
+    },
+    // ----------------------------------------------------------------
+    // SETTINGS (global benefit plans, state taxes, federal taxes)
+    // ----------------------------------------------------------------
+    async listBenefits() { return [...settingsBenefits]; },
+    async addBenefit(benefit) {
+      settingsBenefits.push(benefit);
+      return benefit;
+    },
+    async removeBenefit(index) {
+      if (index < 0 || index >= settingsBenefits.length) throw new Error('Benefit index out of range');
+      settingsBenefits.splice(index, 1);
+      return true;
+    },
+    async listStateTaxes() { return [...settingsStateTaxes]; },
+    async addStateTax({ percentage }) {
+      settingsStateTaxes.push(percentage);
+      return percentage;
+    },
+    async listFederalTaxes() { return [...settingsFederalTaxes]; },
+    async addFederalTax({ percentage }) {
+      settingsFederalTaxes.push(percentage);
+      return percentage;
+    },
+    // Alias for enrollBenefits (used by employeeBackend)
+    async enrollBenefits({ planIds }) {
+      return { enrolled: planIds };
     },
 
     // Debug helper
