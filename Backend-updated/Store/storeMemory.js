@@ -212,4 +212,8 @@ function makeMemoryStore() {
   };
 }
 
-module.exports = { makeMemoryStore };
+// Export both the factory and a singleton instance
+// The singleton is used by all backend route files via: const store = require("./Store/storeMemory");
+const _defaultStore = makeMemoryStore();
+module.exports = _defaultStore;
+module.exports.makeMemoryStore = makeMemoryStore;
