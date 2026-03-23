@@ -3,7 +3,7 @@
 // Handles all employee-related API routes for the admin (list, add, edit, delete)
 const express = require("express");
 const router = express.Router();
-const store = require("./Store/storeMemory");
+const store = require("./Store/storeDB");
 const { addEmployee, modifyEmployee, deleteEmployee } = require("./algorithms");
 
 // GET /employees — List all employees

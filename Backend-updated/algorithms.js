@@ -95,6 +95,7 @@ async function modifyEmployee(store, { employeeId, fullName, email, hourlyRate, 
  * Delete Employee (soft delete: marks isActive = false)
  * Pass hardDelete: true to fully remove the record.
  */
+/*
 async function deleteEmployee(store, { employeeId, hardDelete = false }) {
   assert(employeeId != null, "employeeId required");
   const emp = await store.getEmployeeById(employeeId);
@@ -107,6 +108,25 @@ async function deleteEmployee(store, { employeeId, hardDelete = false }) {
 
   // Soft delete — keep record but mark inactive
   return store.updateEmployee(employeeId, { isActive: false });
+}
+*/
+
+async function deleteEmployee(store, { employeeId, hardDelete = false }) {
+  assert(employeeId != null, "employeeId required");
+  
+  const emp = await store.getEmployeeById(employeeId);
+  assert(emp, "Employee not found");
+
+  if (hardDelete) {
+    await store.deleteEmployee(employeeId);
+    return { deleted: true, employeeId, type: 'hard' };
+  }
+
+  // Soft delete — added await to ensure completion
+  const updatedEmp = await store.updateEmployee(employeeId, { isActive: false });
+  
+  // Return a consistent object so the frontend knows exactly what happened
+  return { deleted: true, employeeId, type: 'soft', data: updatedEmp };
 }
 
 /**

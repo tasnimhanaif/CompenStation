@@ -23,5 +23,8 @@ app.use("/", adminDashboardRouter);
 app.use("/", adminSettingsRouter);
 app.use("/", employeeRouter);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+const PORT = process.env.PORT || 5000; // Default to 5000 if not in .env
+
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
