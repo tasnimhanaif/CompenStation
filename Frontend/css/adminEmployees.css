@@ -1,0 +1,111 @@
+.remove {
+    background-color: var(--red);
+    width: 20px;
+    height: 20px;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+.employee-actions-cell {
+    text-align: right;
+}
+.employee-row-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+.employee-row-actions button {
+    margin: 0;
+}
+.edit-btn {
+    background-color: lightgray;
+    width: 100px;
+    height: 25px;
+    color: var(--darkerGreen);
+}
+.remove-employee-btn {
+    background-color: var(--red);
+    width: 100px;
+    height: 25px;
+    color: white;
+}
+.search-and-add-employee {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.search-bar {
+    width: 250px;
+}
+.search-bar input {
+    width: 100%;
+}
+.employee-form-scroll {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+}
+.employee-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+.employee-info > input {
+    font-size: var(--regularFontSize);
+}
+
+/* When adding/editing an employee */
+.benefits-selection {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    border: 2px solid lightgray;
+    padding: 10px;
+    height: 200px;
+    overflow-y: auto;
+    margin-bottom: -10%;
+}
+
+/* hide the default checkbox */
+input[type="checkbox"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  border: 2px solid #ccc;
+  cursor: pointer;
+  margin-right: 10px;
+  overflow-y: hidden;
+  position: relative;
+}
+
+/* style the checked state */
+input[type="checkbox"]:checked {
+  background-color: var(--vibrantGreen);
+  border-color: var(--vibrantGreen);
+}
+
+/* optional: add a checkmark */
+input[type="checkbox"]:checked::after {
+  content: '✓';
+  color: white;
+  position: absolute;
+}
+.employee-info :nth-child(18) {
+    grid-column: auto / span 3;
+    margin-top: 50px;
+}
+.add-employee-footer {
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    border-top: 2px solid var(--darkerGreen);
+    padding: 10px 0;
+}

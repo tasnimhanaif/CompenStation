@@ -3,7 +3,7 @@
 // API base — use the same dynamic resolution strategy
 const LOGIN_API = (window.APP_CONFIG && window.APP_CONFIG.API_URL)
   ? window.APP_CONFIG.API_URL
-  : window.location.protocol + '//' + window.location.hostname + ':3000';
+  : window.location.protocol + '//' + window.location.hostname + ':5500';
 
 // API Helper Functions
 async function login(username, password) {

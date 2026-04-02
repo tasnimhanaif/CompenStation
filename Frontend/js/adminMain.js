@@ -19,9 +19,9 @@ function showPage(id) {
 
 function setActiveLink(activeLink) {
       navLinks.forEach(l => {
-              l.classList.remove("active");
-              const img = l.querySelector("img");
-              if (img) img.src = img.src.replace("_light.svg", "_dark.svg");
+            l.classList.remove("active");
+            const img = l.querySelector("img");
+            if (img) img.src = img.src.replace("_light.svg", "_dark.svg");
       });
       activeLink.classList.add("active");
       const img = activeLink.querySelector("img");
@@ -30,13 +30,13 @@ function setActiveLink(activeLink) {
 
 navLinks.forEach(link => {
       link.addEventListener("click", (e) => {
-              e.preventDefault();
-              const target = link.dataset.target;
-              showPage(target);
-              setActiveLink(link);
-              if (target === "employees") loadEmployees();
-              if (target === "settings") loadSettings();
-              screenName.textContent = e.target.textContent;
+            e.preventDefault();
+            const target = link.dataset.target;
+            showPage(target);
+            setActiveLink(link);
+            if (target === "employees") loadEmployees();
+            if (target === "settings") loadSettings();
+            screenName.textContent = e.target.textContent;
       });
 });
 
