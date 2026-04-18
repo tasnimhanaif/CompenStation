@@ -71,15 +71,15 @@
                     <div class="content-cards">
                         <div id="employeeCount" class="content-card">
                             <p class="regular-text">Employees</p>
-                            <p class="large-text card-info">24</p>
+                            <p class="large-text card-info">0</p>
                         </div>
                         <div id="dashboardTotalPayCard" class="content-card">
                             <p class="regular-text">Total pay</p>
-                            <p id="dashboardTotalPay" class="large-text card-info">$23,140</p>
+                            <p id="dashboardTotalPay" class="large-text card-info">0</p>
                         </div>
                         <div class="content-card">
                             <p class="regular-text">Pending</p>
-                            <p class="large-text card-info">$0</p>
+                            <p class="large-text card-info">0</p>
                         </div>
                         <div class="content-card">
                             <p class="regular-text">Absent</p>
@@ -193,23 +193,27 @@
                         <!--Employee info-->
                     <form id="addEmployeeForm" class="employee-info">
                         <input id="firstNameInput" type="text" placeholder="First name">
-                        <input type="text" placeholder="Middle name (optional)">
-                        <input id="LastNameInput" type="text" placeholder="Last name">
-                        <input type="date" placeholder="Birth date">
-                        <select name="sex" id="sex">
+                        <input id="middleNameInput" type="text" placeholder="Middle name (optional)">
+                        <input id="lastNameInput" type="text" placeholder="Last name">
+                        <input id="birthdateInput" type="date" placeholder="Birth date">
+                        <select id="sexInput" name="sex">
                             <option value="male">Male</option>
                             <option value="female">Female</option>
                         </select>
-                        <input type="text" placeholder="Employee ID">
+                        <input id="employeeIDInput" type="text" placeholder="Employee ID">
                         <input id="emailInput" type="email" placeholder="Email">
-                        <input id="salaryInput" type="text" placeholder="Salary">
-                        <select id="payFrequency" class="input-select">
+                        <select id="payTypeInput" name="payType">
+                            <option value="hourly">Hourly</option>
+                            <option value="salary">Salary</option>
+                        </select>
+                        <input id="payInput" type="text" placeholder="Salary">
+                        <select id="payFrequencyInput" class="input-select">
                             <option value="weekly">Weekly</option>
                             <option value="bi-weekly">Bi-weekly</option>
                         </select>
-                        <input type="text" placeholder="Address">
-                        <input type="text" placeholder="City">
-                        <select id="stateSelect" class="input-select">
+                        <input id="addressInput" type="text" placeholder="Address">
+                        <input id="cityInput" type="text" placeholder="City">
+                        <select id="stateInput" class="input-select">
                             <option value="">Select a state</option>
                             <option value="AL">Alabama</option>
                             <option value="AK">Alaska</option>
@@ -262,10 +266,12 @@
                             <option value="WI">Wisconsin</option>
                             <option value="WY">Wyoming</option>
                         </select>
-                        <input type="text" placeholder="ZIP">
-                        <input type="tel" placeholder="Phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
-                        <input type="password" placeholder="SSN">
-                        <input id="roleInput" type="text" placeholder="Job title">
+                        <input id="zipInput" type="text" placeholder="ZIP">
+                        <input id="phoneInput" type="tel" placeholder="Phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                        <input id="ssnInput" type="password" placeholder="SSN">
+                        <input id="jobTitleInput" type="text" placeholder="Job title">
+                        <input id="companyNameInput" type="text" placeholder="Company Name">
+                        <input id="companyIDInput" type="number" placeholder="Company ID">
                         <div id="benefitsCheckboxes" class="benefits-selection">
                             <!--populated by javascript-->
                         </div>   

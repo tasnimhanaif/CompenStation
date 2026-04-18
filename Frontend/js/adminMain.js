@@ -3,9 +3,12 @@
 // API base URL — reads from a global window.APP_CONFIG if set (injected by server),
 // otherwise falls back to the same origin so the frontend talks to whatever port
 // the backend is actually running on.
+
+/*
 const API = (window.APP_CONFIG && window.APP_CONFIG.API_URL)
   ? window.APP_CONFIG.API_URL
       : `${window.location.protocol}//${window.location.hostname}:3000`;
+*/
 
 // ─── Page Navigation ─────────────────────────────────────────────────────────
 const pages = document.querySelectorAll(".page");
