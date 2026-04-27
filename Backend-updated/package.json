@@ -2,19 +2,20 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "The station for compensation - a payroll system.",
-  "main": "demo.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node demo.js"
+    "start":  "node server.js",
+    "init-db": "node Store/init.js",
+    "seed":   "node -e \"require('http').request({method:'POST',hostname:'localhost',port:3000,path:'/seed'},r=>{let d='';r.on('data',c=>d+=c);r.on('end',()=>console.log(d))}).end()\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "cors": "^2.8.6",
-    "dotenv": "^17.3.1",
+    "cors":    "^2.8.6",
+    "dotenv":  "^17.3.1",
     "express": "^5.2.1",
-    "mysql2": "^3.19.0"
+    "mysql2":  "^3.19.0"
   }
 }
