@@ -120,7 +120,8 @@
             <section id="runPayroll" class="page">
 
                 <div class="outline-container-header">
-                    <label class="regular-text">Pay period:</label>
+                    <button id="printChecksBtn" class="btn-secondary">Print Checks</button>
+                    <label id="payPeriodLabel" class="regular-text">Pay period:</label>
                     <p id="payPeriod" class="regular-text"></p>
                 </div>
 
@@ -132,6 +133,7 @@
                                 <th>Employee Name</th>
                                 <th>Pay</th>
                                 <th>Hours</th>
+                                <th>View Check</th>
                             </tr>
                         </thead>
                         <tbody id="runPayrollList">
@@ -146,7 +148,7 @@
 
                         <div class="cancel-submit">
                             <button class="btn-tertiary">Cancel</button> 
-                            <button class="btn-secondary" type="submit">Submit</button>
+                            <button id="submitPayrollBtn" class="btn-secondary" type="submit">Submit</button>
                         </div> 
                     </div>
                 </div>  
@@ -174,7 +176,7 @@
                                     <th>Pay</th>
                                     <th>Role</th>
                                     <th>Hours</th>
-                                    <th>Pay date</th>
+                                    <th>Status</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -183,6 +185,7 @@
                             </tbody>
                         </table>
                     </div>
+                    <button id="archiveBtn" class="btn-primary">Archive</button>
                 </div> 
             </section>
 
@@ -207,10 +210,6 @@
                             <option value="salary">Salary</option>
                         </select>
                         <input id="payInput" type="text" placeholder="Salary">
-                        <select id="payFrequencyInput" class="input-select">
-                            <option value="weekly">Weekly</option>
-                            <option value="bi-weekly">Bi-weekly</option>
-                        </select>
                         <input id="addressInput" type="text" placeholder="Address">
                         <input id="cityInput" type="text" placeholder="City">
                         <select id="stateInput" class="input-select">
@@ -376,6 +375,38 @@
                 </div>
             </section>
 
+            <!--Archived Employees screen-->
+            <section id="archive" class="page">
+                
+                <div class="outline-container">
+                    <div class="outline-box-bg">
+                        <div class="search-and-add-employee">
+                            <div id="searchEmployees" class="search-bar">
+                                <input type="search" placeholder="search employees">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-scroll">
+                        <!--Employee List-->
+                        <table id="employeeTable">
+                            <thead>
+                                <tr id="rowHeader">
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Updated</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="archiveTableBody">
+                                <!--javascript goes here-->
+                            </tbody>
+                        </table>
+                    </div>
+                    <button id="backBtn" class="btn-tertiary">Back</button>
+                </div> 
+            </section>
+
             <!--Settings screen-->
             <section id="settings" class="page">
                 <div class="outline-container">
@@ -437,6 +468,7 @@
         <script src="js/adminDashboard.js"></script>
         <script src="js/adminEmployees.js"></script>
         <script src="js/adminSettings.js"></script>
+        <script src="js/sampleData.js"></script>
 
         <!--
             <script src="js/admin-dashboard.js"></script>

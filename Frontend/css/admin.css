@@ -16,6 +16,12 @@
     height: calc(100vh - var(--headerHeight));
     display: none;
 }
+#archive {
+    display: flex;
+    flex-direction: column; 
+    height: calc(100vh - var(--headerHeight));
+    display: none;
+}
 #addEmployee {
     height: calc(100vh - var(--headerHeight));
     display: flex;
@@ -171,12 +177,14 @@ main {
     z-index: 2;
 }
 
-/*Run payroll button*/
-.outline-container-header button,
-.outline-container-header label {
+#runPayrollBtn {
     margin-left: auto;
     margin-right: 7%;
 }
+#printChecksBtn {
+    margin-left: 7%;
+}
+
 table {
     margin-top: 50px;
     border-collapse: collapse;
@@ -194,7 +202,7 @@ td {
     border-bottom: 2px solid var(--lightGreen);
 }
 tr:not(#rowHeader):hover {
-   /* background-color: var(--lightGreen); */
+    background-color: var(--lightGreen);
 }
 th {
     position: sticky;

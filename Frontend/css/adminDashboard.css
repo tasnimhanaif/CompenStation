@@ -26,7 +26,7 @@
     border: 2px solid lightgray;
     margin-top: 20px;
     padding: 15px;
-    overflow: hidden;
+    overflow-y: auto;
 }
 .payroll-history-table {
     margin-top: 15px;
