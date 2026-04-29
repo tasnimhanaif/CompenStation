@@ -71,7 +71,5 @@ const federalTaxes = [10, 12, 22, 24, 32, 35, 37];
 
 //export {employees, benefits, stateTaxes, federalTaxes};
 
-// A test, printing out a date in desired format...
-let bday = employees[0].birthDate;
-console.log(`This is ${employees[0].firstName}'s birthdate:`);
-console.log(Intl.DateTimeFormat("en-US").format(bday));
+benefits.push({name:"Car", percentage: 20.3});
+console.log(benefits);

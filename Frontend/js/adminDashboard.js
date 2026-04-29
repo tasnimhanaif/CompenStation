@@ -1,5 +1,4 @@
 // Everything that happens on the Dashboard page of the admin
-//import { employees } from "./sampleData";
 
 const payrollHistoryBody = document.getElementById("payrollHistoryBody");
 
@@ -12,3 +11,5 @@ document.querySelector("#runPayrollBtn").addEventListener("click", () => {
 document.querySelector("#runPayroll .btn-tertiary").addEventListener("click", () => {
       showPage("dashboard");
 });
+
+document.querySelector("#runPayrollList").addEventListener("DOM_C")

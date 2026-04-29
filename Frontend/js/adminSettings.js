@@ -16,3 +16,28 @@ addFedTaxBtn.addEventListener("click", () => {
         console.log(`${fedTaxInput.id} has no input`);
     }
 })
+
+const benefitsList = document.querySelector("#benefitsList");
+function createBenefitRow(benefit) {
+      const listItem = document.createElement("li");
+      listItem.className = "benefits-list-item";
+      listItem.textContent = benefit.name;
+      return listItem;
+}
+
+function loadSampleBenefits() {
+      benefitsList.innerHTML = '';
+      benefits.forEach(benefit => {
+            benefitsList.appendChild(createBenefitRow(benefit));
+      });
+}
+document.addEventListener('DOMContentLoaded', () => {
+      loadSampleBenefits();
+});
+
+benefitsList.addEventListener("click", (e) => {
+  const item = e.target.closest(".benefits-list-item");
+  if (!item) return;
+  benefitsList.querySelectorAll(".benefits-list-item").forEach(i => i.classList.remove("active"));
+  item.classList.add("active");
+});

@@ -163,7 +163,7 @@
                             <div id="searchEmployees" class="search-bar">
                                 <input type="search" placeholder="search employees">
                             </div>
-                            <button class="btn-primary">Add employee</button>
+                            <button id="addEmployeeBtn" class="btn-primary">Add employee</button>
                         </div>
                     </div>
 
@@ -189,35 +189,35 @@
                 </div> 
             </section>
 
-            <!--Add Employee screen-->
-            <section id="addEmployee" class="page">
+            <!--Add/Edit Employee screen-->
+            <section id="addEditEmployee" class="page">
                 <div class="outline-container">
                     <div class="employee-form-scroll">
                         <!--Employee info-->
-                        <form id="addEmployeeForm" class="employee-info">
+                        <form id="employeeForm" class="employee-info">
 
                             <!--Personal Info-->                        
                             <div class="dividingLine"><p>Personal</p></div>
                             <div class="employeeInfoContainer">
-                                <input id="firstNameInput" type="text" placeholder="First name">
-                                <input id="middleNameInput" type="text" placeholder="Middle name (optional)">
-                                <input id="lastNameInput" type="text" placeholder="Last name">
-                                <input id="birthdateInput" type="date" placeholder="Birth date">
+                                <input id="firstNameInput" name="firstName" type="text" placeholder="First name">
+                                <input id="middleNameInput" name="middleName" type="text" placeholder="Middle name (optional)">
+                                <input id="lastNameInput" name="lastName" type="text" placeholder="Last name">
+                                <input id="birthdateInput" name="birthdate" type="date" placeholder="Birth date">
                                 <select id="sexInput" name="sex">
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                 </select>
-                                <input id="emailInput" type="email" placeholder="Email">
-                                <input id="phoneInput" type="tel" placeholder="Phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
-                                <input id="ssnInput" type="password" placeholder="SSN">
+                                <input id="emailInput" name="email" type="email" placeholder="Email">
+                                <input id="phoneInput" name="phone" type="tel" placeholder="Phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                                <input id="ssnInput" name="ssn" type="password" placeholder="SSN">
                             </div>
 
                             <!--Address Info-->                           
                             <div class="dividingLine"><p>Address</p></div>
                             <div class="employeeInfoContainer">
-                                <input id="addressInput" type="text" placeholder="Address">
-                                <input id="cityInput" type="text" placeholder="City">
-                                <select id="stateInput" class="input-select">
+                                <input id="addressInput" name="address" type="text" placeholder="Address">
+                                <input id="cityInput" name="city" type="text" placeholder="City">
+                                <select id="stateInput" name="state" class="input-select">
                                     <option value="">Select a state</option>
                                     <option value="AL">Alabama</option>
                                     <option value="AK">Alaska</option>
@@ -270,30 +270,30 @@
                                     <option value="WI">Wisconsin</option>
                                     <option value="WY">Wyoming</option>
                                 </select>
-                                <input id="zipInput" type="text" placeholder="ZIP">
+                                <input id="zipInput" name="zip" type="text" placeholder="ZIP">
                             </div>
 
                             <!--Employment Info-->
                             <div class="dividingLine"><p>Employment</p></div>
                             <div class="employeeInfoContainer">
-                                <input id="jobTitleInput" type="text" placeholder="Job title">
-                                <input id="companyNameInput" type="text" placeholder="Company Name">
-                                <input id="companyIDInput" type="number" placeholder="Company ID">
-                                <input id="employeeIDInput" type="text" placeholder="Employee ID">
+                                <input id="jobTitleInput" name="jobTitle" type="text" placeholder="Job title">
+                                <input id="companyNameInput" name="companyName" type="text" placeholder="Company Name">
+                                <input id="companyIDInput" name="companyID" type="number" placeholder="Company ID">
+                                <input id="employeeIDInput" name="employeeID" type="text" placeholder="Employee ID">
                                 <select id="payTypeInput" name="payType">
                                     <option value="hourly">Hourly</option>
                                     <option value="salary">Salary</option>
                                 </select>
-                                <input id="payInput" type="text" placeholder="Salary">
+                                <input id="payInput" name="pay" type="text" placeholder="Pay">
                                 <div id="benefitsCheckboxes" class="benefits-selection">
                                     <!--populated by javascript-->
                                 </div>
                             </div>
                         </form>
                     </div>
-                    <div class="add-employee-footer">
+                    <div class="add-edit-employee-footer">
                         <button class="btn-tertiary" type="button">Cancel</button>
-                        <button id="addEmployeeSubmit" class="btn-primary" form="addEmployeeForm" type="submit">Add</button>
+                        <button id="employeeSubmit" class="btn-primary" form="addEditEmployeeForm" type="submit">Add</button>
                     </div>
                 </div>
             </section>

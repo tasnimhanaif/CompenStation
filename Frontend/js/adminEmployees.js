@@ -1,23 +1,24 @@
 // Everything that happens on the Employees page of the admin
 //import { employees } from "./sampleData";
 
-// ---Show Employees screen
-document.querySelector("#employees .btn-primary").addEventListener("click", () => {
-      showPage("addEmployee");
-});
-
-// Cancel on "Add Employee" returns to employees list
-document.querySelector("#addEmployee .btn-tertiary").addEventListener("click", () => {
-      showPage("employees");
-});
-
-// Cancel on Edit Employee returns to employees list
-document.querySelector("#editEmployee .btn-tertiary").addEventListener("click", () => {
-      showPage("employees");
-});
-
+// Element variables
 const employeeTableBody = document.querySelector("#employeeTableBody");
 const archiveTableBody = document.querySelector("#archiveTableBody");
+const addEmployeeBtn = document.querySelector("#addEmployeeBtn");
+const employeeForm = document.querySelector("#employeeForm");
+const employeeTable = document.querySelector("#employeeTable");
+const submitBtn = document.querySelector("#employeeSubmit");
+// let employees = [];  <-- we'll keep the employee list in memory after the fetch call
+
+// ---Show Add Employees screen
+addEmployeeBtn.addEventListener("click", () => {
+      openAddForm();
+});
+
+// Cancel on Add/Edit employee returns to employees list
+document.querySelector("#addEditEmployee .btn-tertiary").addEventListener("click", () => {
+      showPage("employees");
+});
 
 function createStatusSelect(currentStatus) {
       const statuses = ['active', 'terminated', 'quit', 'disabled', 'retired'];
@@ -64,7 +65,7 @@ function createEmployeeRow(employee) {
             <td><button id="editBtn" class="edit-btn">Edit</button></td>
       `;
       row.querySelector('.edit-btn').addEventListener('click', () => {
-            showPage("editEmployee");
+            openEditForm(employee);
       });
       row.querySelector('select').addEventListener('change', (e) => {
             employee.status = e.target.value;
@@ -86,13 +87,47 @@ function loadSampleEmployees() {
 
 document.addEventListener('DOMContentLoaded', () => {
       loadSampleEmployees();
-      updateEmployeeCount(employees);
+      //updateEmployeeCount(employees);
 });
 
-document.querySelector("#addEmployeeSubmit").addEventListener('submit', (e) => {
+document.querySelector("#employeeForm").addEventListener('submit', (e) => {
       e.preventDefault();
       loadSampleEmployees();
 })
+
+// Load employee form. Add employee empty, and Edit employee pre-filled
+let prefilledData = null;
+function openAddForm() {
+      prefilledData = null;
+      screenName.textContent = "Add Employee";
+      document.querySelector("#employeeForm").reset();
+      showPage("addEditEmployee");
+      submitBtn.innerHTML = "Add";
+}
+function fillForm(employee) {
+  const form = document.getElementById('employeeForm');
+  for (const [key, value] of Object.entries(employee)) {
+    if (form.elements[key]) {
+      form.elements[key].value = value ?? '';
+    }
+  }
+}
+function openEditForm(employee) {
+      prefilledData = employee.employeeID;
+      screenName.textContent = "Edit Employee";
+      fillForm(employee);
+      showPage("addEditEmployee");
+      submitBtn.innerHTML = "Save";
+}
+document.querySelector("#employeeForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target));
+      if(prefilledData == null) {
+            // POST
+      } else {
+            // PUT
+      }
+});
 
 // ---------------------------------------
 //     B U T T O N S
