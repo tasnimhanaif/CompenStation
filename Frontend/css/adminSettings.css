@@ -54,12 +54,6 @@
 .benefits-panel button {
     margin: 10px;
 }
-.taxes-panel {
-    grid-row: 2;
-}
 .taxes-panel button {
     margin: 10px;
-}
-.taxes-panel > #federalTaxPercentageInput {
-    margin-top: -10px;
 }

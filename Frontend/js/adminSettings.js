@@ -6,3 +6,13 @@ document.querySelectorAll("#benefitPercentageInput, #stateTaxPercentageInput, #f
               input.value = input.value.replace(/[^0-9.]/g, "").replace(/(\..*?)\..*/g, "$1");
         });
 });
+
+const fedTaxInput = document.querySelector("#federalTaxPercentageInput");
+const addFedTaxBtn = document.querySelector("#addFederalTaxBtn");
+addFedTaxBtn.addEventListener("click", () => {
+    if (fedTaxInput.value) {
+
+    } else {
+        console.log(`${fedTaxInput.id} has no input`);
+    }
+})
