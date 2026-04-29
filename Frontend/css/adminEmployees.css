@@ -52,8 +52,8 @@
     min-height: 0;
 }
 .employee-info {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    display: flex;
+    flex-direction: column;
     gap: 20px;
 }
 .employee-info > input {
@@ -70,7 +70,7 @@
     padding: 10px;
     height: 200px;
     overflow-y: auto;
-    margin-bottom: -10%;
+    margin-bottom: 10%;
 }
 
 /* hide the default checkbox */
@@ -108,4 +108,21 @@ input[type="checkbox"]:checked::after {
     background-color: white;
     border-top: 2px solid var(--darkerGreen);
     padding: 10px 0;
+}
+.employeeInfoContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+}
+.dividingLine {
+    display: flex;
+    width: 100%;
+    height: 30px;
+    border-bottom: solid 2px var(--darkerGreen);
+    justify-content: flex-start;
+    padding-left: 10px;
+    font-weight: bold;
+}
+.dividingLine:not(:first-child) {
+    margin-top: 15px;
 }

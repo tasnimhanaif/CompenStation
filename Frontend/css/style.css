@@ -8,14 +8,13 @@
     --vibrantGreen: rgb(109, 151, 48);
     --blue: rgb(79, 121, 196);
     --lightGreen: rgb(182, 207, 186);
-    
+
     /*---Sizes and dimensions---*/
     --navWidth: 25%;
     --navHeight: 100vh;
     --headerHeight: 70px;
     --buttonHeight: 50px;
     --buttonWidth: 150px;
-
     /* Typography */
     --fontMain: Lora;
     --xSmallFontSize: 12px;

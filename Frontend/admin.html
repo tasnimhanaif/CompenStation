@@ -194,87 +194,102 @@
                 <div class="outline-container">
                     <div class="employee-form-scroll">
                         <!--Employee info-->
-                    <form id="addEmployeeForm" class="employee-info">
-                        <input id="firstNameInput" type="text" placeholder="First name">
-                        <input id="middleNameInput" type="text" placeholder="Middle name (optional)">
-                        <input id="lastNameInput" type="text" placeholder="Last name">
-                        <input id="birthdateInput" type="date" placeholder="Birth date">
-                        <select id="sexInput" name="sex">
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                        </select>
-                        <input id="employeeIDInput" type="text" placeholder="Employee ID">
-                        <input id="emailInput" type="email" placeholder="Email">
-                        <select id="payTypeInput" name="payType">
-                            <option value="hourly">Hourly</option>
-                            <option value="salary">Salary</option>
-                        </select>
-                        <input id="payInput" type="text" placeholder="Salary">
-                        <input id="addressInput" type="text" placeholder="Address">
-                        <input id="cityInput" type="text" placeholder="City">
-                        <select id="stateInput" class="input-select">
-                            <option value="">Select a state</option>
-                            <option value="AL">Alabama</option>
-                            <option value="AK">Alaska</option>
-                            <option value="AZ">Arizona</option>
-                            <option value="AR">Arkansas</option>
-                            <option value="CA">California</option>
-                            <option value="CO">Colorado</option>
-                            <option value="CT">Connecticut</option>
-                            <option value="DE">Delaware</option>
-                            <option value="FL">Florida</option>
-                            <option value="GA">Georgia</option>
-                            <option value="HI">Hawaii</option>
-                            <option value="ID">Idaho</option>
-                            <option value="IL">Illinois</option>
-                            <option value="IN">Indiana</option>
-                            <option value="IA">Iowa</option>
-                            <option value="KS">Kansas</option>
-                            <option value="KY">Kentucky</option>
-                            <option value="LA">Louisiana</option>
-                            <option value="ME">Maine</option>
-                            <option value="MD">Maryland</option>
-                            <option value="MA">Massachusetts</option>
-                            <option value="MI">Michigan</option>
-                            <option value="MN">Minnesota</option>
-                            <option value="MS">Mississippi</option>
-                            <option value="MO">Missouri</option>
-                            <option value="MT">Montana</option>
-                            <option value="NE">Nebraska</option>
-                            <option value="NV">Nevada</option>
-                            <option value="NH">New Hampshire</option>
-                            <option value="NJ">New Jersey</option>
-                            <option value="NM">New Mexico</option>
-                            <option value="NY">New York</option>
-                            <option value="NC">North Carolina</option>
-                            <option value="ND">North Dakota</option>
-                            <option value="OH">Ohio</option>
-                            <option value="OK">Oklahoma</option>
-                            <option value="OR">Oregon</option>
-                            <option value="PA">Pennsylvania</option>
-                            <option value="RI">Rhode Island</option>
-                            <option value="SC">South Carolina</option>
-                            <option value="SD">South Dakota</option>
-                            <option value="TN">Tennessee</option>
-                            <option value="TX">Texas</option>
-                            <option value="UT">Utah</option>
-                            <option value="VT">Vermont</option>
-                            <option value="VA">Virginia</option>
-                            <option value="WA">Washington</option>
-                            <option value="WV">West Virginia</option>
-                            <option value="WI">Wisconsin</option>
-                            <option value="WY">Wyoming</option>
-                        </select>
-                        <input id="zipInput" type="text" placeholder="ZIP">
-                        <input id="phoneInput" type="tel" placeholder="Phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
-                        <input id="ssnInput" type="password" placeholder="SSN">
-                        <input id="jobTitleInput" type="text" placeholder="Job title">
-                        <input id="companyNameInput" type="text" placeholder="Company Name">
-                        <input id="companyIDInput" type="number" placeholder="Company ID">
-                        <div id="benefitsCheckboxes" class="benefits-selection">
-                            <!--populated by javascript-->
-                        </div>   
-                    </form>
+                        <form id="addEmployeeForm" class="employee-info">
+
+                            <!--Personal Info-->                        
+                            <div class="dividingLine"><p>Personal</p></div>
+                            <div class="employeeInfoContainer">
+                                <input id="firstNameInput" type="text" placeholder="First name">
+                                <input id="middleNameInput" type="text" placeholder="Middle name (optional)">
+                                <input id="lastNameInput" type="text" placeholder="Last name">
+                                <input id="birthdateInput" type="date" placeholder="Birth date">
+                                <select id="sexInput" name="sex">
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                                <input id="emailInput" type="email" placeholder="Email">
+                                <input id="phoneInput" type="tel" placeholder="Phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+                                <input id="ssnInput" type="password" placeholder="SSN">
+                            </div>
+
+                            <!--Address Info-->                           
+                            <div class="dividingLine"><p>Address</p></div>
+                            <div class="employeeInfoContainer">
+                                <input id="addressInput" type="text" placeholder="Address">
+                                <input id="cityInput" type="text" placeholder="City">
+                                <select id="stateInput" class="input-select">
+                                    <option value="">Select a state</option>
+                                    <option value="AL">Alabama</option>
+                                    <option value="AK">Alaska</option>
+                                    <option value="AZ">Arizona</option>
+                                    <option value="AR">Arkansas</option>
+                                    <option value="CA">California</option>
+                                    <option value="CO">Colorado</option>
+                                    <option value="CT">Connecticut</option>
+                                    <option value="DE">Delaware</option>
+                                    <option value="FL">Florida</option>
+                                    <option value="GA">Georgia</option>
+                                    <option value="HI">Hawaii</option>
+                                    <option value="ID">Idaho</option>
+                                    <option value="IL">Illinois</option>
+                                    <option value="IN">Indiana</option>
+                                    <option value="IA">Iowa</option>
+                                    <option value="KS">Kansas</option>
+                                    <option value="KY">Kentucky</option>
+                                    <option value="LA">Louisiana</option>
+                                    <option value="ME">Maine</option>
+                                    <option value="MD">Maryland</option>
+                                    <option value="MA">Massachusetts</option>
+                                    <option value="MI">Michigan</option>
+                                    <option value="MN">Minnesota</option>
+                                    <option value="MS">Mississippi</option>
+                                    <option value="MO">Missouri</option>
+                                    <option value="MT">Montana</option>
+                                    <option value="NE">Nebraska</option>
+                                    <option value="NV">Nevada</option>
+                                    <option value="NH">New Hampshire</option>
+                                    <option value="NJ">New Jersey</option>
+                                    <option value="NM">New Mexico</option>
+                                    <option value="NY">New York</option>
+                                    <option value="NC">North Carolina</option>
+                                    <option value="ND">North Dakota</option>
+                                    <option value="OH">Ohio</option>
+                                    <option value="OK">Oklahoma</option>
+                                    <option value="OR">Oregon</option>
+                                    <option value="PA">Pennsylvania</option>
+                                    <option value="RI">Rhode Island</option>
+                                    <option value="SC">South Carolina</option>
+                                    <option value="SD">South Dakota</option>
+                                    <option value="TN">Tennessee</option>
+                                    <option value="TX">Texas</option>
+                                    <option value="UT">Utah</option>
+                                    <option value="VT">Vermont</option>
+                                    <option value="VA">Virginia</option>
+                                    <option value="WA">Washington</option>
+                                    <option value="WV">West Virginia</option>
+                                    <option value="WI">Wisconsin</option>
+                                    <option value="WY">Wyoming</option>
+                                </select>
+                                <input id="zipInput" type="text" placeholder="ZIP">
+                            </div>
+
+                            <!--Employment Info-->
+                            <div class="dividingLine"><p>Employment</p></div>
+                            <div class="employeeInfoContainer">
+                                <input id="jobTitleInput" type="text" placeholder="Job title">
+                                <input id="companyNameInput" type="text" placeholder="Company Name">
+                                <input id="companyIDInput" type="number" placeholder="Company ID">
+                                <input id="employeeIDInput" type="text" placeholder="Employee ID">
+                                <select id="payTypeInput" name="payType">
+                                    <option value="hourly">Hourly</option>
+                                    <option value="salary">Salary</option>
+                                </select>
+                                <input id="payInput" type="text" placeholder="Salary">
+                                <div id="benefitsCheckboxes" class="benefits-selection">
+                                    <!--populated by javascript-->
+                                </div>
+                            </div>
+                        </form>
                     </div>
                     <div class="add-employee-footer">
                         <button class="btn-tertiary" type="button">Cancel</button>
