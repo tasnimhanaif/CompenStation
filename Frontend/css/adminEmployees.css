@@ -114,15 +114,3 @@ input[type="checkbox"]:checked::after {
     grid-template-columns: 1fr 1fr 1fr;
     gap: 20px;
 }
-.dividingLine {
-    display: flex;
-    width: 100%;
-    height: 30px;
-    border-bottom: solid 2px var(--darkerGreen);
-    justify-content: flex-start;
-    padding-left: 10px;
-    font-weight: bold;
-}
-.dividingLine:not(:first-child) {
-    margin-top: 15px;
-}
