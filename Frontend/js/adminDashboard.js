@@ -11,5 +11,3 @@ document.querySelector("#runPayrollBtn").addEventListener("click", () => {
 document.querySelector("#runPayroll .btn-tertiary").addEventListener("click", () => {
       showPage("dashboard");
 });
-
-document.querySelector("#runPayrollList").addEventListener("DOM_C")

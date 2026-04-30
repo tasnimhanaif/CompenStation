@@ -77,7 +77,7 @@
                             <p class="regular-text">Total pay</p>
                             <p id="dashboardTotalPay" class="large-text card-info">0</p>
                         </div>
-                        <div class="content-card">
+                        <!--<div class="content-card">
                             <p class="regular-text">Pending</p>
                             <p class="large-text card-info">0</p>
                         </div>
@@ -92,7 +92,7 @@
                         <div class="content-card">
                             <p class="regular-text">Requests</p>
                             <p class="large-text card-info">0</p>
-                        </div>
+                        </div>-->
                     </div>
 
                     <!--Payroll History Section-->
@@ -428,49 +428,74 @@
                     <div class="settings-options">
 
                         <!--Benefits-->
+                        <div class="dividingLine"><h3>Benefits</h3></div>
                         <div class="benefits-panel">
-                            <div class="dividingLine"><h3>Benefits</h3></div>
                             <div class="panel-box">
                                 <ul id="benefitsList" class="item-list">
-                                    
                                 </ul>
                             </div>
-
-                            <button id="addBenefitBtn" class="btn-primary">Add benefit</button>
-
-                            <div class="benefits-input">
+                            <form id="benefitsForm" class="benefits-input">
                                 <label class="regular-text">Name</label>
                                 <input id="benefitNameInput" type="text">
                                 <label class="regular-text">Percentage</label>
-                                <input id="benefitPercentageInput" type="text" inputmode="decimal">
+                                <input id="benefitPercentageInput" type="text" inputmode="decimal"
+                                       placeholder="%">
+                            </form>
+                            <div class="add-remove-btns">
+                                <button id="addBenefitBtn" class="btn-primary" type="submit" form="benefitsForm">Add benefit</button>
+                                <button id="removeBenefitBtn" class="btn-tertiary">Remove</button>
                             </div>
                         </div>
 
                         <!--Taxes-->
                         <!-- State Tax -->
+                        <div class="dividingLine"></div>
+                        <div class="dividingLine"><h3>State Tax</h3></div>
                         <div class="taxes-panel">
-                            <div class="dividingLine"><h3>State Tax</h3></div>
                             <div class="panel-box">
                                 <ul id="stateTaxList" class="item-list">
-
                                 </ul>
                             </div>
-                            <button id="addStateTaxBtn" class="btn-primary">Add state tax</button>
-                            <input id="stateTaxPercentageInput" type="text" inputmode="decimal" 
-                            placeholder="Percentage">
+                            <form id="stateTaxForm" class="tax-input">
+                                <label class="regular-text">Percentage</label>
+                                <input id="stateTaxPercentageInput" type="text" inputmode="decimal"
+                                       placeholder="%">
+                                <label class="regular-text">Bracket Start</label>
+                                <input id="stateTaxBracketStartInput" type="text" inputmode="numeric"
+                                       placeholder="$">
+                                <label class="regular-text">Bracket End</label>
+                                <input id="stateTaxBracketEndInput" type="text" inputmode="numeric"
+                                       placeholder="$">
+                            </form>
+                            <div class="add-remove-btns">
+                                <button id="addStateTaxBtn" class="btn-primary" type="submit" form="stateTaxForm">Add state tax</button>
+                                <button id="removeStateTaxBtn" class="btn-tertiary">Remove</button>
+                            </div>
                         </div>
 
                         <!-- Federal Tax -->
+                        <div class="dividingLine"></div>
+                        <div class="dividingLine"><h3>Federal Tax</h3></div>
                         <div class="taxes-panel">
-                            <div class="dividingLine"><h3>Federal Tax</h3></div>
                             <div class="panel-box">
                                 <ul id="federalTaxList" class="item-list">
-
                                 </ul>
                             </div>
-                            <button id="addFederalTaxBtn" class="btn-primary">Add federal tax</button>
-                            <input id="federalTaxPercentageInput" type="text" inputmode="decimal" 
-                            placeholder="Percentage">
+                            <form id="federalTaxForm" class="tax-input">
+                                <label class="regular-text">Percentage</label>
+                                <input id="federalTaxPercentageInput" type="text" inputmode="decimal"
+                                       placeholder="%">
+                                <label class="regular-text">Bracket Start</label>
+                                <input id="federalTaxBracketStartInput" type="text" inputmode="numeric"
+                                       placeholder="$">
+                                <label class="regular-text">Bracket End</label>
+                                <input id="federalTaxBracketEndInput" type="text" inputmode="numeric"
+                                       placeholder="$">
+                            </form>
+                            <div class="add-remove-btns">
+                                <button id="addFederalTaxBtn" class="btn-primary" type="submit" form="federalTaxForm">Add federal tax</button>
+                                <button id="removeFederalTaxBtn" class="btn-tertiary">Remove</button>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -66,8 +66,19 @@ const benefits = [
     {name: "401(k)", percentage: 10.2},
 ];
 
-const stateTaxes = [6.8, 10.2];
-const federalTaxes = [10, 12, 22, 24, 32, 35, 37];
+const stateTaxes = [
+    { percentage: 6.8 },
+    { percentage: 10.2 }
+];
+const federalTaxes = [
+    { percentage: 10.0 },
+    { percentage: 12.0 },
+    { percentage: 22.0 },
+    { percentage: 24.0 },
+    { percentage: 32.0 },
+    { percentage: 35.0 },
+    { percentage: 37.0 }
+];
 
 //export {employees, benefits, stateTaxes, federalTaxes};
 
