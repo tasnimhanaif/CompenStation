@@ -15,14 +15,43 @@ document.querySelectorAll(
         });
 });
 
-const fedTaxInput = document.querySelector("#federalTaxPercentageInput");
-const addFedTaxBtn = document.querySelector("#addFederalTaxBtn");
-addFedTaxBtn.addEventListener("click", () => {
-    if (fedTaxInput.value) {
+// Adding a benefit
+const benefitsForm = document.querySelector("#benefitsForm");
+benefitsForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const formData = new FormData(benefitsForm);
+    const benefitItem = Object.fromEntries(formData.entries());
+    benefits.push(benefitItem);
+    loadSampleBenefits();
+    benefitsForm.reset();
+})
+// Removing a benefit
+const removeBenefitBtn = document.querySelector("#removeBenefitBtn");
+removeBenefitBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    
+})
 
-    } else {
-        console.log(`${fedTaxInput.id} has no input`);
-    }
+// Adding a state tax
+const stateTaxForm = document.querySelector("#stateTaxForm");
+stateTaxForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const formData = new FormData(stateTaxForm);
+    const taxItem = Object.fromEntries(formData.entries());
+    stateTaxes.push(taxItem);
+    loadSampleStateTax();
+    stateTaxForm.reset();
+})
+
+// Adding a federal tax
+const federalTaxForm = document.querySelector("#federalTaxForm");
+federalTaxForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const formData = new FormData(federalTaxForm);
+    const taxItem = Object.fromEntries(formData.entries());
+    federalTaxes.push(taxItem);
+    loadSampleFederalTax();
+    federalTaxForm.reset();
 })
 
 const benefitsList = document.querySelector("#benefitsList");

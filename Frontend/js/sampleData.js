@@ -67,17 +67,17 @@ const benefits = [
 ];
 
 const stateTaxes = [
-    { percentage: 6.8 },
-    { percentage: 10.2 }
+    { percentage: 6.8, bracketStart: 0, bracketEnd: 0 },
+    { percentage: 10.2, bracketStart: 0, bracketEnd: 0 }
 ];
 const federalTaxes = [
-    { percentage: 10.0 },
-    { percentage: 12.0 },
-    { percentage: 22.0 },
-    { percentage: 24.0 },
-    { percentage: 32.0 },
-    { percentage: 35.0 },
-    { percentage: 37.0 }
+    { percentage: 10.0, bracketStart: 0, bracketEnd: 0 },
+    { percentage: 12.0, bracketStart: 0, bracketEnd: 0 },
+    { percentage: 22.0, bracketStart: 0, bracketEnd: 0 },
+    { percentage: 24.0, bracketStart: 0, bracketEnd: 0 },
+    { percentage: 32.0, bracketStart: 0, bracketEnd: 0 },
+    { percentage: 35.0, bracketStart: 0, bracketEnd: 0 },
+    { percentage: 37.0, bracketStart: 0, bracketEnd: 0 }
 ];
 
 //export {employees, benefits, stateTaxes, federalTaxes};
