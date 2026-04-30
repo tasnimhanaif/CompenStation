@@ -21,7 +21,11 @@ benefitsForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const formData = new FormData(benefitsForm);
     const benefitItem = Object.fromEntries(formData.entries());
-    benefits.push(benefitItem);
+    if (!benefits.some(item => item.name == benefitItem.name)) {
+        benefits.push(benefitItem);
+    } else {
+        console.log("Benefit already exists.");
+    }
     loadSampleBenefits();
     benefitsForm.reset();
 })
@@ -38,7 +42,11 @@ stateTaxForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const formData = new FormData(stateTaxForm);
     const taxItem = Object.fromEntries(formData.entries());
-    stateTaxes.push(taxItem);
+    if (!stateTaxes.some(item => item.percentage == taxItem.percentage)) {
+        stateTaxes.push(taxItem);
+    } else {
+        console.log("State Tax item already exists.");
+    }
     loadSampleStateTax();
     stateTaxForm.reset();
 })
@@ -49,7 +57,11 @@ federalTaxForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const formData = new FormData(federalTaxForm);
     const taxItem = Object.fromEntries(formData.entries());
-    federalTaxes.push(taxItem);
+    if (!federalTaxes.some(item => item.percentage == taxItem.percentage)) {
+        federalTaxes.push(taxItem);
+    } else {
+        console.log("Federal Tax item already exists.");
+    }
     loadSampleFederalTax();
     federalTaxForm.reset();
 })
