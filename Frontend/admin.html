@@ -199,24 +199,24 @@
                             <!--Personal Info-->                        
                             <div class="dividingLine"><p>Personal</p></div>
                             <div class="employeeInfoContainer">
-                                <input id="firstNameInput" name="firstName" type="text" placeholder="First name">
+                                <input id="firstNameInput" name="firstName" type="text" placeholder="First name" required>
                                 <input id="middleNameInput" name="middleName" type="text" placeholder="Middle name (optional)">
-                                <input id="lastNameInput" name="lastName" type="text" placeholder="Last name">
-                                <input id="birthdateInput" name="birthdate" type="date" placeholder="Birth date">
+                                <input id="lastNameInput" name="lastName" type="text" placeholder="Last name" required>
+                                <input id="birthdateInput" name="birthdate" type="date" placeholder="Birth date" required>
                                 <select id="sexInput" name="sex">
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
                                 </select>
-                                <input id="emailInput" name="email" type="email" placeholder="Email">
-                                <input id="phoneInput" name="phone" type="tel" placeholder="Phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
-                                <input id="ssnInput" name="ssn" type="password" placeholder="SSN">
+                                <input id="emailInput" name="email" type="email" placeholder="Email" required>
+                                <input id="phoneInput" name="phone" type="tel" placeholder="Phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+                                <input id="ssnInput" name="ssn" type="password" placeholder="SSN" required>
                             </div>
 
                             <!--Address Info-->                           
                             <div class="dividingLine"><p>Address</p></div>
                             <div class="employeeInfoContainer">
-                                <input id="addressInput" name="address" type="text" placeholder="Address">
-                                <input id="cityInput" name="city" type="text" placeholder="City">
+                                <input id="addressInput" name="address" type="text" placeholder="Address" required>
+                                <input id="cityInput" name="city" type="text" placeholder="City" required>
                                 <select id="stateInput" name="state" class="input-select">
                                     <option value="">Select a state</option>
                                     <option value="AL">Alabama</option>
@@ -270,21 +270,21 @@
                                     <option value="WI">Wisconsin</option>
                                     <option value="WY">Wyoming</option>
                                 </select>
-                                <input id="zipInput" name="zip" type="text" placeholder="ZIP">
+                                <input id="zipInput" name="zip" type="text" placeholder="ZIP" required>
                             </div>
 
                             <!--Employment Info-->
                             <div class="dividingLine"><p>Employment</p></div>
                             <div class="employeeInfoContainer">
                                 <input id="jobTitleInput" name="jobTitle" type="text" placeholder="Job title">
-                                <input id="companyNameInput" name="companyName" type="text" placeholder="Company Name">
-                                <input id="companyIDInput" name="companyID" type="number" placeholder="Company ID">
-                                <input id="employeeIDInput" name="employeeID" type="text" placeholder="Employee ID">
+                                <input id="companyNameInput" name="companyName" type="text" placeholder="Company Name" required>
+                                <input id="companyIDInput" name="companyID" type="number" placeholder="Company ID" required>
+                                <input id="employeeIDInput" name="employeeID" type="text" placeholder="Employee ID" required>
                                 <select id="payTypeInput" name="payType">
                                     <option value="hourly">Hourly</option>
                                     <option value="salary">Salary</option>
                                 </select>
-                                <input id="payInput" name="pay" type="text" placeholder="Pay">
+                                <input id="payInput" name="pay" type="text" placeholder="Pay" required>
                                 <div id="benefitsCheckboxes" class="benefits-selection">
                                     <!--populated by javascript-->
                                 </div>
@@ -299,10 +299,11 @@
             </section>
 
             <!--Edit Employee screen-->
-            <section id="editEmployee" class="page">
+
+            <!--<section id="editEmployee" class="page">
                 <div class="outline-container">
                     <div class="employee-form-scroll">
-                        <!--Employee info-->
+                        
                     <form id="editEmployeeForm" class="employee-info">
                         <input id="firstNameInput" type="text" placeholder="First name">
                         <input type="text" placeholder="Middle name (optional)">
@@ -378,9 +379,9 @@
                         <input type="tel" placeholder="Phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
                         <input type="password" placeholder="SSN">
                         <input id="roleInput" type="text" placeholder="Job title">
-                        <div id="benefitsCheckboxes" class="benefits-selection">
+                        <div id="benefitsCheckboxes" class="benefits-selection">-->
                             <!--populated by javascript-->
-                        </div>   
+                        <!--</div>   
                     </form>
                     </div>
                     <div class="add-employee-footer">
@@ -388,7 +389,7 @@
                         <button class="btn-primary" form="editEmployeeForm" type="submit">Save</button>
                     </div>
                 </div>
-            </section>
+            </section>-->
 
             <!--Archived Employees screen-->
             <section id="archive" class="page">

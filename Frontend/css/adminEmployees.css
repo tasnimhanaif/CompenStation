@@ -114,3 +114,7 @@ input[type="checkbox"]:checked::after {
     grid-template-columns: 1fr 1fr 1fr;
     gap: 20px;
 }
+
+#benefitsCheckboxes input[type="checkbox"] {
+    accent-color: var(--mainGreen);
+}

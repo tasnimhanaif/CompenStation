@@ -84,3 +84,4 @@ const federalTaxes = [
 
 benefits.push({name:"Car", percentage: 20.3});
 console.log(benefits);
+

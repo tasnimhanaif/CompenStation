@@ -29,12 +29,17 @@ benefitsForm.addEventListener("submit", (e) => {
     loadSampleBenefits();
     benefitsForm.reset();
 })
+
 // Removing a benefit
 const removeBenefitBtn = document.querySelector("#removeBenefitBtn");
 removeBenefitBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    
-})
+    const selected = benefitsList.querySelector(".list-item.active");
+    if (!selected) return;
+    const idx = benefits.findIndex(b => b.name === selected.dataset.id);
+    if (idx !== -1) benefits.splice(idx, 1);
+    loadSampleBenefits();
+});
 
 // Adding a state tax
 const stateTaxForm = document.querySelector("#stateTaxForm");
@@ -71,14 +76,16 @@ const stateTaxList = document.querySelector("#stateTaxList");
 const federalTaxList = document.querySelector("#federalTaxList");
 function createListItem(item, type) {
     const listItem = document.createElement("li");
+    listItem.className = "list-item";
     if (type == "benefitList") {
-        listItem.className = "list-item";
         listItem.textContent = item.name;
+        listItem.dataset.id = item.name;
     } else if (type == "stateTaxList" || type == "federalTaxList") {
-        listItem.className = "list-item";
         listItem.textContent = item.percentage + " %";
+        listItem.dataset.id = item.percentage;
     } else {
         console.log("createListItem(item, type): Invalid list item type!");
+        return;
     }
     listItem.addEventListener("click", () => {
         fillSettingsForm(item, type);

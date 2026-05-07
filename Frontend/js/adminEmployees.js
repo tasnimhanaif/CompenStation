@@ -15,6 +15,15 @@ addEmployeeBtn.addEventListener("click", () => {
       openAddForm();
 });
 
+// input validation for Pay input field on add/edit employee
+document.querySelectorAll(
+    "#employeeForm input[name='pay']"
+).forEach(input => {
+    input.addEventListener("input", () => {
+        input.value = input.value.replace(/[^0-9.]/g, "").replace(/(\..*?)\..*/g, "$1");
+    });
+});
+
 // Cancel on Add/Edit employee returns to employees list
 document.querySelector("#addEditEmployee .btn-tertiary").addEventListener("click", () => {
       showPage("employees");
@@ -90,17 +99,13 @@ document.addEventListener('DOMContentLoaded', () => {
       //updateEmployeeCount(employees);
 });
 
-document.querySelector("#employeeForm").addEventListener('submit', (e) => {
-      e.preventDefault();
-      loadSampleEmployees();
-})
-
 // Load employee form. Add employee empty, and Edit employee pre-filled
 let prefilledData = null;
 function openAddForm() {
       prefilledData = null;
       screenName.textContent = "Add Employee";
       document.querySelector("#employeeForm").reset();
+      renderBenefitsCheckboxes();
       showPage("addEditEmployee");
       submitBtn.innerHTML = "Add";
 }
@@ -116,17 +121,60 @@ function openEditForm(employee) {
       prefilledData = employee.employeeID;
       screenName.textContent = "Edit Employee";
       fillForm(employee);
+      renderBenefitsCheckboxes(employee.benefits ?? []);
       showPage("addEditEmployee");
       submitBtn.innerHTML = "Save";
 }
+
+const benefitsCheckboxes = document.querySelector("#benefitsCheckboxes");
+function renderBenefitsCheckboxes(employeeBenefits = []) {
+    benefitsCheckboxes.innerHTML = '';
+    benefits.forEach(benefit => {
+        const label = document.createElement('label');
+        label.className = 'benefit-checkbox';
+
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.name = 'benefits';
+        input.value = benefit.name;
+        input.checked = employeeBenefits.includes(benefit.name);
+
+        label.appendChild(input);
+        label.append(' ' + benefit.name);
+        benefitsCheckboxes.appendChild(label);
+    });
+}
+function generateEmployeeID() {
+    if (employees.length === 0) return 1;
+    return Math.max(...employees.map(emp => emp.employeeID)) + 1;
+}
+
 document.querySelector("#employeeForm").addEventListener("submit", (e) => {
-      e.preventDefault();
-      const data = Object.fromEntries(new FormData(e.target));
-      if(prefilledData == null) {
-            // POST
-      } else {
-            // PUT
-      }
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData);
+    data.benefits = formData.getAll('benefits');
+
+    // Coerce numeric fields from strings to numbers
+    data.pay = parseFloat(data.pay);
+    data.hoursWorked = parseFloat(data.hoursWorked);
+
+    if (prefilledData == null) {
+        // ADD
+        data.employeeID = generateEmployeeID();
+        data.statusChangeDate = Intl.DateTimeFormat("en-US").format(new Date());
+        employees.push(data);
+    } else {
+        // EDIT — find existing record and merge in the new values
+        const idx = employees.findIndex(emp => emp.employeeID === prefilledData);
+        if (idx !== -1) {
+            employees[idx] = { ...employees[idx], ...data };
+        }
+    }
+
+    loadSampleEmployees();
+    showPage("employees");
 });
 
 // ---------------------------------------
