@@ -43,3 +43,58 @@
     margin-top: auto;
     width: 100%;
 }
+
+.view-check-btn {
+    display: flex;
+}
+
+/* --- Deduction Dropdown Styles --- */
+.employee-row {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.employee-row.expanded {
+    background-color: var(--lightGreen);
+}
+
+.deduction-row.hidden {
+    display: none;
+}
+
+.deduction-row td {
+    padding: 0;
+    border-bottom: 2px solid var(--darkerGreen);
+}
+
+.deduction-container {
+    background-color: white;
+    padding: 15px 30px;
+    border-left: 4px solid var(--mainGreen); 
+}
+
+.deduction-header {
+    font-size: var(--smallFontSize);
+    color: var(--darkerGreen);
+    border-bottom: 1px solid var(--darkerGreen);
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.deduction-line {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--smallFontSize);
+    padding: 4px 0;
+}
+
+.negative-val {
+    color: var(--red);
+}
+
+.deduction-line.final {
+    border-top: 1px solid var(--darkerGreen);
+    padding-top: 10px;
+    margin-top: 10px;
+    font-weight: bold;
+}

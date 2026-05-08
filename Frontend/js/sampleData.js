@@ -67,21 +67,21 @@ const benefits = [
 ];
 
 const stateTaxes = [
-    { percentage: 6.8, bracketStart: 0, bracketEnd: 0 },
-    { percentage: 10.2, bracketStart: 0, bracketEnd: 0 }
+    { percentage: 6.8, bracketStart: 0 },
+    { percentage: 10.2, bracketStart: 65001 } 
 ];
+
 const federalTaxes = [
-    { percentage: 10.0, bracketStart: 0, bracketEnd: 0 },
-    { percentage: 12.0, bracketStart: 0, bracketEnd: 0 },
-    { percentage: 22.0, bracketStart: 0, bracketEnd: 0 },
-    { percentage: 24.0, bracketStart: 0, bracketEnd: 0 },
-    { percentage: 32.0, bracketStart: 0, bracketEnd: 0 },
-    { percentage: 35.0, bracketStart: 0, bracketEnd: 0 },
-    { percentage: 37.0, bracketStart: 0, bracketEnd: 0 }
+    { percentage: 10.0, bracketStart: 0 },
+    { percentage: 12.0, bracketStart: 11601 },
+    { percentage: 22.0, bracketStart: 47151 },
+    { percentage: 24.0, bracketStart: 100526 },
+    { percentage: 32.0, bracketStart: 191951 },
+    { percentage: 35.0, bracketStart: 243726 },
+    { percentage: 37.0, bracketStart: 609351 }
 ];
 
 //export {employees, benefits, stateTaxes, federalTaxes};
 
-benefits.push({name:"Car", percentage: 20.3});
 console.log(benefits);
 

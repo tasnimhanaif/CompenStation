@@ -88,7 +88,8 @@ function createPayrollRow(employee) {
     <td>${isSalary
       ? 'N/A'
       : `<input type="number" class="hours-input" value="${employee.hoursWorked || 0}" min="0" step="0.25">`}</td>
-    <td><button class="btn-tertiary view-check-btn" type="button">View</button></td>
+    <td><button class="view-check-btn" type="button" data-employee-id="${employee.employeeID}">
+    <img src="icons/checkbook_dark.svg" alt="checkbook"></button></td>
   `;
 
   if (!isSalary) {
@@ -130,7 +131,6 @@ function addPayrollHistoryEntry(date, total, employeeCount) {
 
 let lastPayrollDate = null;  
 
-
 function getWeekStart(date) {
   const d = new Date(date);
   const day = d.getDay();           
@@ -154,4 +154,220 @@ function updateSubmitPayrollState() {
     btn.disabled = false;
     btn.textContent = "Submit";
   }
+}
+
+// ----- Helpers -----
+// Handle check viewing
+function numberToWords(amount) {
+  const ones = ['', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine',
+    'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen',
+    'seventeen', 'eighteen', 'nineteen'];
+  const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+
+  function under1000(n) {
+    if (n === 0) return '';
+    if (n < 20) return ones[n];
+    if (n < 100) {
+      const t = tens[Math.floor(n / 10)];
+      const o = ones[n % 10];
+      return o ? `${t}-${o}` : t;
+    }
+    const hundred = `${ones[Math.floor(n / 100)]} hundred`;
+    const rest = n % 100;
+    return rest ? `${hundred} ${under1000(rest)}` : hundred;
+  }
+
+  const dollars = Math.floor(amount);
+  const cents = Math.round((amount - dollars) * 100);
+
+  let words;
+  if (dollars === 0) {
+    words = 'zero';
+  } else {
+    const millions = Math.floor(dollars / 1_000_000);
+    const thousands = Math.floor((dollars % 1_000_000) / 1000);
+    const remainder = dollars % 1000;
+
+    const parts = [];
+    if (millions)  parts.push(`${under1000(millions)} million`);
+    if (thousands) parts.push(`${under1000(thousands)} thousand`);
+    if (remainder) parts.push(under1000(remainder));
+    words = parts.join(' ');
+  }
+
+  // Capitalize, append cents in "n/100" form to match the Figma design
+  words = words.charAt(0).toUpperCase() + words.slice(1);
+  return `${words} ${cents}/100`;
+}
+
+function formatCheckDate(date = new Date()) {
+  const mm = String(date.getMonth() + 1).padStart(2, '0');
+  const dd = String(date.getDate()).padStart(2, '0');
+  const yy = String(date.getFullYear()).slice(-2);
+  return `${mm}/${dd}/${yy}`;
+}
+
+function formatDollarAmount(amount) {
+  return amount.toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+}
+
+// ----- Populate the check from an employee -----
+
+function populateCheck(employee) {
+  const setField = (name, value) => {
+    const el = document.querySelector(`.check [data-field="${name}"]`);
+    if (el) el.textContent = value;
+  };
+
+  const fullName = `${employee.firstName} ${employee.lastName}`;
+  const amount   = Number(employee.pay); 
+
+  setField('payeeName',     fullName);
+  setField('date',          formatCheckDate());
+  setField('amountNumeric', formatDollarAmount(amount));
+  setField('amountWords',   numberToWords(amount));
+}
+
+document.addEventListener('click', (e) => {
+  const viewBtn = e.target.closest('.view-check-btn');
+  if (viewBtn) {
+    const id = viewBtn.dataset.employeeId;
+    const employee = employees.find(emp => String(emp.employeeID) === String(id));
+    if (!employee) return;
+    populateCheck(employee);
+    showPage('viewCheck'); 
+    return;
+  }
+
+  if (e.target.id === 'cancelCheckBtn') {
+    showPage('runPayroll'); 
+    return;
+  }
+
+  if (e.target.id === 'printCheckBtn') {
+    window.print();
+    return;
+  }
+});
+
+// --- Helper: Calculate Deductions ---
+function calculateDeductions(grossPay, employee) {
+    
+    const medicalRate = 0.03;   
+    const stateTaxRate = 0.049; 
+    const federalTaxRate = 0.082;
+
+    const medicalDed = grossPay * medicalRate;
+    const stateDed = grossPay * stateTaxRate;
+    const federalDed = grossPay * federalTaxRate;
+
+    const totalDeductions = medicalDed + stateDed + federalDed;
+    const netPay = grossPay - totalDeductions;
+
+    return {
+        gross: grossPay,
+        medical: { amount: medicalDed, rate: medicalRate },
+        stateTax: { amount: stateDed, rate: stateTaxRate },
+        federalTax: { amount: federalDed, rate: federalTaxRate },
+        net: netPay
+    };
+}
+
+// --- Updated: Create Payroll Row ---
+function createPayrollRow(employee) {
+    const fragment = document.createDocumentFragment();
+
+    const mainRow = document.createElement('tr');
+    mainRow.classList.add('employee-row');
+
+    const dedRow = document.createElement('tr');
+    dedRow.classList.add('deduction-row', 'hidden');
+
+    const isSalary = employee.payType === 'salary';
+    const initialHours = employee.hoursWorked || 0;
+
+    mainRow.innerHTML = `
+        <td>${employee.firstName} ${employee.lastName}</td>
+        <td class="pay-cell"></td>
+        <td>${isSalary 
+            ? 'N/A' 
+            : `<input type="number" class="hours-input" value="${initialHours}" min="0" step="0.25">`}
+        </td>
+        <td>
+            <button class="view-check-btn" type="button" data-employee-id="${employee.employeeID}">
+                <img src="icons/checkbook_dark.svg" alt="checkbook">
+            </button>
+        </td>
+    `;
+
+    dedRow.innerHTML = `
+        <td colspan="4">
+            <div class="deduction-container">
+                <div class="deduction-header regular-text">Deductions</div>
+                <div class="deduction-line">
+                    <span>Gross Pay</span>
+                    <span class="gross-val"></span>
+                </div>
+                <div class="deduction-line">
+                    <span>Medical</span>
+                    <span class="negative-val medical-val"></span>
+                </div>
+                <div class="deduction-line">
+                    <span>State Tax</span>
+                    <span class="negative-val state-val"></span>
+                </div>
+                <div class="deduction-line">
+                    <span>Federal Tax</span>
+                    <span class="negative-val fed-val"></span>
+                </div>
+                <div class="deduction-line final">
+                    <span class="regular-text">Final amount:</span>
+                    <span class="final-val"></span>
+                </div>
+            </div>
+        </td>
+    `;
+
+    const updateValues = (currentHours) => {
+        const grossPay = isSalary ? employee.pay / 52 : employee.pay * currentHours;
+        const deductions = calculateDeductions(grossPay, employee);
+
+        const formatMoney = (num) => '$' + num.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+        const formatPct = (rate) => (rate * 100).toFixed(1) + '%';
+
+        mainRow.querySelector('.pay-cell').textContent = formatMoney(deductions.net);
+        mainRow.dataset.pay = deductions.net;
+
+        dedRow.querySelector('.gross-val').textContent = formatMoney(deductions.gross);
+        dedRow.querySelector('.medical-val').textContent = `-${formatMoney(deductions.medical.amount)} (${formatPct(deductions.medical.rate)})`;
+        dedRow.querySelector('.state-val').textContent = `-${formatMoney(deductions.stateTax.amount)} (${formatPct(deductions.stateTax.rate)})`;
+        dedRow.querySelector('.fed-val').textContent = `-${formatMoney(deductions.federalTax.amount)} (${formatPct(deductions.federalTax.rate)})`;
+        dedRow.querySelector('.final-val').textContent = formatMoney(deductions.net);
+    };
+
+    updateValues(initialHours);
+
+    if (!isSalary) {
+        const hoursInput = mainRow.querySelector('.hours-input');
+        hoursInput.addEventListener('input', () => {
+            updateValues(parseFloat(hoursInput.value) || 0);
+            updatePayrollTotal(); 
+        });
+    }
+
+    mainRow.addEventListener('click', (e) => {
+
+        if (e.target.tagName === 'INPUT' || e.target.closest('.view-check-btn')) return;
+        
+        dedRow.classList.toggle('hidden');
+        mainRow.classList.toggle('expanded');
+    });
+
+    fragment.appendChild(mainRow);
+    fragment.appendChild(dedRow);
+
+    return fragment;
 }

@@ -10,6 +10,12 @@
     flex-direction: column; 
     display: none;
 }
+#viewCheck {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - var(--headerHeight));
+    display: none;
+}
 #employees {
     display: flex;
     flex-direction: column; 

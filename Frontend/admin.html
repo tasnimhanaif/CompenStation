@@ -3,6 +3,9 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Admin</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
         <link rel="icon" href="img/logo.png">
         <link rel="stylesheet" href="css/reset.css">
         <link rel="stylesheet" href="css/style.css">
@@ -10,13 +13,14 @@
         <link rel="stylesheet" href="css/adminDashboard.css">
         <link rel="stylesheet" href="css/adminEmployees.css">
         <link rel="stylesheet" href="css/adminSettings.css">
+        <link rel="stylesheet" href="css/check.css">
     </head>
     <body>
 
         <!--Top Bar-->
         <header>
             <p id="screen" class="regular-text">Dashboard</p>
-            <p id="userName" class="regular-text">Admin Name</p>
+            <p id="userName" class="regular-text">Admin</p>
         </header>
 
         <!--Side Menu-->
@@ -152,6 +156,57 @@
                         </div> 
                     </div>
                 </div>  
+            </section>
+
+            <section id="viewCheck" class="page">
+                <div class="check-stage">
+                    <div class="check-scale-wrapper">
+                        <div class="check">
+                        <!-- Top-left: pay-to label + payee name + line -->
+                        <div class="check-pay-to-label">PAY TO THE<br>ORDER OF</div>
+                        <div class="check-payee" data-field="payeeName">John Doe</div>
+                        <div class="check-line check-line--payee"></div>
+
+                        <!-- Top-right: date label, line, and date -->
+                        <div class="check-date-label">DATE</div>
+                        <div class="check-line check-line--date"></div>
+                        <div class="check-date" data-field="date">02/16/26</div>
+
+                        <!-- Top-right: dollar symbol + boxed amount -->
+                        <div class="check-amount-symbol">$</div>
+                        <div class="check-amount-box">
+                        <span class="check-amount" data-field="amountNumeric">3,840.00</span>
+                        </div>
+
+                        <!-- Middle: amount in words + DOLLARS label + line -->
+                        <div class="check-amount-words" data-field="amountWords">Three thousand eight hundred forty 0/100</div>
+                        <div class="check-dollars-label">DOLLARS</div>
+                        <div class="check-line check-line--amount-words"></div>     
+
+                        <!-- Bottom-left: memo label + line -->
+                        <div class="check-memo-label">MEMO</div>
+                        <div class="check-line check-line--memo"></div>
+                        <div class="check-memo" data-field="memo"></div>
+
+                        <!-- Bottom-right: signature line + label -->
+                        <div class="check-line check-line--signature"></div>
+                        <div class="check-signature-label">AUTHORIZED SIGNATURE</div>
+
+                        <!-- Bottom-right: logo circle -->
+                        <div class="check-logo">
+                            <img src="img/logo.png" alt="logo">
+                        </div>
+
+                        <!-- Bottom: MICR routing line -->
+                        <div class="check-micr" data-field="micr">|: 1234567890 |:     1234567890||&rsquo;    0012</div>
+                        </div>
+                    </div>           
+                </div>
+
+                <div class="check-actions">
+                    <button type="button" class="btn-tertiary" id="cancelCheckBtn">Cancel</button>
+                    <button type="button" class="btn-secondary" id="printCheckBtn">Print</button>
+                </div>
             </section>
 
             <!--Employees screen-->
@@ -463,9 +518,6 @@
                                 <label class="regular-text">Bracket Start</label>
                                 <input id="stateTaxBracketStartInput" name="bracketStart" type="text" inputmode="numeric"
                                        placeholder="$">
-                                <label class="regular-text">Bracket End</label>
-                                <input id="stateTaxBracketEndInput" name="bracketEnd" type="text" inputmode="numeric"
-                                       placeholder="$">
                             </form>
                             <div class="add-remove-btns">
                                 <button id="addStateTaxBtn" class="btn-primary" type="submit" form="stateTaxForm">Add state tax</button>
@@ -488,9 +540,6 @@
                                 <label class="regular-text">Bracket Start</label>
                                 <input id="federalTaxBracketStartInput" name="bracketStart" type="text" inputmode="numeric"
                                        placeholder="$">
-                                <label class="regular-text">Bracket End</label>
-                                <input id="federalTaxBracketEndInput" name="bracketEnd" type="text" inputmode="numeric"
-                                       placeholder="$">
                             </form>
                             <div class="add-remove-btns">
                                 <button id="addFederalTaxBtn" class="btn-primary" type="submit" form="federalTaxForm">Add federal tax</button>
@@ -504,11 +553,11 @@
         </main>
 
         <!--JavaScript-->
+        <script src="js/sampleData.js"></script>
         <script src="js/adminMain.js"></script>
         <script src="js/adminDashboard.js"></script>
         <script src="js/adminEmployees.js"></script>
         <script src="js/adminSettings.js"></script>
-        <script src="js/sampleData.js"></script>
 
         <!--
             <script src="js/admin-dashboard.js"></script>

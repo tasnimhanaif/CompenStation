@@ -1,0 +1,209 @@
+/* ===== Check component ===== */
+
+.check {
+  position: relative;
+  width: 466px;
+  height: 185px;
+  background-color: white;
+  border: 1px solid var(--mainGreen);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  font-family: 'Lora', serif;
+  color: var(--darkerGreen);
+  transform: scale(2);
+  transform-origin: top left;
+}
+
+.check-scale-wrapper {
+  width: 932px;   /* 466 × 2 */
+  height: 370px;  /* 185 × 2 */
+  position: relative;
+}
+
+.check-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.check-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 0 40px 40px;
+}
+
+/* ----- Pay to the order of (top-left label) ----- */
+.check-pay-to-label {
+  position: absolute;
+  left: 21px;
+  top: 27px;
+  width: 59px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.check-payee {
+  position: absolute;
+  left: 97px;
+  top: 37px;
+  font-size: 12px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+/* ----- Date (top-right) ----- */
+.check-date-label {
+  position: absolute;
+  left: 307px;
+  top: 14px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.check-date {
+  position: absolute;
+  left: 349px;
+  top: 12px;
+  font-size: 12px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+/* ----- Dollar amount (right side) ----- */
+.check-amount-symbol {
+  position: absolute;
+  left: 350px;
+  top: 36px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.check-amount-box {
+  position: absolute;
+  left: 359px;
+  top: 32px;
+  width: 86px;
+  height: 21px;
+  border: 1px solid var(--vibrantGreen);
+  display: flex;
+  align-items: center;
+  padding-left: 7px;
+  box-sizing: border-box;
+}
+
+.check-amount {
+  font-size: 10px;
+  font-weight: 400;
+}
+
+/* ----- Amount in words ----- */
+.check-amount-words {
+  position: absolute;
+  left: 64px;
+  top: 73px;
+  font-size: 12px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+.check-dollars-label {
+  position: absolute;
+  left: 383px;
+  top: 75px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* ----- Memo (bottom-left) ----- */
+.check-memo-label {
+  position: absolute;
+  left: 19px;
+  top: 107px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.check-memo {
+  position: absolute;
+  left: 19px;
+  top: 108px;
+  width: 181px;
+  font-size: 12px;
+  font-weight: 400;
+  padding-left: 40px;
+  box-sizing: border-box;
+}
+
+/* ----- Signature (bottom-right) ----- */
+.check-signature-label {
+  position: absolute;
+  left: 315px;
+  top: 122px;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+/* ----- Lines ----- */
+.check-line {
+  position: absolute;
+  height: 1px;
+  background-color: var(--darkerGreen);
+}
+
+.check-line--payee     { left: 20px;  top: 53px;  width: 330px; }
+.check-line--date      { left: 307px; top: 27px;  width: 117px; }
+.check-line--amount-words { left: 20px; top: 88px; width: 409px; }
+.check-line--memo      { left: 19px;  top: 120px; width: 181px; }
+.check-line--signature { left: 277px; top: 120px; width: 168px; }
+
+/* ----- Logo circle (bottom-right) ----- */
+.check-logo {
+  position: absolute;
+  left: 418px;
+  top: 141px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: white;
+  border: 1px solid var(--darkerGreen);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.check-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ----- MICR routing line (bottom) ----- */
+.check-micr {
+  position: absolute;
+  left: 19px;
+  top: 152px;
+  font-family: 'MICR E13B', 'Courier New', monospace;
+  font-size: 11px;
+  white-space: pre;
+  letter-spacing: 1px;
+}
+
+/* ----- Print ----- */
+@media print {
+  body * { visibility: hidden; }
+  .check-scale-wrapper,
+  .check-scale-wrapper * { visibility: visible; }
+  .check-scale-wrapper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 0.5in;
+  }
+  .check { transform: none; }
+  .check-actions { display: none; }
+}
