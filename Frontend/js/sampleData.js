@@ -25,7 +25,7 @@ const employees = [
         password: "",
         accountType: "Admin",
         taxes: {federal: 22.5, state: 10.2},
-        status: "Active",
+        status: "active",
         statusChangeDate: new Date(2025, 11, 10),
         companyID: 9876
     },
@@ -53,7 +53,7 @@ const employees = [
         password: "",
         accountType: "Employee",
         taxes: {federal: 28.0, state: 12.5},
-        status: "Active",
+        status: "active",
         statusChangeDate: new Date(2017, 9, 17),
         companyID: 9876
     }

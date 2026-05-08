@@ -49,6 +49,7 @@ function archiveEmployee(employee, row) {
       `;
       archiveTableBody.appendChild(archiveRow);
       row.remove();
+      refreshDashboard();
 
       archiveRow.querySelector('select').addEventListener('change', (e) => {
             employee.status = e.target.value;
@@ -57,8 +58,10 @@ function archiveEmployee(employee, row) {
             if(employee.status === 'active') {
                   archiveRow.remove();
                   loadSampleEmployees();
+                  refreshDashboard();
             } else {
                   archiveRow.cells[2].textContent = employee.statusChangeDate;
+                  refreshDashboard();
             }
       });
 }
@@ -69,7 +72,7 @@ function createEmployeeRow(employee) {
             <td>${employee.firstName} ${employee.lastName}</td>
             <td>$${(employee.pay / 52).toFixed(2)}</td>
             <td>${employee.jobTitle}</td>
-            <td>${employee.hoursWorked}</td>
+            <td>${employee.payType === "salary" ? "N/A": employee.hoursWorked}</td>
             <td>${createStatusSelect(employee.status)}</td>
             <td><button id="editBtn" class="edit-btn">Edit</button></td>
       `;
@@ -96,7 +99,7 @@ function loadSampleEmployees() {
 
 document.addEventListener('DOMContentLoaded', () => {
       loadSampleEmployees();
-      //updateEmployeeCount(employees);
+      refreshDashboard();
 });
 
 // Load employee form. Add employee empty, and Edit employee pre-filled
@@ -151,22 +154,26 @@ function generateEmployeeID() {
 
 document.querySelector("#employeeForm").addEventListener("submit", (e) => {
     e.preventDefault();
-
+    console.log("submit fired", e);
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
     data.benefits = formData.getAll('benefits');
 
-    // Coerce numeric fields from strings to numbers
-    data.pay = parseFloat(data.pay);
-    data.hoursWorked = parseFloat(data.hoursWorked);
+    // Coerce numeric fields, guarding against empty strings
+    data.pay = parseFloat(data.pay) || 0;
+    data.hoursWorked = parseFloat(data.hoursWorked) || 0;
+
+    // Make sure employeeID never sneaks in as a string
+    delete data.employeeID;
 
     if (prefilledData == null) {
         // ADD
         data.employeeID = generateEmployeeID();
+        data.status = 'active';                    // <-- the missing piece
         data.statusChangeDate = Intl.DateTimeFormat("en-US").format(new Date());
         employees.push(data);
     } else {
-        // EDIT — find existing record and merge in the new values
+        // EDIT
         const idx = employees.findIndex(emp => emp.employeeID === prefilledData);
         if (idx !== -1) {
             employees[idx] = { ...employees[idx], ...data };
@@ -174,6 +181,7 @@ document.querySelector("#employeeForm").addEventListener("submit", (e) => {
     }
 
     loadSampleEmployees();
+    refreshDashboard();
     showPage("employees");
 });
 
