@@ -1,26 +1,26 @@
 // Store/queries.js
 // Centralised SQL query constants for all tables.
 // Import the ones you need in each route module.
-
+ 
 // ── Employees ────────────────────────────────────────────────────────────────
-
-export const getAllEmployees = `
+ 
+const getAllEmployees = `
   SELECT * FROM employees
   WHERE isActive = TRUE
   ORDER BY lastName ASC, firstName ASC
 `;
-
-export const getEmployeeById = `
+ 
+const getEmployeeById = `
   SELECT * FROM employees
   WHERE id = ? AND isActive = TRUE
 `;
-
-export const getEmployeeByEmail = `
+ 
+const getEmployeeByEmail = `
   SELECT * FROM employees
   WHERE email = ?
 `;
-
-export const insertEmployee = `
+ 
+const insertEmployee = `
   INSERT INTO employees
     (employeeCode, firstName, middleName, lastName,
      birthdate, sex, employmentType, payType, hourlyRate,
@@ -29,8 +29,8 @@ export const insertEmployee = `
   VALUES
     (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `;
-
-export const updateEmployee = `
+ 
+const updateEmployee = `
   UPDATE employees SET
     employeeCode     = ?,
     firstName        = ?,
@@ -55,38 +55,38 @@ export const updateEmployee = `
     companyId        = ?
   WHERE id = ?
 `;
-
-export const softDeleteEmployee = `
+ 
+const softDeleteEmployee = `
   UPDATE employees
   SET isActive = FALSE, currentStatus = 'terminated', statusChangeDate = NOW()
   WHERE id = ?
 `;
-
+ 
 // ── Users ────────────────────────────────────────────────────────────────────
-
-export const getAllUsers = `
+ 
+const getAllUsers = `
   SELECT id, fullName, email, phone, username, role, employeeId, jobTitle, createdAt
   FROM users
   ORDER BY fullName ASC
 `;
-
-export const getUserById = `
+ 
+const getUserById = `
   SELECT id, fullName, email, phone, username, role, employeeId, jobTitle, createdAt
   FROM users
   WHERE id = ?
 `;
-
-export const getUserByUsername = `
+ 
+const getUserByUsername = `
   SELECT * FROM users
   WHERE username = ?
 `;
-
-export const insertUser = `
+ 
+const insertUser = `
   INSERT INTO users (fullName, email, phone, username, password, role, employeeId, jobTitle)
   VALUES (?, ?, ?, ?, ?, ?, ?, ?)
 `;
-
-export const updateUser = `
+ 
+const updateUser = `
   UPDATE users SET
     fullName   = ?,
     email      = ?,
@@ -97,47 +97,47 @@ export const updateUser = `
     jobTitle   = ?
   WHERE id = ?
 `;
-
-export const updateUserPassword = `
+ 
+const updateUserPassword = `
   UPDATE users SET password = ? WHERE id = ?
 `;
-
+ 
 // ── Timesheets ───────────────────────────────────────────────────────────────
-
-export const getAllTimesheets = `
+ 
+const getAllTimesheets = `
   SELECT t.*, CONCAT(e.firstName, ' ', e.lastName) AS employeeName
   FROM timesheets t
   JOIN employees e ON t.employeeId = e.id
   ORDER BY t.periodStart DESC
 `;
-
-export const getTimesheetsByEmployee = `
+ 
+const getTimesheetsByEmployee = `
   SELECT * FROM timesheets
   WHERE employeeId = ?
   ORDER BY periodStart DESC
 `;
-
-export const getTimesheetById = `
+ 
+const getTimesheetById = `
   SELECT t.*, CONCAT(e.firstName, ' ', e.lastName) AS employeeName
   FROM timesheets t
   JOIN employees e ON t.employeeId = e.id
   WHERE t.id = ?
 `;
-
-export const getTimesheetsByStatus = `
+ 
+const getTimesheetsByStatus = `
   SELECT t.*, CONCAT(e.firstName, ' ', e.lastName) AS employeeName
   FROM timesheets t
   JOIN employees e ON t.employeeId = e.id
   WHERE t.status = ?
   ORDER BY t.periodStart DESC
 `;
-
-export const insertTimesheet = `
+ 
+const insertTimesheet = `
   INSERT INTO timesheets (employeeId, periodStart, periodEnd, hoursWorked, notes, status)
   VALUES (?, ?, ?, ?, ?, 'DRAFT')
 `;
-
-export const updateTimesheetStatus = `
+ 
+const updateTimesheetStatus = `
   UPDATE timesheets SET
     status          = ?,
     reviewedAt      = NOW(),
@@ -145,27 +145,27 @@ export const updateTimesheetStatus = `
     rejectionReason = ?
   WHERE id = ?
 `;
-
-export const markTimesheetPaid = `
+ 
+const markTimesheetPaid = `
   UPDATE timesheets SET status = 'PAID', paidAt = NOW()
   WHERE id = ?
 `;
-
+ 
 // ── Benefits ─────────────────────────────────────────────────────────────────
-
-export const getBenefitsByEmployee = `
+ 
+const getBenefitsByEmployee = `
   SELECT * FROM benefits
   WHERE employeeId = ?
   ORDER BY benefitType ASC
 `;
-
-export const insertBenefit = `
+ 
+const insertBenefit = `
   INSERT INTO benefits
     (employeeId, benefitType, planName, employeeCost, employerCost, isEnrolled, effectiveDate, notes)
   VALUES (?, ?, ?, ?, ?, ?, ?, ?)
 `;
-
-export const updateBenefit = `
+ 
+const updateBenefit = `
   UPDATE benefits SET
     benefitType  = ?,
     planName     = ?,
@@ -176,26 +176,26 @@ export const updateBenefit = `
     notes        = ?
   WHERE id = ? AND employeeId = ?
 `;
-
-export const deleteBenefit = `
+ 
+const deleteBenefit = `
   DELETE FROM benefits WHERE id = ? AND employeeId = ?
 `;
-
+ 
 // ── Deductions ───────────────────────────────────────────────────────────────
-
-export const getDeductionsByEmployee = `
+ 
+const getDeductionsByEmployee = `
   SELECT * FROM deductions
   WHERE employeeId = ? AND isActive = TRUE
   ORDER BY deductionType ASC
 `;
-
-export const insertDeduction = `
+ 
+const insertDeduction = `
   INSERT INTO deductions
     (employeeId, deductionType, label, isPercentage, amount, notes)
   VALUES (?, ?, ?, ?, ?, ?)
 `;
-
-export const updateDeduction = `
+ 
+const updateDeduction = `
   UPDATE deductions SET
     deductionType = ?,
     label         = ?,
@@ -204,31 +204,31 @@ export const updateDeduction = `
     notes         = ?
   WHERE id = ? AND employeeId = ?
 `;
-
-export const deactivateDeduction = `
+ 
+const deactivateDeduction = `
   UPDATE deductions SET isActive = FALSE WHERE id = ?
 `;
-
+ 
 // ── Payroll Runs ─────────────────────────────────────────────────────────────
-
-export const getAllPayrollRuns = `
+ 
+const getAllPayrollRuns = `
   SELECT * FROM payroll_runs
   ORDER BY periodStart DESC
 `;
-
-export const getPayrollRunById = `
+ 
+const getPayrollRunById = `
   SELECT * FROM payroll_runs WHERE id = ?
 `;
-
-export const insertPayrollRun = `
+ 
+const insertPayrollRun = `
   INSERT INTO payroll_runs
     (periodStart, periodEnd, executedBy, employeeCount, totalGross, totalDeductions, totalNet)
   VALUES (?, ?, ?, ?, ?, ?, ?)
 `;
-
+ 
 // ── Payroll Lines ────────────────────────────────────────────────────────────
-
-export const getPayrollLinesByRun = `
+ 
+const getPayrollLinesByRun = `
   SELECT pl.*,
     CONCAT(e.firstName, ' ', e.lastName) AS employeeName,
     e.jobTitle,
@@ -238,24 +238,24 @@ export const getPayrollLinesByRun = `
   WHERE pl.payrollRunId = ?
   ORDER BY e.lastName ASC, e.firstName ASC
 `;
-
-export const getPayrollLinesByEmployee = `
+ 
+const getPayrollLinesByEmployee = `
   SELECT pl.*, pr.periodStart, pr.periodEnd
   FROM payroll_lines pl
   JOIN payroll_runs pr ON pl.payrollRunId = pr.id
   WHERE pl.employeeId = ?
   ORDER BY pr.periodStart DESC
 `;
-
-export const insertPayrollLine = `
+ 
+const insertPayrollLine = `
   INSERT INTO payroll_lines
     (payrollRunId, employeeId, timesheetId, grossPay, totalDeductions, netPay)
   VALUES (?, ?, ?, ?, ?, ?)
 `;
-
+ 
 // ── Paystubs ─────────────────────────────────────────────────────────────────
-
-export const getPaystubsByEmployee = `
+ 
+const getPaystubsByEmployee = `
   SELECT ps.*,
     CONCAT(e.firstName, ' ', e.lastName) AS paidTo
   FROM paystubs ps
@@ -263,58 +263,76 @@ export const getPaystubsByEmployee = `
   WHERE ps.employeeId = ?
   ORDER BY ps.createdAt DESC
 `;
-
-export const getPaystubById = `
+ 
+const getPaystubById = `
   SELECT ps.*,
     CONCAT(e.firstName, ' ', e.lastName) AS paidTo
   FROM paystubs ps
   JOIN employees e ON ps.employeeId = e.id
   WHERE ps.id = ?
 `;
-
-export const insertPaystub = `
+ 
+const insertPaystub = `
   INSERT INTO paystubs
     (employeeId, payrollRunId, periodStart, periodEnd, grossPay, totalDeductions, netPay, memo)
   VALUES (?, ?, ?, ?, ?, ?, ?, ?)
 `;
-
+ 
 // ── Settings: Benefits Catalog ───────────────────────────────────────────────
-
-export const getAllSettingsBenefits = `
+ 
+const getAllSettingsBenefits = `
   SELECT * FROM settings_benefits
   ORDER BY name ASC
 `;
-
-export const insertSettingsBenefit = `
+ 
+const insertSettingsBenefit = `
   INSERT INTO settings_benefits (name, percentage)
   VALUES (?, ?)
 `;
-
-export const updateSettingsBenefit = `
+ 
+const updateSettingsBenefit = `
   UPDATE settings_benefits SET name = ?, percentage = ? WHERE id = ?
 `;
-
-export const deleteSettingsBenefit = `
+ 
+const deleteSettingsBenefit = `
   DELETE FROM settings_benefits WHERE id = ?
 `;
-
+ 
 // ── Settings: Taxes ──────────────────────────────────────────────────────────
-
-export const getAllTaxes = `
+ 
+const getAllTaxes = `
   SELECT * FROM taxes
   ORDER BY type ASC
 `;
-
-export const getTaxByType = `
+ 
+const getTaxByType = `
   SELECT * FROM taxes WHERE type = ?
 `;
-
-export const upsertTax = `
+ 
+const upsertTax = `
   INSERT INTO taxes (type, percentage)
   VALUES (?, ?)
   ON DUPLICATE KEY UPDATE percentage = VALUES(percentage)
 `;
-
-export const deleteTax = `
+ 
+const deleteTax = `
   DELETE FROM taxes WHERE id = ?
 `;
+ 
+// ── Exports ──────────────────────────────────────────────────────────────────
+ 
+module.exports = {
+  getAllEmployees, getEmployeeById, getEmployeeByEmail,
+  insertEmployee, updateEmployee, softDeleteEmployee,
+  getAllUsers, getUserById, getUserByUsername,
+  insertUser, updateUser, updateUserPassword,
+  getAllTimesheets, getTimesheetsByEmployee, getTimesheetById,
+  getTimesheetsByStatus, insertTimesheet, updateTimesheetStatus, markTimesheetPaid,
+  getBenefitsByEmployee, insertBenefit, updateBenefit, deleteBenefit,
+  getDeductionsByEmployee, insertDeduction, updateDeduction, deactivateDeduction,
+  getAllPayrollRuns, getPayrollRunById, insertPayrollRun,
+  getPayrollLinesByRun, getPayrollLinesByEmployee, insertPayrollLine,
+  getPaystubsByEmployee, getPaystubById, insertPaystub,
+  getAllSettingsBenefits, insertSettingsBenefit, updateSettingsBenefit, deleteSettingsBenefit,
+  getAllTaxes, getTaxByType, upsertTax, deleteTax,
+};
