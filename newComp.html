@@ -214,6 +214,35 @@
         .payroll-total { font-size: var(--regularFontSize); font-weight: 700; }
         .payroll-total span { color: var(--mainGreen); margin-left: 12px; }
 
+        /* === PAYROLL ROW DETAIL EXPANSION === */
+        .prow-clickable { cursor: pointer; }
+        .prow-clickable:hover td { background: #edf4ee !important; }
+        .prow-chevron {
+            display: inline-block; margin-right: 8px;
+            transition: transform 0.18s ease; font-size: 11px;
+            color: var(--mainGreen); vertical-align: middle;
+        }
+        .payroll-detail-row td { padding: 0 !important; }
+        .payroll-detail-inner {
+            display: flex; gap: 40px;
+            padding: 14px 28px 14px 36px;
+            background: #f3f7f3;
+            border-bottom: 2px solid var(--lightGreen);
+        }
+        .payroll-detail-section { flex: 1; }
+        .detail-section-header {
+            font-weight: 700; color: var(--mainGreen);
+            font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em;
+            border-bottom: 1px solid var(--lightGreen);
+            padding-bottom: 4px; margin-bottom: 6px;
+        }
+        .detail-line {
+            display: flex; justify-content: space-between;
+            font-size: 13px; padding: 3px 0; color: var(--darkerGreen);
+        }
+        .detail-line .detail-amt { font-family: monospace; color: var(--red); }
+        .detail-line.none-line .detail-amt { color: #aaa; font-family: var(--fontMain); font-style: italic; }
+
         /* === BADGES === */
         .badge { display: inline-block; padding: 2px 10px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
         .badge-active    { background: #d6e8da; color: var(--mainGreen); }
@@ -311,11 +340,12 @@
         /* === MODALS === */
         .modal-overlay {
             position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 900;
-            display: none; justify-content: center; align-items: center; backdrop-filter: blur(2px);
+            display: none; justify-content: center; align-items: flex-start;
+            overflow-y: auto; padding: 40px 0; backdrop-filter: blur(2px);
         }
         .modal-overlay.active { display: flex; }
-        .modal-box { background: white; padding: 40px; width: 640px; max-height: 90vh; overflow-y: auto; }
-        .modal-box-sm { background: white; padding: 40px; width: 480px; max-height: 90vh; overflow-y: auto; }
+        .modal-box    { background: white; padding: 40px; width: 640px; max-width: 92vw; }
+        .modal-box-sm { background: white; padding: 40px; width: 600px; max-width: 92vw; }
         .modal-title { font-size: 28px; font-weight: 700; color: var(--mainGreen); margin-bottom: 24px; }
         .form-row   { display: grid; grid-template-columns: 1fr 1fr;     gap: 16px; margin-bottom: 16px; }
         .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
@@ -400,7 +430,6 @@
     <!-- SIDEBAR -->
     <aside id="sidebar" class="hidden">
         <div class="sidebar-brand">
-            <!-- TODO: place logo.png in the img/ folder -->
             <img class="logo" src="img/logo.png" alt="logo">
             <span class="brand-name-label">HR Portal</span>
         </div>
@@ -440,7 +469,7 @@
                     <input type="text" id="repoSearch" placeholder="Search ID, Name, or Role..." onkeyup="filterRepo()">
                     <select id="statusFilter" onchange="filterRepo()">
                         <option value="ALL">All Statuses</option>
-                        <option value="ACTIVE">Active</option>
+                        <option value="ACTIVE" selected>Active</option>
                         <option value="TERMINATED">Terminated</option>
                         <option value="RETIRED">Retired</option>
                         <option value="QUIT">Quit</option>
@@ -497,7 +526,7 @@
                     <table>
                         <thead>
                             <tr>
-                                <th>Employee</th><th>Title</th><th>Pay Type</th>
+                                <th>Employee</th><th>Title</th><th>Pay Type</th><th>Hours</th>
                                 <th>Gross Bi-Wk</th><th>Deductions</th><th>Net Pay</th>
                             </tr>
                         </thead>
@@ -814,12 +843,35 @@
                 { id: 1002, fName: "Sarah", lName: "Vance",  status: "TERMINATED", level: 1, title: "Project Manager",          pay:  92000, type: "Salary", state: "NJ", room: "B-201", phone: "201-555-0482", email: "svance@compenstation.com", medPlan: 'none', visPlan: 'none',     address: "" },
                 { id: 1003, fName: "James", lName: "Miller", status: "RETIRED",    level: 1, title: "Operations Director",      pay: 110000, type: "Salary", state: "CT", room: "C-105", phone: "860-555-0101", email: "jmiller@compenstation.com",medPlan: 'hmo',  visPlan: 'none',     address: "" }
             ];
+            const firstNames = [
+                "Marcus","Aaliyah","Devon","Priya","Carlos","Mei","Jordan","Fatima",
+                "Tyler","Keisha","Rafael","Sonia","Derek","Ingrid","Omar","Claudia",
+                "Kevin","Yolanda","Patrick","Natasha","Andre","Bianca","Isaiah","Diana",
+                "Miguel","Tanya","Brendan","Latoya","Elijah","Sandra","Victor","Monique",
+                "Terrence","Simone","Darnell","Patricia","Raymond","Jasmine","Anthony","Nicole",
+                "Leon","Vivian","Gary","Renee","Hassan","Evelyn","Curtis","Adriana","Edwin","Theresa"
+            ];
+            const lastNames = [
+                "Rivera","Johnson","Patel","Williams","Morales","Chen","Thompson","Singh",
+                "Okafor","Reyes","Kim","Washington","Fernandez","Jackson","Nguyen","Robinson",
+                "Delgado","Harris","Chowdhury","Perez","Coleman","Rosario","Brown","Gonzalez",
+                "Osei","Martinez","Carter","Diaz","Freeman","Espinoza","Shaw","Vargas",
+                "Owens","Castillo","Jefferson","Mendez","Bryant","Santiago","Grant","Flores",
+                "Murray","Ortega","Haynes","Romero","Cunningham","Vega","Banks","Padilla","Blair","Cruz"
+            ];
             const statuses = ["ACTIVE", "ACTIVE", "ACTIVE", "QUIT", "DECEASED", "DISABLED"];
             const states   = ["NY", "NJ", "CT"];
+            const usedNames = new Set(["JaneDoe","SarahVance","JamesMiller"]);
             for (let i = 4; i <= 50; i++) {
+                let fName, lName;
+                do {
+                    fName = firstNames[Math.floor(Math.random() * firstNames.length)];
+                    lName = lastNames[Math.floor(Math.random() * lastNames.length)];
+                } while (usedNames.has(fName + lName));
+                usedNames.add(fName + lName);
                 const isPT = Math.random() > 0.8;
                 employees.push({
-                    id: 1000 + i, fName: "Staff_" + i, lName: "Employee",
+                    id: 1000 + i, fName, lName,
                     status: statuses[Math.floor(Math.random() * statuses.length)],
                     level: 1,
                     title: isPT ? "Part-Time Clerk" : "Associate " + i,
@@ -828,7 +880,7 @@
                     state: states[Math.floor(Math.random() * 3)],
                     room:  "R-" + (100 + i),
                     phone: "555-000-" + (1000 + i),
-                    email: `user${i}@compenstation.com`,
+                    email: `${fName.toLowerCase()}.${lName.toLowerCase()}@compenstation.com`,
                     medPlan: 'none', visPlan: 'none', address: ""
                 });
             }
@@ -837,9 +889,9 @@
         /* =========================================================
            3. MATH ENGINE — bracket-based taxes
            ========================================================= */
-        function calcNetPay(emp) {
+        function calcNetPay(emp, hours = 40) {
             try {
-                const annualGross = emp.type === "Salary" ? emp.pay : emp.pay * 40 * 26;
+                const annualGross = emp.type === "Salary" ? emp.pay : emp.pay * hours * 26;
                 const grossBiWeekly = annualGross / 26;
 
                 const annualFed   = calcBracketTax(annualGross, FED_BRACKETS);
@@ -909,10 +961,10 @@
             if (currentUser.level === 1) {
                 links += `<a onclick="showPage('employeePortal')" class="nav-link" data-page="employeePortal"><i class='bx bxs-user-circle'></i> My Pay &amp; Benefits</a>`;
             }
-            links += `<a onclick="showPage('externalDirectory')" class="nav-link" data-page="externalDirectory"><i class='bx bxs-business'></i> Corporate Directory</a>`;
             if (currentUser.level === 3) {
                 links += `<a onclick="showPage('hrRepository')" class="nav-link" data-page="hrRepository"><i class='bx bxs-data'></i> Employees</a>`;
             }
+            links += `<a onclick="showPage('externalDirectory')" class="nav-link" data-page="externalDirectory"><i class='bx bxs-business'></i> Corporate Directory</a>`;
             menu.innerHTML = links;
 
             const uname = currentUser.username.toUpperCase();
@@ -947,7 +999,7 @@
             const screenEl = document.getElementById('screen');
             if (screenEl) screenEl.innerText = PAGE_NAMES[id] || id;
 
-            if (id === 'hrRepository')      renderRepo();
+            if (id === 'hrRepository')      filterRepo();
             if (id === 'runPayrollPage')    renderRunPayroll();
             if (id === 'externalDirectory') renderDirectory();
             if (id === 'employeePortal')    renderEmployeePortal();
@@ -961,7 +1013,7 @@
                 document.getElementById('repoBody').innerHTML = list.map(e => {
                     const m = calcNetPay(e);
                     const printBtn = e.status === 'ACTIVE'
-                        ? `<button onclick="adminPrintCheck(${e.id})" class="btn btn-sm btn-secondary" style="margin-left:6px;">Print Check</button>`
+                        ? `<button onclick="adminPrintCheck(${e.id})" class="btn btn-sm btn-secondary">Print Check</button>`
                         : '';
                     return `
                     <tr>
@@ -971,9 +1023,11 @@
                         <td><span class="badge badge-${e.status.toLowerCase()}">${e.status}</span></td>
                         <td style="font-family:monospace;">$${e.type === 'Salary' ? e.pay.toLocaleString() : e.pay + '/hr'}</td>
                         <td style="font-family:monospace;font-weight:700;">$${m.net.toFixed(2)}</td>
-                        <td>
-                            <button onclick="openEmployeeModal(${e.id})" class="btn btn-outline btn-sm">Modify</button>
-                            ${printBtn}
+                        <td style="white-space:nowrap;">
+                            <div style="display:flex;gap:6px;align-items:center;flex-wrap:nowrap;">
+                                <button onclick="openEmployeeModal(${e.id})" class="btn btn-outline btn-sm">Modify</button>
+                                ${printBtn}
+                            </div>
                         </td>
                     </tr>`;
                 }).join('');
@@ -1031,7 +1085,7 @@
                     showAlert(`Record for ID ${idStr} updated.`, "success");
                 }
                 closeModal('adminModal');
-                renderRepo();
+                filterRepo();
             } catch(err) { showAlert("Error saving record.", "error"); }
         }
 
@@ -1049,22 +1103,70 @@
             showPage('runPayrollPage');
         }
 
+        function getPayrollHours(e) {
+            if (e.type !== 'Hourly') return 40;
+            return e.title.toLowerCase().includes('part') ? 20 : 40;
+        }
+
+        function buildDetailHTML(e, m) {
+            const medLabel = { none: 'None', ppo: 'PPO', hmo: 'HMO' }[e.medPlan] || e.medPlan.toUpperCase();
+            const visLabel = { none: 'None', standard: 'Standard', premium: 'Premium' }[e.visPlan] || e.visPlan;
+            const stateName = { NY: 'New York', NJ: 'New Jersey', CT: 'Connecticut' }[e.state] || e.state;
+            return `
+            <div class="payroll-detail-section">
+                <div class="detail-section-header">Taxes &mdash; Bi-Weekly Withholding</div>
+                <div class="detail-line">
+                    <span>Federal Income Tax</span>
+                    <span class="detail-amt">-$${m.fedTax.toFixed(2)}</span>
+                </div>
+                <div class="detail-line">
+                    <span>${stateName} State Income Tax</span>
+                    <span class="detail-amt">-$${m.stateTax.toFixed(2)}</span>
+                </div>
+                <div class="detail-line">
+                    <span>FICA &mdash; Social Security (6.2%) + Medicare (1.45%)</span>
+                    <span class="detail-amt">-$${m.fica.toFixed(2)}</span>
+                </div>
+            </div>
+            <div class="payroll-detail-section">
+                <div class="detail-section-header">Benefits Deductions</div>
+                <div class="detail-line${m.mCost === 0 ? ' none-line' : ''}">
+                    <span>Medical Plan &mdash; ${medLabel}</span>
+                    <span class="detail-amt">${m.mCost > 0 ? '-$' + m.mCost.toFixed(2) : 'Not enrolled'}</span>
+                </div>
+                <div class="detail-line${m.vCost === 0 ? ' none-line' : ''}">
+                    <span>Vision Plan &mdash; ${visLabel}</span>
+                    <span class="detail-amt">${m.vCost > 0 ? '-$' + m.vCost.toFixed(2) : 'Not enrolled'}</span>
+                </div>
+            </div>`;
+        }
+
         function renderRunPayroll() {
             const active = employees.filter(e => e.status === 'ACTIVE');
             let totalNet = 0;
 
             document.getElementById('runPayrollBody').innerHTML = active.map(e => {
-                const m = calcNetPay(e);
+                const defaultHrs = getPayrollHours(e);
+                const m = calcNetPay(e, defaultHrs);
                 totalNet += m.net;
                 const deductions = m.fedTax + m.stateTax + m.fica + m.mCost + m.vCost;
+                const hoursCell = e.type === 'Hourly'
+                    ? `<input type="number" id="hrs_${e.id}" value="${defaultHrs}" min="0" max="168" step="0.5"
+                           onchange="updatePayrollRow(${e.id})" onclick="event.stopPropagation()"
+                           style="width:68px;padding:4px 6px;border:1px solid var(--mainGreen);font-family:var(--fontMain);font-size:13px;text-align:center;">`
+                    : `<span style="color:#aaa;font-size:13px;">—</span>`;
                 return `
-                <tr>
-                    <td style="font-weight:700;">${e.fName} ${e.lName}</td>
+                <tr id="prow_${e.id}" class="prow-clickable" onclick="togglePayrollDetail(${e.id})">
+                    <td style="font-weight:700;"><i class="bx bx-chevron-right prow-chevron" id="pchev_${e.id}"></i>${e.fName} ${e.lName}</td>
                     <td style="color:#888;font-size:12px;">${e.title}</td>
                     <td>${e.type}</td>
-                    <td style="font-family:monospace;">$${m.gross.toFixed(2)}</td>
-                    <td style="font-family:monospace;color:var(--red);">-$${deductions.toFixed(2)}</td>
-                    <td style="font-family:monospace;font-weight:700;color:var(--mainGreen);">$${m.net.toFixed(2)}</td>
+                    <td>${hoursCell}</td>
+                    <td style="font-family:monospace;" id="pgross_${e.id}">$${m.gross.toFixed(2)}</td>
+                    <td style="font-family:monospace;color:var(--red);" id="pded_${e.id}">-$${deductions.toFixed(2)}</td>
+                    <td style="font-family:monospace;font-weight:700;color:var(--mainGreen);" id="pnet_${e.id}">$${m.net.toFixed(2)}</td>
+                </tr>
+                <tr id="pdetail_${e.id}" class="payroll-detail-row" style="display:none;">
+                    <td colspan="7"><div class="payroll-detail-inner" id="pdetail_inner_${e.id}">${buildDetailHTML(e, m)}</div></td>
                 </tr>`;
             }).join('');
 
@@ -1072,10 +1174,49 @@
                 '$' + totalNet.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
 
+        function togglePayrollDetail(empId) {
+            const detail = document.getElementById('pdetail_' + empId);
+            const chevron = document.getElementById('pchev_' + empId);
+            const isOpen = detail.style.display !== 'none';
+            detail.style.display = isOpen ? 'none' : 'table-row';
+            chevron.style.transform = isOpen ? '' : 'rotate(90deg)';
+        }
+
+        function updatePayrollRow(empId) {
+            const e = employees.find(x => x.id === empId);
+            const input = document.getElementById('hrs_' + empId);
+            const hrs = Math.max(0, parseFloat(input.value) || 0);
+            input.value = hrs;
+            const m = calcNetPay(e, hrs);
+            const deductions = m.fedTax + m.stateTax + m.fica + m.mCost + m.vCost;
+            document.getElementById('pgross_' + empId).innerText = '$' + m.gross.toFixed(2);
+            document.getElementById('pded_'   + empId).innerText = '-$' + deductions.toFixed(2);
+            document.getElementById('pnet_'   + empId).innerText = '$' + m.net.toFixed(2);
+            const detailInner = document.getElementById('pdetail_inner_' + empId);
+            if (detailInner) detailInner.innerHTML = buildDetailHTML(e, m);
+            recalcPayrollTotal();
+        }
+
+        function recalcPayrollTotal() {
+            const active = employees.filter(e => e.status === 'ACTIVE');
+            let total = 0;
+            active.forEach(e => {
+                const input = document.getElementById('hrs_' + e.id);
+                const hrs = input ? Math.max(0, parseFloat(input.value) || 0) : getPayrollHours(e);
+                total += calcNetPay(e, hrs).net;
+            });
+            document.getElementById('payrollTotal').innerText =
+                '$' + total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
         function submitPayroll() {
             const active = employees.filter(e => e.status === 'ACTIVE');
             let totalNet = 0;
-            active.forEach(e => { totalNet += calcNetPay(e).net; });
+            active.forEach(e => {
+                const input = document.getElementById('hrs_' + e.id);
+                const hrs = input ? Math.max(0, parseFloat(input.value) || 0) : getPayrollHours(e);
+                totalNet += calcNetPay(e, hrs).net;
+            });
 
             const run = {
                 date:  new Date().toLocaleDateString(),
