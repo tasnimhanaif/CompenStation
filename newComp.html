@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompenStation | Enterprise Payroll System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        /* === DESIGN SYSTEM (mirrors Frontend/) === */
+        :root {
+            --mainGreen: rgb(41, 87, 54);
+            --darkerGreen: rgb(59, 65, 50);
+            --red: rgb(178, 84, 66);
+            --vibrantGreen: rgb(109, 151, 48);
+            --blue: rgb(79, 121, 196);
+            --lightGreen: rgb(182, 207, 186);
+            --navWidth: 25%;
+            --headerHeight: 70px;
+            --buttonHeight: 50px;
+            --fontMain: 'Lora', serif;
+            --regularFontSize: 16px;
+            --smallFontSize: 14px;
+            --largeFontSize: 32px;
+            --xSmallFontSize: 12px;
+            --bg: #f0f2f1;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: var(--fontMain); color: var(--darkerGreen); background: var(--bg); }
+        .hidden { display: none !important; }
+
+        /* === AUTH OVERLAY === */
+        #authOverlay {
+            position: fixed; inset: 0;
+            background: rgba(59, 65, 50, 0.94);
+            z-index: 100;
+            display: flex; justify-content: center; align-items: center;
+            overflow-y: auto;
+        }
+        .auth-card {
+            background: white;
+            padding: 48px 56px;
+            width: 500px;
+        }
+        .auth-header { text-align: center; margin-bottom: 32px; }
+        .auth-logo {
+            width: 56px; height: 56px;
+            background: var(--mainGreen);
+            display: inline-flex; align-items: center; justify-content: center;
+            color: white; font-size: 20px; font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .auth-title { font-size: var(--largeFontSize); font-weight: 700; color: var(--mainGreen); }
+        .auth-subtitle { font-size: var(--smallFontSize); color: #888; margin-top: 4px; }
+        .demo-box {
+            background: #eef3ff; border: 1px solid #b3c4f0;
+            padding: 12px 16px; font-size: 11px; color: #2a4a9e;
+            line-height: 1.9; margin-bottom: 20px;
+        }
+        .auth-field {
+            width: 100%; height: var(--buttonHeight);
+            padding: 0 12px;
+            border: 2px solid var(--mainGreen);
+            font-family: var(--fontMain); font-size: var(--smallFontSize);
+            color: var(--darkerGreen); background: white;
+            display: block; margin-bottom: 14px; outline: none;
+        }
+        .auth-field:focus { border-color: var(--vibrantGreen); }
+        .auth-select {
+            width: 100%; height: var(--buttonHeight);
+            padding: 0 12px;
+            border: 2px solid var(--mainGreen);
+            font-family: var(--fontMain); font-size: var(--smallFontSize);
+            color: var(--darkerGreen); background: var(--lightGreen);
+            display: block; margin-bottom: 14px; outline: none; appearance: none;
+        }
+        .auth-btn {
+            width: 100%; height: var(--buttonHeight);
+            border: none; font-family: var(--fontMain);
+            font-size: var(--regularFontSize); font-weight: 700;
+            color: white; cursor: pointer; display: block; margin-top: 8px;
+        }
+        .auth-btn-green { background: var(--mainGreen); }
+        .auth-btn-green:hover { background: var(--darkerGreen); }
+        .auth-btn-blue { background: var(--blue); }
+        .auth-btn-blue:hover { filter: brightness(0.9); }
+        .auth-switch { font-size: var(--smallFontSize); text-align: center; margin-top: 20px; color: #666; }
+        .auth-link { color: var(--mainGreen); font-weight: 700; cursor: pointer; text-decoration: underline; }
+        #authError {
+            background: #ffe4e4; color: var(--red);
+            padding: 10px 14px; font-size: var(--smallFontSize);
+            text-align: center; margin-top: 12px;
+        }
+
+        /* === HEADER === */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%;
+            height: var(--headerHeight);
+            background: var(--mainGreen); color: white;
+            display: flex; align-items: center; justify-content: space-between;
+            z-index: 20;
+        }
+        #screen {
+            margin-left: calc(var(--navWidth) + 40px);
+            font-size: var(--regularFontSize);
+        }
+        #headerUser {
+            margin-right: 5%;
+            font-size: var(--regularFontSize);
+        }
+
+        /* === SIDEBAR === */
+        aside {
+            position: fixed; top: 0; left: 0;
+            width: var(--navWidth); height: 100vh;
+            background: white; z-index: 30;
+            display: flex; flex-direction: column;
+        }
+        .sidebar-brand {
+            height: var(--headerHeight);
+            display: flex; align-items: center; gap: 12px;
+            padding: 0 24px;
+            border-bottom: 1px solid var(--lightGreen);
+        }
+        .brand-mark {
+            width: 36px; height: 36px;
+            background: var(--mainGreen); color: white;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 14px; flex-shrink: 0;
+        }
+        .brand-name-label { font-weight: 700; font-size: var(--regularFontSize); color: var(--darkerGreen); }
+        nav { display: flex; flex-direction: column; justify-content: space-between; flex: 1; }
+        .nav-top { display: flex; flex-direction: column; }
+        .nav-link {
+            display: flex; align-items: center; gap: 14px;
+            height: var(--buttonHeight); padding: 0 24px;
+            font-family: var(--fontMain); font-size: var(--regularFontSize);
+            color: var(--darkerGreen); cursor: pointer;
+            border: none; background: white;
+            text-align: left; width: 100%; text-decoration: none;
+        }
+        .nav-link:hover { background: var(--lightGreen); }
+        .nav-link.active { background: var(--mainGreen); color: white; }
+        .nav-bottom { border-top: 1px solid var(--lightGreen); padding: 12px 0; }
+        .nav-user { display: flex; align-items: center; gap: 12px; padding: 8px 24px; margin-bottom: 4px; }
+        .nav-initials-circle {
+            width: 40px; height: 40px;
+            background: var(--mainGreen); color: white;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; flex-shrink: 0;
+        }
+        .nav-user-name { font-weight: 700; font-size: var(--smallFontSize); }
+        .nav-user-level { font-size: 10px; color: var(--vibrantGreen); font-weight: 700; }
+        .nav-logout {
+            display: flex; align-items: center; gap: 12px;
+            height: var(--buttonHeight); padding: 0 24px;
+            color: var(--red); font-family: var(--fontMain);
+            font-size: var(--regularFontSize); font-weight: 700;
+            cursor: pointer; border: none; background: white;
+            text-align: left; width: 100%;
+        }
+        .nav-logout:hover { background: #fff0f0; }
+
+        /* === MAIN === */
+        #app {
+            margin-left: var(--navWidth);
+            margin-top: var(--headerHeight);
+            padding: 32px 5%;
+            min-height: calc(100vh - var(--headerHeight));
+        }
+
+        /* === PAGES === */
+        .page { display: none; }
+        .page.active { display: block; animation: fadeIn 0.25s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* === SYSTEM ALERT === */
+        #sysAlert { padding: 14px 20px; font-size: var(--smallFontSize); font-weight: 700; margin-bottom: 24px; }
+        .alert-success { background: #d6e8da; color: var(--mainGreen); border: 1px solid var(--lightGreen); }
+        .alert-error { background: #ffe4e4; color: var(--red); border: 1px solid #f9b3b3; }
+
+        /* === PAGE HEADERS === */
+        .page-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; }
+        .page-title { font-size: var(--largeFontSize); font-weight: 700; color: var(--mainGreen); }
+        .page-subtitle { font-size: var(--smallFontSize); color: #888; margin-top: 4px; }
+        .page-actions { display: flex; gap: 12px; align-items: center; }
+
+        /* === BUTTONS === */
+        .btn {
+            height: var(--buttonHeight); padding: 0 24px;
+            font-family: var(--fontMain); font-size: var(--regularFontSize);
+            font-weight: 700; color: white; border: none; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .btn-primary { background: var(--mainGreen); }
+        .btn-primary:hover { background: var(--darkerGreen); }
+        .btn-secondary { background: var(--vibrantGreen); }
+        .btn-secondary:hover { filter: brightness(0.9); }
+        .btn-danger { background: var(--red); }
+        .btn-sm { height: 32px; padding: 0 12px; font-size: var(--xSmallFontSize); }
+        .btn-outline {
+            background: white; color: var(--darkerGreen);
+            border: 1px solid var(--lightGreen);
+        }
+        .btn-outline:hover { background: var(--lightGreen); }
+
+        /* === OUTLINE CONTAINER === */
+        .outline-container { border: 2px solid var(--darkerGreen); background: white; }
+
+        /* === SEARCH BAR === */
+        .search-bar {
+            display: flex; gap: 12px;
+            padding: 16px; background: white;
+            border-bottom: 2px solid var(--lightGreen);
+        }
+        .search-bar input, .search-bar select {
+            height: var(--buttonHeight); padding: 0 12px;
+            border: 2px solid var(--mainGreen);
+            font-family: var(--fontMain); font-size: var(--smallFontSize);
+            color: var(--darkerGreen); background: white; outline: none;
+        }
+        .search-bar input { flex: 1; }
+        .search-bar select { background: var(--lightGreen); appearance: none; padding-right: 12px; }
+        .search-bar input:focus, .search-bar select:focus { border-color: var(--vibrantGreen); }
+
+        /* === TABLES === */
+        table { width: 100%; border-collapse: collapse; }
+        th {
+            text-align: left; font-size: var(--xSmallFontSize);
+            text-transform: uppercase; letter-spacing: 0.08em;
+            color: var(--darkerGreen); border-bottom: 2px solid var(--darkerGreen);
+            padding: 12px 16px; background: white; font-weight: 700;
+            position: sticky; top: 0; z-index: 1;
+        }
+        td { padding: 12px 16px; border-bottom: 2px solid var(--lightGreen); font-size: var(--smallFontSize); }
+        tbody tr:hover td { background: var(--lightGreen); }
+
+        /* === STATUS BADGES === */
+        .badge { display: inline-block; padding: 2px 10px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+        .badge-active    { background: #d6e8da; color: var(--mainGreen); }
+        .badge-terminated{ background: #ffe4e4; color: var(--red); }
+        .badge-retired   { background: #fff7cd; color: #7a5c00; }
+        .badge-quit      { background: #f0f0f0; color: #555; }
+        .badge-deceased  { background: var(--darkerGreen); color: #f9fafb; }
+        .badge-disabled  { background: #e0e7ff; color: #3730a3; }
+
+        /* === DIRECTORY === */
+        .directory-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .dir-card { background: white; border: 2px solid var(--lightGreen); padding: 24px; }
+        .dir-card:hover { border-color: var(--mainGreen); }
+        .dir-name { font-weight: 700; color: var(--mainGreen); font-size: var(--regularFontSize); }
+        .dir-title { font-size: var(--xSmallFontSize); color: #888; margin-bottom: 16px; margin-top: 4px; }
+        .dir-info { display: flex; flex-direction: column; gap: 8px; }
+        .dir-row { display: flex; align-items: center; gap: 8px; font-size: var(--xSmallFontSize); }
+        .dir-row i { color: var(--mainGreen); }
+        .dir-row a { color: var(--blue); text-decoration: underline; font-size: var(--xSmallFontSize); }
+
+        /* === EMPLOYEE PORTAL === */
+        .portal-profile {
+            background: white; border: 2px solid var(--lightGreen);
+            padding: 32px; display: flex;
+            justify-content: space-between; align-items: center;
+            margin-bottom: 24px;
+        }
+        .portal-profile-left { display: flex; align-items: center; gap: 24px; }
+        .portal-avatar {
+            width: 72px; height: 72px;
+            background: var(--lightGreen); color: var(--mainGreen);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 28px; font-weight: 700;
+        }
+        .portal-emp-name { font-size: 28px; font-weight: 700; }
+        .portal-emp-title { font-size: var(--smallFontSize); color: #888; margin-bottom: 8px; margin-top: 4px; }
+        .portal-state-tag {
+            display: inline-block; padding: 4px 12px;
+            background: #eef3ff; color: var(--blue);
+            font-size: var(--xSmallFontSize); font-weight: 700;
+        }
+        .portal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .portal-card { background: white; border: 2px solid var(--lightGreen); padding: 24px; position: relative; }
+        .portal-card-title {
+            font-weight: 700; font-size: var(--regularFontSize);
+            color: var(--darkerGreen); margin-bottom: 16px;
+            display: flex; align-items: center; gap: 8px;
+            border-bottom: 1px solid var(--lightGreen); padding-bottom: 12px;
+        }
+        .benefit-block {
+            background: #f8faf8; border: 1px solid var(--lightGreen);
+            padding: 16px; margin-bottom: 12px;
+        }
+        .benefit-label { font-weight: 700; font-size: var(--smallFontSize); margin-bottom: 8px; }
+        .benefit-select {
+            width: 100%; height: 44px; padding: 0 12px;
+            border: 2px solid var(--mainGreen);
+            font-family: var(--fontMain); font-size: var(--smallFontSize);
+            background: white; color: var(--darkerGreen); outline: none;
+        }
+        .benefit-select:focus { border-color: var(--vibrantGreen); }
+        #partTimeWarning {
+            background: #fff7cd; border: 1px solid #e8d068;
+            color: #7a5c00; padding: 12px 14px;
+            font-size: var(--xSmallFontSize); margin-top: 8px;
+        }
+        .pay-row-gross { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 2px solid var(--lightGreen); font-size: var(--regularFontSize); }
+        .pay-row-deduct { display: flex; justify-content: space-between; padding: 6px 0 6px 20px; font-size: var(--xSmallFontSize); color: var(--red); }
+        .pay-row-benefit { display: flex; justify-content: space-between; padding: 6px 0 6px 20px; font-size: var(--xSmallFontSize); color: var(--blue); }
+        .pay-row-net { display: flex; justify-content: space-between; padding: 14px 0; border-top: 2px solid var(--mainGreen); font-size: 20px; font-weight: 700; color: var(--mainGreen); }
+        #printError {
+            position: absolute; inset: 0;
+            background: rgba(255,255,255,0.95);
+            border: 2px solid var(--red);
+            color: var(--red); font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; padding: 24px; font-size: var(--smallFontSize);
+        }
+
+        /* === CHECK PRINTER === */
+        .check-wrapper { max-width: 720px; margin: 0 auto; }
+        .check-doc { border: 2px solid var(--darkerGreen); padding: 32px; background: #fffef8; font-family: var(--fontMain); }
+        .check-doc-header {
+            display: flex; justify-content: space-between; align-items: flex-start;
+            border-bottom: 2px solid var(--darkerGreen);
+            padding-bottom: 16px; margin-bottom: 24px;
+        }
+        .check-co-name { font-size: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+        .check-co-sub { font-size: 11px; font-family: monospace; color: #888; margin-top: 4px; }
+        .check-no { font-family: monospace; font-size: 18px; font-weight: 700; color: var(--red); }
+        .check-date-label { font-size: var(--smallFontSize); font-weight: 700; border-bottom: 1px solid var(--darkerGreen); padding-bottom: 2px; margin-top: 8px; display: inline-block; }
+        .check-amount-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px; gap: 16px; }
+        .check-words-group { flex: 1; }
+        .check-words-label { font-size: 10px; font-weight: 700; text-transform: uppercase; margin-bottom: 4px; }
+        .check-words { border-bottom: 1px solid var(--darkerGreen); font-style: italic; font-size: 16px; padding: 4px 8px; background: rgba(182,207,186,0.15); }
+        .check-amount-box { width: 180px; border: 2px solid var(--darkerGreen); padding: 8px 12px; font-family: monospace; font-size: 22px; font-weight: 700; display: flex; }
+        .check-dollar-sign { color: #aaa; margin-right: auto; }
+        .check-payee-row { display: flex; align-items: flex-end; gap: 16px; margin-bottom: 48px; }
+        .check-order-label { font-size: 10px; font-weight: 700; line-height: 1.5; white-space: nowrap; }
+        .check-payee-block { flex: 1; border-bottom: 1px solid var(--darkerGreen); padding-bottom: 4px; }
+        .check-payee-name { font-size: 20px; font-weight: 700; text-transform: uppercase; }
+        .check-payee-addr { font-size: 11px; font-family: monospace; color: #888; margin-top: 4px; }
+        .check-footer { display: flex; justify-content: space-between; align-items: flex-end; }
+        .check-memo-block { width: 220px; }
+        .check-memo-lbl { font-size: 9px; font-weight: 700; display: block; margin-bottom: 2px; }
+        .check-memo-line { font-family: monospace; font-size: 11px; border-bottom: 1px solid var(--darkerGreen); padding-bottom: 2px; display: block; }
+        .check-sig-block { width: 220px; text-align: center; position: relative; min-height: 50px; }
+        .check-sig-name { font-style: italic; font-size: 24px; color: var(--blue); position: absolute; bottom: 8px; left: 0; right: 0; opacity: 0.8; pointer-events: none; }
+        .check-sig-lbl { font-size: 9px; font-weight: 700; text-transform: uppercase; border-top: 1px solid var(--darkerGreen); padding-top: 4px; position: absolute; bottom: 0; left: 0; right: 0; }
+        .check-micr { margin-top: 24px; font-family: monospace; font-size: 18px; letter-spacing: 0.15em; text-align: center; border-top: 2px dashed var(--lightGreen); padding-top: 16px; }
+        .check-stub { border: 1px solid var(--lightGreen); padding: 20px; font-family: monospace; font-size: 11px; background: #f8faf8; margin-top: 24px; }
+        .check-stub-title { font-weight: 700; border-bottom: 1px solid var(--darkerGreen); padding-bottom: 8px; margin-bottom: 12px; }
+        .stub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; line-height: 1.8; }
+        .check-print-actions { display: flex; justify-content: center; gap: 16px; margin-top: 32px; }
+
+        /* === MODAL === */
+        .modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.6); z-index: 900;
+            display: none; justify-content: center; align-items: center;
+            backdrop-filter: blur(2px);
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-box { background: white; padding: 40px; width: 640px; max-height: 90vh; overflow-y: auto; }
+        .modal-title { font-size: 28px; font-weight: 700; color: var(--mainGreen); margin-bottom: 24px; }
+        .form-row   { display: grid; grid-template-columns: 1fr 1fr;       gap: 16px; margin-bottom: 16px; }
+        .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr;   gap: 16px; margin-bottom: 16px; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #888; }
+        .form-input {
+            height: var(--buttonHeight); padding: 0 12px;
+            border: 2px solid var(--mainGreen);
+            font-family: var(--fontMain); font-size: var(--smallFontSize);
+            color: var(--darkerGreen); background: white; outline: none;
+        }
+        .form-input:focus { border-color: var(--vibrantGreen); }
+        .form-select {
+            height: var(--buttonHeight); padding: 0 12px;
+            border: 2px solid var(--mainGreen);
+            font-family: var(--fontMain); font-size: var(--smallFontSize);
+            color: var(--darkerGreen); background: var(--lightGreen);
+            outline: none; appearance: none;
+        }
+        .form-select:focus { border-color: var(--vibrantGreen); }
+        .modal-actions { display: flex; justify-content: flex-end; gap: 16px; margin-top: 32px; }
+        .btn-cancel {
+            height: var(--buttonHeight); padding: 0 24px;
+            background: white; border: 1px solid var(--lightGreen);
+            color: var(--darkerGreen); font-family: var(--fontMain);
+            font-size: var(--regularFontSize); cursor: pointer;
+        }
+
+        /* === PRINT === */
+        @media print {
+            body * { visibility: hidden; }
+            #checkPrinter, #checkPrinter * { visibility: visible; }
+            #checkPrinter { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 0; }
+            .no-print { display: none !important; }
+            header, aside { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- AUTH OVERLAY -->
+    <div id="authOverlay">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-logo">CS</div>
+                <h1 class="auth-title">CompenStation</h1>
+                <p class="auth-subtitle" id="authSubtitle">The Station for Compensation</p>
+            </div>
+
+            <div id="loginForm">
+                <input type="text" id="username" class="auth-field" placeholder="Username">
+                <input type="password" id="password" class="auth-field" placeholder="Password">
+                <button onclick="handleLogin()" class="auth-btn auth-btn-green">Login</button>
+                <p class="auth-switch">New here? <span class="auth-link" onclick="toggleAuth('register')">Create Account</span></p>
+            </div>
+
+            <div id="registerForm" class="hidden">
+                <input type="text" id="regUser" class="auth-field" placeholder="Choose Username">
+                <input type="password" id="regPass" class="auth-field" placeholder="Choose Password">
+                <select id="regLevel" class="auth-select">
+                    <option value="1">Employee</option>
+                    <option value="2">Visitor</option>
+                </select>
+                <button onclick="handleRegister()" class="auth-btn auth-btn-blue">Register</button>
+                <p class="auth-switch">Have an account? <span class="auth-link" onclick="toggleAuth('login')">Login</span></p>
+            </div>
+
+            <div id="authError" class="hidden"></div>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header id="appHeader" class="hidden">
+        <p id="screen">Dashboard</p>
+        <p id="headerUser">User</p>
+    </header>
+
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="hidden">
+        <div class="sidebar-brand">
+            <div class="brand">
+                <img class="logo" src="img/logo.png" alt="logo">
+            </div>
+            <span class="brand-name-label">HR Portal</span>
+        </div>
+        <nav>
+            <div class="nav-top" id="navMenu"></div>
+            <div class="nav-bottom">
+                <div class="nav-user">
+                    <div class="nav-initials-circle" id="navInitials">U</div>
+                    <div>
+                        <div class="nav-user-name" id="navUserName">User</div>
+                        <!-- <div class="nav-user-level" id="securityLevelTag"></div> -->
+                    </div>
+                </div>
+                <button onclick="logout()" class="nav-logout">
+                    <i class='bx bxs-log-out'></i>Logout
+                </button>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div id="app" class="hidden">
+
+        <div id="sysAlert" class="hidden"></div>
+
+        <!-- LEVEL 3: HR REPOSITORY -->
+        <section id="hrRepository" class="page">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Employees</h1>
+                </div>
+                <div class="page-actions">
+                    <button onclick="runPayroll()" class="btn btn-secondary"><i class='bx bxs-coin-stack'></i> Run Payroll</button>
+                    <button onclick="openEmployeeModal()" class="btn btn-primary">Add Employee</button>
+                </div>
+            </div>
+            <div class="outline-container">
+                <div class="search-bar">
+                    <input type="text" id="repoSearch" placeholder="Search ID, Name, or Role..." onkeyup="filterRepo()">
+                    <select id="statusFilter" onchange="filterRepo()">
+                        <option value="ALL">All Statuses</option>
+                        <option value="ACTIVE">Active</option>
+                        <option value="TERMINATED">Terminated</option>
+                        <option value="RETIRED">Retired</option>
+                        <option value="QUIT">Quit</option>
+                        <option value="DECEASED">Deceased</option>
+                        <option value="DISABLED">Disabled</option>
+                    </select>
+                </div>
+                <div style="overflow-x:auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th><th>Employee</th><th>Role / Location</th>
+                                <th>Status</th><th>Gross / Yr</th><th>Net Bi-Wk</th><th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="repoBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- LEVEL 2/1: DIRECTORY -->
+        <section id="externalDirectory" class="page">
+            <div class="page-header">
+                <h1 class="page-title">Corporate Directory</h1>
+            </div>
+            <div class="directory-grid" id="directoryGrid"></div>
+        </section>
+
+        <!-- LEVEL 1: EMPLOYEE SELF-SERVICE -->
+        <section id="employeePortal" class="page">
+            <div class="portal-profile">
+                <div class="portal-profile-left">
+                    <div class="portal-avatar" id="portalInitials">--</div>
+                    <div>
+                        <h2 class="portal-emp-name" id="empPortalName">Name</h2>
+                        <p class="portal-emp-title" id="empPortalTitle">Title</p>
+                        <button onclick="openProfileEdit()" class="btn btn-outline btn-sm">Edit Personal Info</button>
+                    </div>
+                </div>
+                <div>
+                    <p style="font-size:10px;font-weight:700;color:#888;text-transform:uppercase;margin-bottom:6px;">State Config</p>
+                    <span id="empStateTag" class="portal-state-tag">--</span>
+                </div>
+            </div>
+
+            <div class="portal-grid">
+                <div class="portal-card">
+                    <div class="portal-card-title"><i class='bx bxs-shield-plus'></i> Health &amp; Benefit Elections</div>
+                    <div class="benefit-block">
+                        <p class="benefit-label">Medical Plan</p>
+                        <select id="selMedical" class="benefit-select" onchange="updateSelfBenefits()">
+                            <option value="none">Opt-Out ($0)</option>
+                            <option value="ppo">Empire BlueCross PPO ($250/pay)</option>
+                            <option value="hmo">UnitedHealthcare HMO ($120/pay)</option>
+                        </select>
+                    </div>
+                    <div class="benefit-block">
+                        <p class="benefit-label">Optical/Vision Plan</p>
+                        <select id="selVision" class="benefit-select" onchange="updateSelfBenefits()">
+                            <option value="none">Opt-Out ($0)</option>
+                            <option value="standard">Standard Vision - VSP ($20/pay)</option>
+                            <option value="premium">Premium Vision - LensCrafters ($45/pay)</option>
+                        </select>
+                    </div>
+                    <div id="partTimeWarning" class="hidden">
+                        <b>Notice:</b> Based on state law, part-time employees working under 30 hrs/wk may be ineligible for subsidized benefits. Premium costs shown are unsubsidized.
+                    </div>
+                </div>
+
+                <div class="portal-card">
+                    <div class="portal-card-title">Pay Breakdown (Bi-Weekly)</div>
+                    <div id="payBreakdown"></div>
+                    <div id="printError" class="hidden">
+                        FISCAL LOCK: Cannot process check. Employee status is not ACTIVE. Contact HR.
+                    </div>
+                    <button id="btnPrint" onclick="prepareCheck()" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:24px;">
+                        Generate Official Paycheck
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CHECK PRINTER -->
+        <section id="checkPrinter" class="page">
+            <div class="check-wrapper">
+                <div class="check-doc">
+                    <div class="check-doc-header">
+                        <div>
+                            <div class="check-co-name">CompenStation HRIS</div>
+                            <div class="check-co-sub">Enterprise Payroll Disbursement</div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div class="check-no">No. <span id="chkNum">0000</span></div>
+                            <div class="check-date-label">May 11, 2026</div>
+                        </div>
+                    </div>
+
+                    <div class="check-amount-row">
+                        <div class="check-words-group">
+                            <div class="check-words-label">Pay Exactly</div>
+                            <div id="chkWords" class="check-words">---</div>
+                        </div>
+                        <div class="check-amount-box">
+                            <span class="check-dollar-sign">$</span><span id="chkAmt">0.00</span>
+                        </div>
+                    </div>
+
+                    <div class="check-payee-row">
+                        <div class="check-order-label">TO THE<br>ORDER OF</div>
+                        <div class="check-payee-block">
+                            <div id="chkName" class="check-payee-name">---</div>
+                            <div id="chkAddr" class="check-payee-addr">---</div>
+                        </div>
+                    </div>
+
+                    <div class="check-footer">
+                        <div class="check-memo-block">
+                            <span class="check-memo-lbl">MEMO</span>
+                            <span class="check-memo-line">BI-WEEKLY NET COMP</span>
+                        </div>
+                        <div class="check-sig-block">
+                            <span class="check-sig-name">System Admin</span>
+                            <div class="check-sig-lbl">Authorized Signature</div>
+                        </div>
+                    </div>
+
+                    <div class="check-micr">
+                        &#x2446; 021000021 &#x2446; <span id="chkRouting">00012345678</span> &#x2448; <span id="chkNumBtm">0000</span>
+                    </div>
+                </div>
+
+                <div class="check-stub no-print">
+                    <div class="check-stub-title">EMPLOYEE EARNINGS STATEMENT (RETAIN FOR RECORDS)</div>
+                    <div class="stub-grid" id="stubDetails"></div>
+                </div>
+
+                <div class="check-print-actions no-print">
+                    <button onclick="window.print()" class="btn btn-secondary"><i class='bx bx-printer'></i> Send to Printer</button>
+                    <button onclick="showPage('employeePortal')" class="btn btn-outline" style="color:var(--darkerGreen);">Return</button>
+                </div>
+            </div>
+        </section>
+
+    </div><!-- /#app -->
+
+    <!-- ADMIN MODAL -->
+    <div id="adminModal" class="modal-overlay">
+        <div class="modal-box">
+            <h2 id="modalTitle" class="modal-title">Employee Record</h2>
+            <form id="empForm" onsubmit="saveEmployee(event)">
+                <input type="hidden" id="formEmpId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">First Name</label>
+                        <input id="fName" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Last Name</label>
+                        <input id="lName" class="form-input" required>
+                    </div>
+                </div>
+                <div class="form-row-3">
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <select id="status" class="form-select">
+                            <option value="ACTIVE">ACTIVE</option>
+                            <option value="TERMINATED">TERMINATED</option>
+                            <option value="RETIRED">RETIRED</option>
+                            <option value="QUIT">QUIT</option>
+                            <option value="DECEASED">DECEASED</option>
+                            <option value="DISABLED">DISABLED</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tax State</label>
+                        <select id="state" class="form-select">
+                            <option value="NY">NY</option>
+                            <option value="NJ">NJ</option>
+                            <option value="CT">CT</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Pay Type</label>
+                        <select id="type" class="form-select">
+                            <option value="Salary">Full-Time (Salary)</option>
+                            <option value="Hourly">Part-Time (Hourly)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Job Title</label>
+                        <input id="title" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Base Pay (Annual / Hourly Rate)</label>
+                        <input type="number" id="pay" class="form-input" required>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" onclick="closeModal('adminModal')" class="btn-cancel">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Record</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        /* --- 1. CORE DATA & STATE --- */
+        const TAX_RATES = { NY: 0.065, NJ: 0.0637, CT: 0.0699, FED: 0.22, FICA: 0.0765 };
+        const MED_COSTS = { none: 0, ppo: 250, hmo: 120 };
+        const VIS_COSTS = { none: 0, standard: 20, premium: 45 };
+
+        let users = {
+            'admin':    { pass: 'admin123', level: 3, empId: 1001 },
+            'employee': { pass: 'emp123',   level: 1, empId: 1001 },
+            'visitor':  { pass: 'vis123',   level: 2, empId: null }
+        };
+
+        let employees = [];
+        let currentUser = null;
+        let currentEmpRecord = null;
+
+        function initData() {
+            employees = [
+                { id: 1001, fName: "Jane", lName: "Doe", status: "ACTIVE", level: 1, title: "Senior Systems Architect", pay: 145000, type: "Salary", state: "NY", room: "A-402", phone: "212-555-0192", email: "jdoe@compenstation.com", medPlan: 'ppo', visPlan: 'standard' },
+                { id: 1002, fName: "Sarah",  lName: "Vance",  status: "TERMINATED", level: 1, title: "Project Manager", pay: 92000, type: "Salary", state: "NJ", room: "B-201", phone: "201-555-0482", email: "svance@compenstation.com", medPlan: 'none', visPlan: 'none' },
+                { id: 1003, fName: "James",  lName: "Miller", status: "RETIRED", level: 1, title: "Operations Director", pay: 110000, type: "Salary", state: "CT", room: "C-105", phone: "860-555-0101", email: "jmiller@compenstation.com", medPlan: 'hmo', visPlan: 'none' }
+            ];
+            const statuses = ["ACTIVE", "ACTIVE", "ACTIVE", "QUIT", "DECEASED", "DISABLED"];
+            const states   = ["NY", "NJ", "CT"];
+            for (let i = 4; i <= 50; i++) {
+                const isPT = Math.random() > 0.8;
+                employees.push({
+                    id: 1000 + i,
+                    fName: "Staff_" + i, lName: "Employee",
+                    status: statuses[Math.floor(Math.random() * statuses.length)],
+                    level: 1,
+                    title: isPT ? "Part-Time Clerk" : "Associate " + i,
+                    pay:   isPT ? 25 : Math.floor(Math.random() * (120000 - 45000) + 45000),
+                    type:  isPT ? "Hourly" : "Salary",
+                    state: states[Math.floor(Math.random() * 3)],
+                    room:  "R-" + (100 + i),
+                    phone: "555-000-" + (1000 + i),
+                    email: `user${i}@compenstation.com`,
+                    medPlan: 'none', visPlan: 'none'
+                });
+            }
+        }
+
+        /* --- 2. MATH ENGINE --- */
+        function calcNetPay(emp) {
+            try {
+                let grossBiWeekly = emp.type === "Salary" ? emp.pay / 26 : emp.pay * 40;
+                const sRate    = TAX_RATES[emp.state] || 0.05;
+                const fedTax   = grossBiWeekly * TAX_RATES.FED;
+                const stateTax = grossBiWeekly * sRate;
+                const fica     = grossBiWeekly * TAX_RATES.FICA;
+                const mCost    = MED_COSTS[emp.medPlan] || 0;
+                const vCost    = VIS_COSTS[emp.visPlan] || 0;
+                const net      = grossBiWeekly - fedTax - stateTax - fica - mCost - vCost;
+                return { gross: grossBiWeekly, fedTax, stateTax, fica, mCost, vCost, net: Math.max(0, net) };
+            } catch(e) {
+                console.error("Calculation Error", e);
+                return { gross: 0, fedTax: 0, stateTax: 0, fica: 0, mCost: 0, vCost: 0, net: 0 };
+            }
+        }
+
+        /* --- 3. AUTHENTICATION --- */
+        function toggleAuth(mode) {
+            document.getElementById('loginForm').classList.toggle('hidden', mode === 'register');
+            document.getElementById('registerForm').classList.toggle('hidden', mode === 'login');
+            document.getElementById('authError').classList.add('hidden');
+            document.getElementById('authSubtitle').innerText = mode === 'login' ? 'Secure Enterprise Login' : 'Create Access Profile';
+        }
+
+        function handleLogin() {
+            const u   = document.getElementById('username').value.toLowerCase();
+            const p   = document.getElementById('password').value;
+            const err = document.getElementById('authError');
+            if (users[u] && users[u].pass === p) {
+                currentUser = users[u];
+                currentUser.username = u;
+                currentEmpRecord = currentUser.empId ? employees.find(e => e.id === currentUser.empId) : null;
+                initApp();
+            } else {
+                err.innerText = "Error 401: Invalid Credentials. Access Denied.";
+                err.classList.remove('hidden');
+            }
+        }
+
+        function handleRegister() {
+            const u   = document.getElementById('regUser').value.toLowerCase();
+            const p   = document.getElementById('regPass').value;
+            const lvl = parseInt(document.getElementById('regLevel').value);
+            const err = document.getElementById('authError');
+            if (!u || !p) { err.innerText = "Fields required."; err.classList.remove('hidden'); return; }
+            if (users[u]) { err.innerText = "Username exists."; err.classList.remove('hidden'); return; }
+            users[u] = { pass: p, level: lvl, empId: lvl === 1 ? 1001 : null };
+            toggleAuth('login');
+            showAlert("Account created successfully. Please login.", "success");
+        }
+
+        function initApp() {
+            document.getElementById('authOverlay').classList.add('hidden');
+            document.getElementById('app').classList.remove('hidden');
+            document.getElementById('sidebar').classList.remove('hidden');
+            document.getElementById('appHeader').classList.remove('hidden');
+
+            const menu = document.getElementById('navMenu');
+            let links = '';
+            if ([1].includes(currentUser.level)) {
+                links += `<a onclick="showPage('employeePortal')" class="nav-link" data-page="employeePortal"><i class='bx bxs-user-circle'></i> My Pay &amp; Benefits</a>`;
+            }
+            links += `<a onclick="showPage('externalDirectory')" class="nav-link" data-page="externalDirectory"><i class='bx bxs-business'></i> Corporate Directory</a>`;
+            if (currentUser.level === 3) {
+                links += `<a onclick="showPage('hrRepository')" class="nav-link" data-page="hrRepository"><i class='bx bxs-data'></i> Employees</a>`;
+            }
+            menu.innerHTML = links;
+
+            const uname = currentUser.username.toUpperCase();
+            document.getElementById('navUserName').innerText  = uname;
+            document.getElementById('headerUser').innerText   = uname;
+            document.getElementById('navInitials').innerText  = currentUser.username.charAt(0).toUpperCase();
+            // document.getElementById('securityLevelTag').innerText = `Level ${currentUser.level} Access`;
+
+            const startPage = currentUser.level === 3 ? 'hrRepository' : (currentUser.level === 1 ? 'employeePortal' : 'externalDirectory');
+            showPage(startPage);
+        }
+
+        /* --- 4. VIEW LOGIC --- */
+        const PAGE_NAMES = {
+            hrRepository:      'Employees',
+            externalDirectory: 'Corporate Directory',
+            employeePortal:    'My Pay & Benefits',
+            checkPrinter:      'Paycheck'
+        };
+
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(l => {
+                l.classList.toggle('active', l.dataset.page === id);
+            });
+            const screenEl = document.getElementById('screen');
+            if (screenEl) screenEl.innerText = PAGE_NAMES[id] || id;
+
+            if (id === 'hrRepository')      renderRepo();
+            if (id === 'externalDirectory') renderDirectory();
+            if (id === 'employeePortal')    renderEmployeePortal();
+        }
+
+        function renderRepo(list = employees) {
+            try {
+                document.getElementById('repoBody').innerHTML = list.map(e => {
+                    const m = calcNetPay(e);
+                    return `
+                    <tr>
+                        <td style="font-family:monospace;color:#aaa;">#${e.id}</td>
+                        <td style="font-weight:700;color:var(--mainGreen);">${e.fName} ${e.lName}</td>
+                        <td>${e.title}<br><span style="color:#888;font-size:11px;">${e.state} &mdash; Rm ${e.room}</span></td>
+                        <td><span class="badge badge-${e.status.toLowerCase()}">${e.status}</span></td>
+                        <td style="font-family:monospace;">$${e.type === 'Salary' ? e.pay.toLocaleString() : e.pay + '/hr'}</td>
+                        <td style="font-family:monospace;font-weight:700;">$${m.net.toFixed(2)}</td>
+                        <td><button onclick="openEmployeeModal(${e.id})" class="btn btn-outline btn-sm">Modify</button></td>
+                    </tr>`;
+                }).join('');
+            } catch(e) { console.error("Repo Render Error", e); }
+        }
+
+        function filterRepo() {
+            const term = document.getElementById('repoSearch').value.toLowerCase();
+            const stat = document.getElementById('statusFilter').value;
+            const filtered = employees.filter(e => {
+                const matchTerm = e.fName.toLowerCase().includes(term) || e.lName.toLowerCase().includes(term) ||
+                                  e.title.toLowerCase().includes(term) || e.id.toString().includes(term);
+                const matchStat = stat === "ALL" || e.status === stat;
+                return matchTerm && matchStat;
+            });
+            renderRepo(filtered);
+        }
+
+        function openEmployeeModal(id = null) {
+            document.getElementById('adminModal').classList.add('active');
+            if (id) {
+                const e = employees.find(x => x.id === id);
+                document.getElementById('modalTitle').innerText = "Edit Employee";
+                document.getElementById('formEmpId').value = e.id;
+                ['fName','lName','status','state','type','title','pay'].forEach(k => document.getElementById(k).value = e[k]);
+            } else {
+                document.getElementById('modalTitle').innerText = "Register New Hire";
+                document.getElementById('empForm').reset();
+                document.getElementById('formEmpId').value = "";
+            }
+        }
+
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        function saveEmployee(e) {
+            e.preventDefault();
+            try {
+                const idStr = document.getElementById('formEmpId').value;
+                const isNew = !idStr;
+                const data = {
+                    fName:  document.getElementById('fName').value,
+                    lName:  document.getElementById('lName').value,
+                    status: document.getElementById('status').value,
+                    state:  document.getElementById('state').value,
+                    type:   document.getElementById('type').value,
+                    title:  document.getElementById('title').value,
+                    pay:    parseFloat(document.getElementById('pay').value)
+                };
+                if (isNew) {
+                    const newId = 1000 + employees.length + 1;
+                    employees.push({ id: newId, ...data, level: 1, room: "TBD", phone: "TBD", email: `new${newId}@compenstation.com`, medPlan: 'none', visPlan: 'none' });
+                    showAlert(`Employee ${data.fName} added. ID: ${newId}`, "success");
+                } else {
+                    Object.assign(employees.find(x => x.id === parseInt(idStr)), data);
+                    showAlert(`Record for ID ${idStr} updated.`, "success");
+                }
+                closeModal('adminModal');
+                renderRepo();
+            } catch(err) { showAlert("Error saving record.", "error"); }
+        }
+
+        function renderDirectory() {
+            document.getElementById('directoryGrid').innerHTML = employees.filter(e => e.status === "ACTIVE").map(e => `
+                <div class="dir-card">
+                    <p class="dir-name">${e.fName} ${e.lName}</p>
+                    <p class="dir-title">${e.title}</p>
+                    <div class="dir-info">
+                        <div class="dir-row"><i class='bx bxs-map'></i> Loc: ${e.state} HQ / Rm ${e.room}</div>
+                        <div class="dir-row"><i class='bx bxs-phone'></i> ${e.phone}</div>
+                        <div class="dir-row"><i class='bx bxs-envelope'></i> <a href="mailto:${e.email}">${e.email}</a></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderEmployeePortal() {
+            if (!currentEmpRecord) return;
+            const e = currentEmpRecord;
+            document.getElementById('empPortalName').innerText  = `${e.fName} ${e.lName}`;
+            document.getElementById('empPortalTitle').innerText = e.title;
+            document.getElementById('portalInitials').innerText = e.fName[0] + e.lName[0];
+            document.getElementById('empStateTag').innerText    = `TAX: ${e.state}`;
+            document.getElementById('selMedical').value = e.medPlan;
+            document.getElementById('selVision').value  = e.visPlan;
+            document.getElementById('partTimeWarning').classList.toggle('hidden', e.type !== 'Hourly');
+            updatePayBreakdown();
+        }
+
+        function updateSelfBenefits() {
+            if (!currentEmpRecord) return;
+            currentEmpRecord.medPlan = document.getElementById('selMedical').value;
+            currentEmpRecord.visPlan = document.getElementById('selVision').value;
+            updatePayBreakdown();
+            showAlert("Benefit elections updated successfully.", "success");
+        }
+
+        function updatePayBreakdown() {
+            if (!currentEmpRecord) return;
+            const m = calcNetPay(currentEmpRecord);
+            const isTerminated = currentEmpRecord.status !== "ACTIVE";
+            document.getElementById('payBreakdown').innerHTML = `
+                <div class="pay-row-gross"><span>Gross Earnings</span><b>$${m.gross.toFixed(2)}</b></div>
+                <div class="pay-row-deduct"><span>Fed Tax (22%)</span><b>-$${m.fedTax.toFixed(2)}</b></div>
+                <div class="pay-row-deduct"><span>State Tax (${currentEmpRecord.state})</span><b>-$${m.stateTax.toFixed(2)}</b></div>
+                <div class="pay-row-deduct"><span>FICA</span><b>-$${m.fica.toFixed(2)}</b></div>
+                <div class="pay-row-benefit"><span>Medical Deduction</span><b>-$${m.mCost.toFixed(2)}</b></div>
+                <div class="pay-row-benefit"><span>Vision Deduction</span><b>-$${m.vCost.toFixed(2)}</b></div>
+                <div class="pay-row-net"><span>NET PAY</span><b>$${m.net.toFixed(2)}</b></div>
+            `;
+            document.getElementById('btnPrint').disabled = isTerminated;
+            document.getElementById('btnPrint').style.opacity = isTerminated ? '0.5' : '1';
+            document.getElementById('printError').classList.toggle('hidden', !isTerminated);
+        }
+
+        function prepareCheck() {
+            if (currentEmpRecord.status !== "ACTIVE") return;
+            const e = currentEmpRecord;
+            const m = calcNetPay(e);
+            const num = Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('chkNum').innerText    = num;
+            document.getElementById('chkNumBtm').innerText = num;
+            document.getElementById('chkAmt').innerText    = m.net.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('chkName').innerText   = `${e.fName} ${e.lName}`;
+            document.getElementById('chkAddr').innerText   = `ID: ${e.id} | LOC: ${e.state}`;
+            document.getElementById('chkWords').innerText  = "EXACTLY " + convertNumberToWords(Math.floor(m.net)) + " DOLLARS AND " + Math.round((m.net % 1) * 100) + "/100";
+            document.getElementById('stubDetails').innerHTML = `
+                <div><p><b>GROSS:</b> $${m.gross.toFixed(2)}</p><p>FED: -$${m.fedTax.toFixed(2)}</p><p>STATE: -$${m.stateTax.toFixed(2)}</p></div>
+                <div><p>FICA: -$${m.fica.toFixed(2)}</p><p>MED: -$${m.mCost.toFixed(2)}</p><p>VIS: -$${m.vCost.toFixed(2)}</p><p style="font-weight:700;border-top:1px solid var(--darkerGreen);margin-top:4px;padding-top:4px;">NET: $${m.net.toFixed(2)}</p></div>
+            `;
+            showPage('checkPrinter');
+        }
+
+        function runPayroll() {
+            const activeCount = employees.filter(e => e.status === "ACTIVE").length;
+            showAlert(`Success: Payroll processed for ${activeCount} active employees. General Ledger updated.`, "success");
+        }
+
+        function showAlert(msg, type) {
+            const box = document.getElementById('sysAlert');
+            box.innerText = msg;
+            box.className = type === 'success' ? 'alert-success' : 'alert-error';
+            box.classList.remove('hidden');
+            setTimeout(() => box.classList.add('hidden'), 4000);
+        }
+
+        function logout() { location.reload(); }
+
+        function openProfileEdit() { /* placeholder */ }
+
+        function convertNumberToWords(amount) {
+            if (amount < 1000) return amount.toString();
+            const thousands = Math.floor(amount / 1000);
+            const remainder = amount % 1000;
+            return `${thousands} THOUSAND ${remainder > 0 ? remainder : ''}`.trim();
+        }
+
+        initData();
+    </script>
+</body>
+</html>
