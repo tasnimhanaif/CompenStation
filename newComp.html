@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
     <style>
-        /* === DESIGN SYSTEM (mirrors Frontend/) === */
         :root {
             --mainGreen: rgb(41, 87, 54);
             --darkerGreen: rgb(59, 65, 50);
@@ -30,7 +29,7 @@
         body { font-family: var(--fontMain); color: var(--darkerGreen); background: var(--bg); }
         .hidden { display: none !important; }
 
-        /* === AUTH OVERLAY === */
+        /* === AUTH === */
         #authOverlay {
             position: fixed; inset: 0;
             background: rgba(59, 65, 50, 0.94);
@@ -38,29 +37,19 @@
             display: flex; justify-content: center; align-items: center;
             overflow-y: auto;
         }
-        .auth-card {
-            background: white;
-            padding: 48px 56px;
-            width: 500px;
-        }
+        .auth-card { background: white; padding: 48px 56px; width: 500px; }
         .auth-header { text-align: center; margin-bottom: 32px; }
         .auth-logo {
-            width: 56px; height: 56px;
-            background: var(--mainGreen);
+            width: 72px; height: 72px;
             display: inline-flex; align-items: center; justify-content: center;
-            color: white; font-size: 20px; font-weight: 700;
-            margin-bottom: 12px;
+            margin-bottom: 12px; overflow: hidden;
         }
+        /* TODO: place logo.png in the img/ folder */
+        .auth-logo img { width: 100%; height: 100%; object-fit: contain; }
         .auth-title { font-size: var(--largeFontSize); font-weight: 700; color: var(--mainGreen); }
         .auth-subtitle { font-size: var(--smallFontSize); color: #888; margin-top: 4px; }
-        .demo-box {
-            background: #eef3ff; border: 1px solid #b3c4f0;
-            padding: 12px 16px; font-size: 11px; color: #2a4a9e;
-            line-height: 1.9; margin-bottom: 20px;
-        }
         .auth-field {
-            width: 100%; height: var(--buttonHeight);
-            padding: 0 12px;
+            width: 100%; height: var(--buttonHeight); padding: 0 12px;
             border: 2px solid var(--mainGreen);
             font-family: var(--fontMain); font-size: var(--smallFontSize);
             color: var(--darkerGreen); background: white;
@@ -68,18 +57,16 @@
         }
         .auth-field:focus { border-color: var(--vibrantGreen); }
         .auth-select {
-            width: 100%; height: var(--buttonHeight);
-            padding: 0 12px;
+            width: 100%; height: var(--buttonHeight); padding: 0 12px;
             border: 2px solid var(--mainGreen);
             font-family: var(--fontMain); font-size: var(--smallFontSize);
             color: var(--darkerGreen); background: var(--lightGreen);
             display: block; margin-bottom: 14px; outline: none; appearance: none;
         }
         .auth-btn {
-            width: 100%; height: var(--buttonHeight);
-            border: none; font-family: var(--fontMain);
-            font-size: var(--regularFontSize); font-weight: 700;
-            color: white; cursor: pointer; display: block; margin-top: 8px;
+            width: 100%; height: var(--buttonHeight); border: none;
+            font-family: var(--fontMain); font-size: var(--regularFontSize);
+            font-weight: 700; color: white; cursor: pointer; display: block; margin-top: 8px;
         }
         .auth-btn-green { background: var(--mainGreen); }
         .auth-btn-green:hover { background: var(--darkerGreen); }
@@ -101,14 +88,8 @@
             display: flex; align-items: center; justify-content: space-between;
             z-index: 20;
         }
-        #screen {
-            margin-left: calc(var(--navWidth) + 40px);
-            font-size: var(--regularFontSize);
-        }
-        #headerUser {
-            margin-right: 5%;
-            font-size: var(--regularFontSize);
-        }
+        #screen { margin-left: calc(var(--navWidth) + 40px); font-size: var(--regularFontSize); }
+        #headerUser { margin-right: 5%; font-size: var(--regularFontSize); }
 
         /* === SIDEBAR === */
         aside {
@@ -120,15 +101,10 @@
         .sidebar-brand {
             height: var(--headerHeight);
             display: flex; align-items: center; gap: 12px;
-            padding: 0 24px;
-            border-bottom: 1px solid var(--lightGreen);
+            padding: 0 24px; border-bottom: 1px solid var(--lightGreen);
         }
-        .brand-mark {
-            width: 36px; height: 36px;
-            background: var(--mainGreen); color: white;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 700; font-size: 14px; flex-shrink: 0;
-        }
+        /* TODO: place logo.png in the img/ folder */
+        .logo { width: 40px; height: 40px; object-fit: contain; }
         .brand-name-label { font-weight: 700; font-size: var(--regularFontSize); color: var(--darkerGreen); }
         nav { display: flex; flex-direction: column; justify-content: space-between; flex: 1; }
         .nav-top { display: flex; flex-direction: column; }
@@ -137,51 +113,40 @@
             height: var(--buttonHeight); padding: 0 24px;
             font-family: var(--fontMain); font-size: var(--regularFontSize);
             color: var(--darkerGreen); cursor: pointer;
-            border: none; background: white;
-            text-align: left; width: 100%; text-decoration: none;
+            border: none; background: white; text-align: left; width: 100%; text-decoration: none;
         }
         .nav-link:hover { background: var(--lightGreen); }
         .nav-link.active { background: var(--mainGreen); color: white; }
         .nav-bottom { border-top: 1px solid var(--lightGreen); padding: 12px 0; }
         .nav-user { display: flex; align-items: center; gap: 12px; padding: 8px 24px; margin-bottom: 4px; }
         .nav-initials-circle {
-            width: 40px; height: 40px;
-            background: var(--mainGreen); color: white;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
+            width: 40px; height: 40px; background: var(--mainGreen); color: white;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
             font-weight: 700; flex-shrink: 0;
         }
         .nav-user-name { font-weight: 700; font-size: var(--smallFontSize); }
-        .nav-user-level { font-size: 10px; color: var(--vibrantGreen); font-weight: 700; }
         .nav-logout {
             display: flex; align-items: center; gap: 12px;
             height: var(--buttonHeight); padding: 0 24px;
-            color: var(--red); font-family: var(--fontMain);
-            font-size: var(--regularFontSize); font-weight: 700;
-            cursor: pointer; border: none; background: white;
-            text-align: left; width: 100%;
+            color: var(--red); font-family: var(--fontMain); font-size: var(--regularFontSize);
+            font-weight: 700; cursor: pointer; border: none; background: white; width: 100%;
         }
         .nav-logout:hover { background: #fff0f0; }
 
         /* === MAIN === */
-        #app {
-            margin-left: var(--navWidth);
-            margin-top: var(--headerHeight);
-            padding: 32px 5%;
-            min-height: calc(100vh - var(--headerHeight));
-        }
+        #app { margin-left: var(--navWidth); margin-top: var(--headerHeight); padding: 32px 5%; min-height: calc(100vh - var(--headerHeight)); }
 
         /* === PAGES === */
         .page { display: none; }
         .page.active { display: block; animation: fadeIn 0.25s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* === SYSTEM ALERT === */
+        /* === ALERT === */
         #sysAlert { padding: 14px 20px; font-size: var(--smallFontSize); font-weight: 700; margin-bottom: 24px; }
         .alert-success { background: #d6e8da; color: var(--mainGreen); border: 1px solid var(--lightGreen); }
-        .alert-error { background: #ffe4e4; color: var(--red); border: 1px solid #f9b3b3; }
+        .alert-error   { background: #ffe4e4; color: var(--red);       border: 1px solid #f9b3b3; }
 
-        /* === PAGE HEADERS === */
+        /* === PAGE HEADER === */
         .page-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; }
         .page-title { font-size: var(--largeFontSize); font-weight: 700; color: var(--mainGreen); }
         .page-subtitle { font-size: var(--smallFontSize); color: #888; margin-top: 4px; }
@@ -194,25 +159,22 @@
             font-weight: 700; color: white; border: none; cursor: pointer;
             display: inline-flex; align-items: center; gap: 8px;
         }
-        .btn-primary { background: var(--mainGreen); }
+        .btn-primary   { background: var(--mainGreen); }
         .btn-primary:hover { background: var(--darkerGreen); }
         .btn-secondary { background: var(--vibrantGreen); }
         .btn-secondary:hover { filter: brightness(0.9); }
-        .btn-danger { background: var(--red); }
+        .btn-danger    { background: var(--red); }
+        .btn-danger:hover { filter: brightness(0.9); }
         .btn-sm { height: 32px; padding: 0 12px; font-size: var(--xSmallFontSize); }
-        .btn-outline {
-            background: white; color: var(--darkerGreen);
-            border: 1px solid var(--lightGreen);
-        }
+        .btn-outline { background: white; color: var(--darkerGreen); border: 1px solid var(--lightGreen); }
         .btn-outline:hover { background: var(--lightGreen); }
 
-        /* === OUTLINE CONTAINER === */
+        /* === CONTAINERS === */
         .outline-container { border: 2px solid var(--darkerGreen); background: white; }
 
         /* === SEARCH BAR === */
         .search-bar {
-            display: flex; gap: 12px;
-            padding: 16px; background: white;
+            display: flex; gap: 12px; padding: 16px; background: white;
             border-bottom: 2px solid var(--lightGreen);
         }
         .search-bar input, .search-bar select {
@@ -228,16 +190,31 @@
         /* === TABLES === */
         table { width: 100%; border-collapse: collapse; }
         th {
-            text-align: left; font-size: var(--xSmallFontSize);
-            text-transform: uppercase; letter-spacing: 0.08em;
-            color: var(--darkerGreen); border-bottom: 2px solid var(--darkerGreen);
+            text-align: left; font-size: var(--xSmallFontSize); text-transform: uppercase;
+            letter-spacing: 0.08em; color: var(--darkerGreen);
+            border-bottom: 2px solid var(--darkerGreen);
             padding: 12px 16px; background: white; font-weight: 700;
             position: sticky; top: 0; z-index: 1;
         }
         td { padding: 12px 16px; border-bottom: 2px solid var(--lightGreen); font-size: var(--smallFontSize); }
         tbody tr:hover td { background: var(--lightGreen); }
 
-        /* === STATUS BADGES === */
+        /* === PAYROLL HISTORY === */
+        .payroll-history { margin-top: 32px; }
+        .payroll-history-title {
+            font-weight: 700; font-size: var(--regularFontSize); color: var(--darkerGreen);
+            border-bottom: 2px solid var(--darkerGreen); padding-bottom: 8px; margin-bottom: 0;
+        }
+
+        /* === RUN PAYROLL PAGE === */
+        .payroll-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px; border-top: 2px solid var(--lightGreen);
+        }
+        .payroll-total { font-size: var(--regularFontSize); font-weight: 700; }
+        .payroll-total span { color: var(--mainGreen); margin-left: 12px; }
+
+        /* === BADGES === */
         .badge { display: inline-block; padding: 2px 10px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
         .badge-active    { background: #d6e8da; color: var(--mainGreen); }
         .badge-terminated{ background: #ffe4e4; color: var(--red); }
@@ -260,36 +237,25 @@
         /* === EMPLOYEE PORTAL === */
         .portal-profile {
             background: white; border: 2px solid var(--lightGreen);
-            padding: 32px; display: flex;
-            justify-content: space-between; align-items: center;
+            padding: 32px; display: flex; justify-content: space-between; align-items: center;
             margin-bottom: 24px;
         }
         .portal-profile-left { display: flex; align-items: center; gap: 24px; }
         .portal-avatar {
-            width: 72px; height: 72px;
-            background: var(--lightGreen); color: var(--mainGreen);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 28px; font-weight: 700;
+            width: 72px; height: 72px; background: var(--lightGreen); color: var(--mainGreen);
+            display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 700;
         }
         .portal-emp-name { font-size: 28px; font-weight: 700; }
         .portal-emp-title { font-size: var(--smallFontSize); color: #888; margin-bottom: 8px; margin-top: 4px; }
-        .portal-state-tag {
-            display: inline-block; padding: 4px 12px;
-            background: #eef3ff; color: var(--blue);
-            font-size: var(--xSmallFontSize); font-weight: 700;
-        }
+        .portal-state-tag { display: inline-block; padding: 4px 12px; background: #eef3ff; color: var(--blue); font-size: var(--xSmallFontSize); font-weight: 700; }
         .portal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
         .portal-card { background: white; border: 2px solid var(--lightGreen); padding: 24px; position: relative; }
         .portal-card-title {
-            font-weight: 700; font-size: var(--regularFontSize);
-            color: var(--darkerGreen); margin-bottom: 16px;
-            display: flex; align-items: center; gap: 8px;
+            font-weight: 700; font-size: var(--regularFontSize); color: var(--darkerGreen);
+            margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
             border-bottom: 1px solid var(--lightGreen); padding-bottom: 12px;
         }
-        .benefit-block {
-            background: #f8faf8; border: 1px solid var(--lightGreen);
-            padding: 16px; margin-bottom: 12px;
-        }
+        .benefit-block { background: #f8faf8; border: 1px solid var(--lightGreen); padding: 16px; margin-bottom: 12px; }
         .benefit-label { font-weight: 700; font-size: var(--smallFontSize); margin-bottom: 8px; }
         .benefit-select {
             width: 100%; height: 44px; padding: 0 12px;
@@ -298,20 +264,14 @@
             background: white; color: var(--darkerGreen); outline: none;
         }
         .benefit-select:focus { border-color: var(--vibrantGreen); }
-        #partTimeWarning {
-            background: #fff7cd; border: 1px solid #e8d068;
-            color: #7a5c00; padding: 12px 14px;
-            font-size: var(--xSmallFontSize); margin-top: 8px;
-        }
-        .pay-row-gross { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 2px solid var(--lightGreen); font-size: var(--regularFontSize); }
-        .pay-row-deduct { display: flex; justify-content: space-between; padding: 6px 0 6px 20px; font-size: var(--xSmallFontSize); color: var(--red); }
+        #partTimeWarning { background: #fff7cd; border: 1px solid #e8d068; color: #7a5c00; padding: 12px 14px; font-size: var(--xSmallFontSize); margin-top: 8px; }
+        .pay-row-gross   { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 2px solid var(--lightGreen); font-size: var(--regularFontSize); }
+        .pay-row-deduct  { display: flex; justify-content: space-between; padding: 6px 0 6px 20px; font-size: var(--xSmallFontSize); color: var(--red); }
         .pay-row-benefit { display: flex; justify-content: space-between; padding: 6px 0 6px 20px; font-size: var(--xSmallFontSize); color: var(--blue); }
-        .pay-row-net { display: flex; justify-content: space-between; padding: 14px 0; border-top: 2px solid var(--mainGreen); font-size: 20px; font-weight: 700; color: var(--mainGreen); }
+        .pay-row-net     { display: flex; justify-content: space-between; padding: 14px 0; border-top: 2px solid var(--mainGreen); font-size: 20px; font-weight: 700; color: var(--mainGreen); }
         #printError {
-            position: absolute; inset: 0;
-            background: rgba(255,255,255,0.95);
-            border: 2px solid var(--red);
-            color: var(--red); font-weight: 700;
+            position: absolute; inset: 0; background: rgba(255,255,255,0.95);
+            border: 2px solid var(--red); color: var(--red); font-weight: 700;
             display: flex; align-items: center; justify-content: center;
             text-align: center; padding: 24px; font-size: var(--smallFontSize);
         }
@@ -319,11 +279,7 @@
         /* === CHECK PRINTER === */
         .check-wrapper { max-width: 720px; margin: 0 auto; }
         .check-doc { border: 2px solid var(--darkerGreen); padding: 32px; background: #fffef8; font-family: var(--fontMain); }
-        .check-doc-header {
-            display: flex; justify-content: space-between; align-items: flex-start;
-            border-bottom: 2px solid var(--darkerGreen);
-            padding-bottom: 16px; margin-bottom: 24px;
-        }
+        .check-doc-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid var(--darkerGreen); padding-bottom: 16px; margin-bottom: 24px; }
         .check-co-name { font-size: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
         .check-co-sub { font-size: 11px; font-family: monospace; color: #888; margin-top: 4px; }
         .check-no { font-family: monospace; font-size: 18px; font-weight: 700; color: var(--red); }
@@ -352,19 +308,19 @@
         .stub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; line-height: 1.8; }
         .check-print-actions { display: flex; justify-content: center; gap: 16px; margin-top: 32px; }
 
-        /* === MODAL === */
+        /* === MODALS === */
         .modal-overlay {
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,0.6); z-index: 900;
-            display: none; justify-content: center; align-items: center;
-            backdrop-filter: blur(2px);
+            position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 900;
+            display: none; justify-content: center; align-items: center; backdrop-filter: blur(2px);
         }
         .modal-overlay.active { display: flex; }
         .modal-box { background: white; padding: 40px; width: 640px; max-height: 90vh; overflow-y: auto; }
+        .modal-box-sm { background: white; padding: 40px; width: 480px; max-height: 90vh; overflow-y: auto; }
         .modal-title { font-size: 28px; font-weight: 700; color: var(--mainGreen); margin-bottom: 24px; }
-        .form-row   { display: grid; grid-template-columns: 1fr 1fr;       gap: 16px; margin-bottom: 16px; }
-        .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr;   gap: 16px; margin-bottom: 16px; }
+        .form-row   { display: grid; grid-template-columns: 1fr 1fr;     gap: 16px; margin-bottom: 16px; }
+        .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
         .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group-full { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
         .form-label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #888; }
         .form-input {
             height: var(--buttonHeight); padding: 0 12px;
@@ -405,7 +361,10 @@
     <div id="authOverlay">
         <div class="auth-card">
             <div class="auth-header">
-                <div class="auth-logo">CS</div>
+                <!-- TODO: place logo.png in the img/ folder -->
+                <div class="auth-logo">
+                    <img src="img/logo.png" alt="CompenStation Logo">
+                </div>
                 <h1 class="auth-title">CompenStation</h1>
                 <p class="auth-subtitle" id="authSubtitle">The Station for Compensation</p>
             </div>
@@ -434,16 +393,15 @@
 
     <!-- HEADER -->
     <header id="appHeader" class="hidden">
-        <p id="screen">Dashboard</p>
+        <p id="screen">Employees</p>
         <p id="headerUser">User</p>
     </header>
 
     <!-- SIDEBAR -->
     <aside id="sidebar" class="hidden">
         <div class="sidebar-brand">
-            <div class="brand">
-                <img class="logo" src="img/logo.png" alt="logo">
-            </div>
+            <!-- TODO: place logo.png in the img/ folder -->
+            <img class="logo" src="img/logo.png" alt="logo">
             <span class="brand-name-label">HR Portal</span>
         </div>
         <nav>
@@ -453,7 +411,6 @@
                     <div class="nav-initials-circle" id="navInitials">U</div>
                     <div>
                         <div class="nav-user-name" id="navUserName">User</div>
-                        <!-- <div class="nav-user-level" id="securityLevelTag"></div> -->
                     </div>
                 </div>
                 <button onclick="logout()" class="nav-logout">
@@ -468,17 +425,16 @@
 
         <div id="sysAlert" class="hidden"></div>
 
-        <!-- LEVEL 3: HR REPOSITORY -->
+        <!-- EMPLOYEES (Admin) -->
         <section id="hrRepository" class="page">
             <div class="page-header">
-                <div>
-                    <h1 class="page-title">Employees</h1>
-                </div>
+                <h1 class="page-title">Employees</h1>
                 <div class="page-actions">
                     <button onclick="runPayroll()" class="btn btn-secondary"><i class='bx bxs-coin-stack'></i> Run Payroll</button>
                     <button onclick="openEmployeeModal()" class="btn btn-primary">Add Employee</button>
                 </div>
             </div>
+
             <div class="outline-container">
                 <div class="search-bar">
                     <input type="text" id="repoSearch" placeholder="Search ID, Name, or Role..." onkeyup="filterRepo()">
@@ -504,9 +460,63 @@
                     </table>
                 </div>
             </div>
+
+            <!-- Payroll History -->
+            <div class="payroll-history">
+                <div class="outline-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th colspan="3" style="font-size:var(--smallFontSize);text-transform:none;letter-spacing:0;">Payroll History</th>
+                            </tr>
+                            <tr>
+                                <th>Pay Date</th><th>Employees Paid</th><th>Total Net Disbursed</th>
+                            </tr>
+                        </thead>
+                        <tbody id="payrollHistoryBody">
+                            <tr><td colspan="3" style="text-align:center;color:#888;padding:20px;">No payroll runs yet.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </section>
 
-        <!-- LEVEL 2/1: DIRECTORY -->
+        <!-- RUN PAYROLL PAGE -->
+        <section id="runPayrollPage" class="page">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Run Payroll</h1>
+                    <p class="page-subtitle" id="payPeriodLabel">Pay Period: —</p>
+                </div>
+                <div class="page-actions">
+                    <button onclick="showPage('hrRepository')" class="btn btn-outline" style="color:var(--darkerGreen);">Cancel</button>
+                </div>
+            </div>
+            <div class="outline-container">
+                <div style="overflow-x:auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Employee</th><th>Title</th><th>Pay Type</th>
+                                <th>Gross Bi-Wk</th><th>Deductions</th><th>Net Pay</th>
+                            </tr>
+                        </thead>
+                        <tbody id="runPayrollBody"></tbody>
+                    </table>
+                </div>
+                <div class="payroll-footer">
+                    <div class="payroll-total">
+                        Total Net Disbursement: <span id="payrollTotal">$0.00</span>
+                    </div>
+                    <div style="display:flex;gap:12px;">
+                        <button onclick="showPage('hrRepository')" class="btn btn-danger">Cancel</button>
+                        <button onclick="submitPayroll()" class="btn btn-primary">Submit Payroll</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CORPORATE DIRECTORY -->
         <section id="externalDirectory" class="page">
             <div class="page-header">
                 <h1 class="page-title">Corporate Directory</h1>
@@ -514,7 +524,7 @@
             <div class="directory-grid" id="directoryGrid"></div>
         </section>
 
-        <!-- LEVEL 1: EMPLOYEE SELF-SERVICE -->
+        <!-- EMPLOYEE SELF-SERVICE -->
         <section id="employeePortal" class="page">
             <div class="portal-profile">
                 <div class="portal-profile-left">
@@ -561,9 +571,6 @@
                     <div id="printError" class="hidden">
                         FISCAL LOCK: Cannot process check. Employee status is not ACTIVE. Contact HR.
                     </div>
-                    <button id="btnPrint" onclick="prepareCheck()" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:24px;">
-                        Generate Official Paycheck
-                    </button>
                 </div>
             </div>
         </section>
@@ -579,7 +586,7 @@
                         </div>
                         <div style="text-align:right;">
                             <div class="check-no">No. <span id="chkNum">0000</span></div>
-                            <div class="check-date-label">May 11, 2026</div>
+                            <div class="check-date-label" id="chkDate">—</div>
                         </div>
                     </div>
 
@@ -624,14 +631,14 @@
 
                 <div class="check-print-actions no-print">
                     <button onclick="window.print()" class="btn btn-secondary"><i class='bx bx-printer'></i> Send to Printer</button>
-                    <button onclick="showPage('employeePortal')" class="btn btn-outline" style="color:var(--darkerGreen);">Return</button>
+                    <button onclick="showPage(checkReturnPage)" class="btn btn-outline" style="color:var(--darkerGreen);">Return</button>
                 </div>
             </div>
         </section>
 
     </div><!-- /#app -->
 
-    <!-- ADMIN MODAL -->
+    <!-- ADMIN: ADD/EDIT EMPLOYEE MODAL -->
     <div id="adminModal" class="modal-overlay">
         <div class="modal-box">
             <h2 id="modalTitle" class="modal-title">Employee Record</h2>
@@ -693,35 +700,126 @@
         </div>
     </div>
 
-    <script>
-        /* --- 1. CORE DATA & STATE --- */
-        const TAX_RATES = { NY: 0.065, NJ: 0.0637, CT: 0.0699, FED: 0.22, FICA: 0.0765 };
-        const MED_COSTS = { none: 0, ppo: 250, hmo: 120 };
-        const VIS_COSTS = { none: 0, standard: 20, premium: 45 };
+    <!-- EMPLOYEE: EDIT PERSONAL INFO MODAL -->
+    <div id="profileModal" class="modal-overlay">
+        <div class="modal-box-sm">
+            <h2 class="modal-title">Edit Personal Info</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">First Name</label>
+                    <input id="profileFName" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Last Name</label>
+                    <input id="profileLName" class="form-input">
+                </div>
+            </div>
+            <div class="form-group-full">
+                <label class="form-label">Email</label>
+                <input id="profileEmail" class="form-input" type="email">
+            </div>
+            <div class="form-group-full">
+                <label class="form-label">Phone</label>
+                <input id="profilePhone" class="form-input" type="tel">
+            </div>
+            <div class="form-group-full">
+                <label class="form-label">Address</label>
+                <input id="profileAddress" class="form-input" type="text">
+            </div>
+            <div class="modal-actions">
+                <button type="button" onclick="closeModal('profileModal')" class="btn-cancel">Cancel</button>
+                <button type="button" onclick="saveProfile()" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
 
+    <script>
+        /* =========================================================
+           1. TAX BRACKETS (NY, NJ, CT — 2024 single filer rates)
+           ========================================================= */
+        function calcBracketTax(annualIncome, brackets) {
+            let tax = 0;
+            let prev = 0;
+            for (const [limit, rate] of brackets) {
+                if (annualIncome <= prev) break;
+                const taxable = Math.min(annualIncome, limit) - prev;
+                tax += taxable * rate;
+                prev = limit;
+                if (annualIncome <= limit) break;
+            }
+            return tax;
+        }
+
+        const FED_BRACKETS = [
+            [11600,    0.10],
+            [47150,    0.12],
+            [100525,   0.22],
+            [191950,   0.24],
+            [243725,   0.32],
+            [609350,   0.35],
+            [Infinity, 0.37]
+        ];
+
+        const STATE_BRACKETS = {
+            NY: [
+                [17150,    0.0400],
+                [23600,    0.0450],
+                [27900,    0.0525],
+                [161550,   0.0585],
+                [323200,   0.0625],
+                [2155350,  0.0685],
+                [Infinity, 0.1090]
+            ],
+            NJ: [
+                [20000,    0.0140],
+                [35000,    0.0175],
+                [40000,    0.0350],
+                [75000,    0.05525],
+                [500000,   0.0637],
+                [Infinity, 0.1075]
+            ],
+            CT: [
+                [10000,    0.030],
+                [50000,    0.050],
+                [100000,   0.055],
+                [200000,   0.060],
+                [250000,   0.065],
+                [500000,   0.069],
+                [Infinity, 0.0699]
+            ]
+        };
+
+        const FICA_RATE  = 0.0765;
+        const MED_COSTS  = { none: 0, ppo: 250, hmo: 120 };
+        const VIS_COSTS  = { none: 0, standard: 20, premium: 45 };
+
+        /* =========================================================
+           2. CORE DATA & STATE
+           ========================================================= */
         let users = {
-            'admin':    { pass: 'admin123', level: 3, empId: 1001 },
+            'admin':    { pass: 'admin123', level: 3, empId: null },
             'employee': { pass: 'emp123',   level: 1, empId: 1001 },
             'visitor':  { pass: 'vis123',   level: 2, empId: null }
         };
 
-        let employees = [];
-        let currentUser = null;
-        let currentEmpRecord = null;
+        let employees       = [];
+        let currentUser     = null;
+        let currentEmpRecord= null;
+        let checkReturnPage = 'employeePortal';
+        let payrollHistory  = [];
 
         function initData() {
             employees = [
-                { id: 1001, fName: "Jane", lName: "Doe", status: "ACTIVE", level: 1, title: "Senior Systems Architect", pay: 145000, type: "Salary", state: "NY", room: "A-402", phone: "212-555-0192", email: "jdoe@compenstation.com", medPlan: 'ppo', visPlan: 'standard' },
-                { id: 1002, fName: "Sarah",  lName: "Vance",  status: "TERMINATED", level: 1, title: "Project Manager", pay: 92000, type: "Salary", state: "NJ", room: "B-201", phone: "201-555-0482", email: "svance@compenstation.com", medPlan: 'none', visPlan: 'none' },
-                { id: 1003, fName: "James",  lName: "Miller", status: "RETIRED", level: 1, title: "Operations Director", pay: 110000, type: "Salary", state: "CT", room: "C-105", phone: "860-555-0101", email: "jmiller@compenstation.com", medPlan: 'hmo', visPlan: 'none' }
+                { id: 1001, fName: "Jane",  lName: "Doe",    status: "ACTIVE",     level: 1, title: "Senior Systems Architect", pay: 145000, type: "Salary", state: "NY", room: "A-402", phone: "212-555-0192", email: "jdoe@compenstation.com",    medPlan: 'ppo',  visPlan: 'standard', address: "123 Main St, New York, NY" },
+                { id: 1002, fName: "Sarah", lName: "Vance",  status: "TERMINATED", level: 1, title: "Project Manager",          pay:  92000, type: "Salary", state: "NJ", room: "B-201", phone: "201-555-0482", email: "svance@compenstation.com", medPlan: 'none', visPlan: 'none',     address: "" },
+                { id: 1003, fName: "James", lName: "Miller", status: "RETIRED",    level: 1, title: "Operations Director",      pay: 110000, type: "Salary", state: "CT", room: "C-105", phone: "860-555-0101", email: "jmiller@compenstation.com",medPlan: 'hmo',  visPlan: 'none',     address: "" }
             ];
             const statuses = ["ACTIVE", "ACTIVE", "ACTIVE", "QUIT", "DECEASED", "DISABLED"];
             const states   = ["NY", "NJ", "CT"];
             for (let i = 4; i <= 50; i++) {
                 const isPT = Math.random() > 0.8;
                 employees.push({
-                    id: 1000 + i,
-                    fName: "Staff_" + i, lName: "Employee",
+                    id: 1000 + i, fName: "Staff_" + i, lName: "Employee",
                     status: statuses[Math.floor(Math.random() * statuses.length)],
                     level: 1,
                     title: isPT ? "Part-Time Clerk" : "Associate " + i,
@@ -731,22 +829,28 @@
                     room:  "R-" + (100 + i),
                     phone: "555-000-" + (1000 + i),
                     email: `user${i}@compenstation.com`,
-                    medPlan: 'none', visPlan: 'none'
+                    medPlan: 'none', visPlan: 'none', address: ""
                 });
             }
         }
 
-        /* --- 2. MATH ENGINE --- */
+        /* =========================================================
+           3. MATH ENGINE — bracket-based taxes
+           ========================================================= */
         function calcNetPay(emp) {
             try {
-                let grossBiWeekly = emp.type === "Salary" ? emp.pay / 26 : emp.pay * 40;
-                const sRate    = TAX_RATES[emp.state] || 0.05;
-                const fedTax   = grossBiWeekly * TAX_RATES.FED;
-                const stateTax = grossBiWeekly * sRate;
-                const fica     = grossBiWeekly * TAX_RATES.FICA;
-                const mCost    = MED_COSTS[emp.medPlan] || 0;
-                const vCost    = VIS_COSTS[emp.visPlan] || 0;
-                const net      = grossBiWeekly - fedTax - stateTax - fica - mCost - vCost;
+                const annualGross = emp.type === "Salary" ? emp.pay : emp.pay * 40 * 26;
+                const grossBiWeekly = annualGross / 26;
+
+                const annualFed   = calcBracketTax(annualGross, FED_BRACKETS);
+                const annualState = calcBracketTax(annualGross, STATE_BRACKETS[emp.state] || STATE_BRACKETS.NY);
+                const fedTax      = annualFed   / 26;
+                const stateTax    = annualState / 26;
+                const fica        = grossBiWeekly * FICA_RATE;
+                const mCost       = MED_COSTS[emp.medPlan] || 0;
+                const vCost       = VIS_COSTS[emp.visPlan] || 0;
+                const net         = grossBiWeekly - fedTax - stateTax - fica - mCost - vCost;
+
                 return { gross: grossBiWeekly, fedTax, stateTax, fica, mCost, vCost, net: Math.max(0, net) };
             } catch(e) {
                 console.error("Calculation Error", e);
@@ -754,12 +858,15 @@
             }
         }
 
-        /* --- 3. AUTHENTICATION --- */
+        /* =========================================================
+           4. AUTHENTICATION
+           ========================================================= */
         function toggleAuth(mode) {
             document.getElementById('loginForm').classList.toggle('hidden', mode === 'register');
             document.getElementById('registerForm').classList.toggle('hidden', mode === 'login');
             document.getElementById('authError').classList.add('hidden');
-            document.getElementById('authSubtitle').innerText = mode === 'login' ? 'Secure Enterprise Login' : 'Create Access Profile';
+            document.getElementById('authSubtitle').innerText =
+                mode === 'login' ? 'The Station for Compensation' : 'Create Access Profile';
         }
 
         function handleLogin() {
@@ -769,7 +876,9 @@
             if (users[u] && users[u].pass === p) {
                 currentUser = users[u];
                 currentUser.username = u;
-                currentEmpRecord = currentUser.empId ? employees.find(e => e.id === currentUser.empId) : null;
+                currentEmpRecord = currentUser.empId
+                    ? employees.find(e => e.id === currentUser.empId)
+                    : null;
                 initApp();
             } else {
                 err.innerText = "Error 401: Invalid Credentials. Access Denied.";
@@ -797,7 +906,7 @@
 
             const menu = document.getElementById('navMenu');
             let links = '';
-            if ([1].includes(currentUser.level)) {
+            if (currentUser.level === 1) {
                 links += `<a onclick="showPage('employeePortal')" class="nav-link" data-page="employeePortal"><i class='bx bxs-user-circle'></i> My Pay &amp; Benefits</a>`;
             }
             links += `<a onclick="showPage('externalDirectory')" class="nav-link" data-page="externalDirectory"><i class='bx bxs-business'></i> Corporate Directory</a>`;
@@ -807,18 +916,23 @@
             menu.innerHTML = links;
 
             const uname = currentUser.username.toUpperCase();
-            document.getElementById('navUserName').innerText  = uname;
-            document.getElementById('headerUser').innerText   = uname;
-            document.getElementById('navInitials').innerText  = currentUser.username.charAt(0).toUpperCase();
-            // document.getElementById('securityLevelTag').innerText = `Level ${currentUser.level} Access`;
+            document.getElementById('navUserName').innerText = uname;
+            document.getElementById('headerUser').innerText  = uname;
+            document.getElementById('navInitials').innerText = currentUser.username.charAt(0).toUpperCase();
 
-            const startPage = currentUser.level === 3 ? 'hrRepository' : (currentUser.level === 1 ? 'employeePortal' : 'externalDirectory');
+            // Admin always lands on Employees; employee on their portal; visitor on directory
+            const startPage = currentUser.level === 3 ? 'hrRepository'
+                            : currentUser.level === 1 ? 'employeePortal'
+                            : 'externalDirectory';
             showPage(startPage);
         }
 
-        /* --- 4. VIEW LOGIC --- */
+        /* =========================================================
+           5. VIEW LOGIC
+           ========================================================= */
         const PAGE_NAMES = {
             hrRepository:      'Employees',
+            runPayrollPage:    'Run Payroll',
             externalDirectory: 'Corporate Directory',
             employeePortal:    'My Pay & Benefits',
             checkPrinter:      'Paycheck'
@@ -834,14 +948,21 @@
             if (screenEl) screenEl.innerText = PAGE_NAMES[id] || id;
 
             if (id === 'hrRepository')      renderRepo();
+            if (id === 'runPayrollPage')    renderRunPayroll();
             if (id === 'externalDirectory') renderDirectory();
             if (id === 'employeePortal')    renderEmployeePortal();
         }
 
+        /* =========================================================
+           6. EMPLOYEE TABLE (admin)
+           ========================================================= */
         function renderRepo(list = employees) {
             try {
                 document.getElementById('repoBody').innerHTML = list.map(e => {
                     const m = calcNetPay(e);
+                    const printBtn = e.status === 'ACTIVE'
+                        ? `<button onclick="adminPrintCheck(${e.id})" class="btn btn-sm btn-secondary" style="margin-left:6px;">Print Check</button>`
+                        : '';
                     return `
                     <tr>
                         <td style="font-family:monospace;color:#aaa;">#${e.id}</td>
@@ -850,7 +971,10 @@
                         <td><span class="badge badge-${e.status.toLowerCase()}">${e.status}</span></td>
                         <td style="font-family:monospace;">$${e.type === 'Salary' ? e.pay.toLocaleString() : e.pay + '/hr'}</td>
                         <td style="font-family:monospace;font-weight:700;">$${m.net.toFixed(2)}</td>
-                        <td><button onclick="openEmployeeModal(${e.id})" class="btn btn-outline btn-sm">Modify</button></td>
+                        <td>
+                            <button onclick="openEmployeeModal(${e.id})" class="btn btn-outline btn-sm">Modify</button>
+                            ${printBtn}
+                        </td>
                     </tr>`;
                 }).join('');
             } catch(e) { console.error("Repo Render Error", e); }
@@ -862,8 +986,7 @@
             const filtered = employees.filter(e => {
                 const matchTerm = e.fName.toLowerCase().includes(term) || e.lName.toLowerCase().includes(term) ||
                                   e.title.toLowerCase().includes(term) || e.id.toString().includes(term);
-                const matchStat = stat === "ALL" || e.status === stat;
-                return matchTerm && matchStat;
+                return matchTerm && (stat === "ALL" || e.status === stat);
             });
             renderRepo(filtered);
         }
@@ -900,7 +1023,8 @@
                 };
                 if (isNew) {
                     const newId = 1000 + employees.length + 1;
-                    employees.push({ id: newId, ...data, level: 1, room: "TBD", phone: "TBD", email: `new${newId}@compenstation.com`, medPlan: 'none', visPlan: 'none' });
+                    employees.push({ id: newId, ...data, level: 1, room: "TBD", phone: "TBD",
+                        email: `new${newId}@compenstation.com`, medPlan: 'none', visPlan: 'none', address: "" });
                     showAlert(`Employee ${data.fName} added. ID: ${newId}`, "success");
                 } else {
                     Object.assign(employees.find(x => x.id === parseInt(idStr)), data);
@@ -911,20 +1035,131 @@
             } catch(err) { showAlert("Error saving record.", "error"); }
         }
 
+        /* =========================================================
+           7. RUN PAYROLL
+           ========================================================= */
+        function runPayroll() {
+            const now = new Date();
+            // Pay period: current bi-weekly window
+            const periodEnd   = new Date(now);
+            const periodStart = new Date(now);
+            periodStart.setDate(periodStart.getDate() - 13);
+            document.getElementById('payPeriodLabel').innerText =
+                `Pay Period: ${periodStart.toLocaleDateString()} – ${periodEnd.toLocaleDateString()}`;
+            showPage('runPayrollPage');
+        }
+
+        function renderRunPayroll() {
+            const active = employees.filter(e => e.status === 'ACTIVE');
+            let totalNet = 0;
+
+            document.getElementById('runPayrollBody').innerHTML = active.map(e => {
+                const m = calcNetPay(e);
+                totalNet += m.net;
+                const deductions = m.fedTax + m.stateTax + m.fica + m.mCost + m.vCost;
+                return `
+                <tr>
+                    <td style="font-weight:700;">${e.fName} ${e.lName}</td>
+                    <td style="color:#888;font-size:12px;">${e.title}</td>
+                    <td>${e.type}</td>
+                    <td style="font-family:monospace;">$${m.gross.toFixed(2)}</td>
+                    <td style="font-family:monospace;color:var(--red);">-$${deductions.toFixed(2)}</td>
+                    <td style="font-family:monospace;font-weight:700;color:var(--mainGreen);">$${m.net.toFixed(2)}</td>
+                </tr>`;
+            }).join('');
+
+            document.getElementById('payrollTotal').innerText =
+                '$' + totalNet.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function submitPayroll() {
+            const active = employees.filter(e => e.status === 'ACTIVE');
+            let totalNet = 0;
+            active.forEach(e => { totalNet += calcNetPay(e).net; });
+
+            const run = {
+                date:  new Date().toLocaleDateString(),
+                count: active.length,
+                total: totalNet
+            };
+            payrollHistory.unshift(run);
+            updatePayrollHistoryTable();
+            showPage('hrRepository');
+            showAlert(`Payroll submitted — ${run.count} employees, $${run.total.toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2})} disbursed.`, 'success');
+        }
+
+        function updatePayrollHistoryTable() {
+            const tbody = document.getElementById('payrollHistoryBody');
+            if (!payrollHistory.length) return;
+            tbody.innerHTML = payrollHistory.map(r => `
+                <tr>
+                    <td>${r.date}</td>
+                    <td>${r.count}</td>
+                    <td style="font-family:monospace;font-weight:700;">$${r.total.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</td>
+                </tr>`).join('');
+        }
+
+        /* =========================================================
+           8. ADMIN PRINT CHECK (for any employee by ID)
+           ========================================================= */
+        function adminPrintCheck(empId) {
+            const e = employees.find(x => x.id === empId);
+            if (!e || e.status !== 'ACTIVE') {
+                showAlert('Cannot print check: employee is not ACTIVE.', 'error');
+                return;
+            }
+            checkReturnPage = 'hrRepository';
+            populateCheck(e);
+            showPage('checkPrinter');
+        }
+
+        function populateCheck(e) {
+            const m   = calcNetPay(e);
+            const num = Math.floor(1000 + Math.random() * 9000);
+            document.getElementById('chkNum').innerText    = num;
+            document.getElementById('chkNumBtm').innerText = num;
+            document.getElementById('chkDate').innerText   = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+            document.getElementById('chkAmt').innerText    = m.net.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('chkName').innerText   = `${e.fName} ${e.lName}`;
+            document.getElementById('chkAddr').innerText   = `ID: ${e.id} | LOC: ${e.state}${e.address ? ' | ' + e.address : ''}`;
+            document.getElementById('chkWords').innerText  =
+                'EXACTLY ' + convertNumberToWords(Math.floor(m.net)) +
+                ' DOLLARS AND ' + Math.round((m.net % 1) * 100) + '/100';
+            document.getElementById('stubDetails').innerHTML = `
+                <div>
+                    <p><b>GROSS:</b> $${m.gross.toFixed(2)}</p>
+                    <p>Federal Tax: -$${m.fedTax.toFixed(2)}</p>
+                    <p>State Tax (${e.state}): -$${m.stateTax.toFixed(2)}</p>
+                </div>
+                <div>
+                    <p>FICA: -$${m.fica.toFixed(2)}</p>
+                    <p>Medical: -$${m.mCost.toFixed(2)}</p>
+                    <p>Vision: -$${m.vCost.toFixed(2)}</p>
+                    <p style="font-weight:700;border-top:1px solid var(--darkerGreen);margin-top:4px;padding-top:4px;">NET: $${m.net.toFixed(2)}</p>
+                </div>`;
+        }
+
+        /* =========================================================
+           9. DIRECTORY
+           ========================================================= */
         function renderDirectory() {
-            document.getElementById('directoryGrid').innerHTML = employees.filter(e => e.status === "ACTIVE").map(e => `
+            document.getElementById('directoryGrid').innerHTML = employees
+                .filter(e => e.status === "ACTIVE")
+                .map(e => `
                 <div class="dir-card">
                     <p class="dir-name">${e.fName} ${e.lName}</p>
                     <p class="dir-title">${e.title}</p>
                     <div class="dir-info">
-                        <div class="dir-row"><i class='bx bxs-map'></i> Loc: ${e.state} HQ / Rm ${e.room}</div>
+                        <div class="dir-row"><i class='bx bxs-map'></i> ${e.state} HQ / Rm ${e.room}</div>
                         <div class="dir-row"><i class='bx bxs-phone'></i> ${e.phone}</div>
                         <div class="dir-row"><i class='bx bxs-envelope'></i> <a href="mailto:${e.email}">${e.email}</a></div>
                     </div>
-                </div>
-            `).join('');
+                </div>`).join('');
         }
 
+        /* =========================================================
+           10. EMPLOYEE PORTAL
+           ========================================================= */
         function renderEmployeePortal() {
             if (!currentEmpRecord) return;
             const e = currentEmpRecord;
@@ -943,7 +1178,7 @@
             currentEmpRecord.medPlan = document.getElementById('selMedical').value;
             currentEmpRecord.visPlan = document.getElementById('selVision').value;
             updatePayBreakdown();
-            showAlert("Benefit elections updated successfully.", "success");
+            showAlert("Benefit elections updated.", "success");
         }
 
         function updatePayBreakdown() {
@@ -952,41 +1187,45 @@
             const isTerminated = currentEmpRecord.status !== "ACTIVE";
             document.getElementById('payBreakdown').innerHTML = `
                 <div class="pay-row-gross"><span>Gross Earnings</span><b>$${m.gross.toFixed(2)}</b></div>
-                <div class="pay-row-deduct"><span>Fed Tax (22%)</span><b>-$${m.fedTax.toFixed(2)}</b></div>
+                <div class="pay-row-deduct"><span>Federal Income Tax</span><b>-$${m.fedTax.toFixed(2)}</b></div>
                 <div class="pay-row-deduct"><span>State Tax (${currentEmpRecord.state})</span><b>-$${m.stateTax.toFixed(2)}</b></div>
                 <div class="pay-row-deduct"><span>FICA</span><b>-$${m.fica.toFixed(2)}</b></div>
                 <div class="pay-row-benefit"><span>Medical Deduction</span><b>-$${m.mCost.toFixed(2)}</b></div>
                 <div class="pay-row-benefit"><span>Vision Deduction</span><b>-$${m.vCost.toFixed(2)}</b></div>
                 <div class="pay-row-net"><span>NET PAY</span><b>$${m.net.toFixed(2)}</b></div>
             `;
-            document.getElementById('btnPrint').disabled = isTerminated;
-            document.getElementById('btnPrint').style.opacity = isTerminated ? '0.5' : '1';
             document.getElementById('printError').classList.toggle('hidden', !isTerminated);
         }
 
-        function prepareCheck() {
-            if (currentEmpRecord.status !== "ACTIVE") return;
+        /* =========================================================
+           11. PROFILE EDIT
+           ========================================================= */
+        function openProfileEdit() {
+            if (!currentEmpRecord) return;
             const e = currentEmpRecord;
-            const m = calcNetPay(e);
-            const num = Math.floor(1000 + Math.random() * 9000);
-            document.getElementById('chkNum').innerText    = num;
-            document.getElementById('chkNumBtm').innerText = num;
-            document.getElementById('chkAmt').innerText    = m.net.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            document.getElementById('chkName').innerText   = `${e.fName} ${e.lName}`;
-            document.getElementById('chkAddr').innerText   = `ID: ${e.id} | LOC: ${e.state}`;
-            document.getElementById('chkWords').innerText  = "EXACTLY " + convertNumberToWords(Math.floor(m.net)) + " DOLLARS AND " + Math.round((m.net % 1) * 100) + "/100";
-            document.getElementById('stubDetails').innerHTML = `
-                <div><p><b>GROSS:</b> $${m.gross.toFixed(2)}</p><p>FED: -$${m.fedTax.toFixed(2)}</p><p>STATE: -$${m.stateTax.toFixed(2)}</p></div>
-                <div><p>FICA: -$${m.fica.toFixed(2)}</p><p>MED: -$${m.mCost.toFixed(2)}</p><p>VIS: -$${m.vCost.toFixed(2)}</p><p style="font-weight:700;border-top:1px solid var(--darkerGreen);margin-top:4px;padding-top:4px;">NET: $${m.net.toFixed(2)}</p></div>
-            `;
-            showPage('checkPrinter');
+            document.getElementById('profileFName').value   = e.fName   || '';
+            document.getElementById('profileLName').value   = e.lName   || '';
+            document.getElementById('profileEmail').value   = e.email   || '';
+            document.getElementById('profilePhone').value   = e.phone   || '';
+            document.getElementById('profileAddress').value = e.address || '';
+            document.getElementById('profileModal').classList.add('active');
         }
 
-        function runPayroll() {
-            const activeCount = employees.filter(e => e.status === "ACTIVE").length;
-            showAlert(`Success: Payroll processed for ${activeCount} active employees. General Ledger updated.`, "success");
+        function saveProfile() {
+            if (!currentEmpRecord) return;
+            currentEmpRecord.fName   = document.getElementById('profileFName').value.trim() || currentEmpRecord.fName;
+            currentEmpRecord.lName   = document.getElementById('profileLName').value.trim() || currentEmpRecord.lName;
+            currentEmpRecord.email   = document.getElementById('profileEmail').value.trim();
+            currentEmpRecord.phone   = document.getElementById('profilePhone').value.trim();
+            currentEmpRecord.address = document.getElementById('profileAddress').value.trim();
+            closeModal('profileModal');
+            renderEmployeePortal();
+            showAlert("Personal info updated.", "success");
         }
 
+        /* =========================================================
+           12. UTILS
+           ========================================================= */
         function showAlert(msg, type) {
             const box = document.getElementById('sysAlert');
             box.innerText = msg;
@@ -996,8 +1235,6 @@
         }
 
         function logout() { location.reload(); }
-
-        function openProfileEdit() { /* placeholder */ }
 
         function convertNumberToWords(amount) {
             if (amount < 1000) return amount.toString();
