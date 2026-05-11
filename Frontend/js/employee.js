@@ -1,9 +1,14 @@
 // employee.js — Employee-facing page logic
 
 // API base: use the same dynamic resolution as adminMain.js
-const API_BASE = (window.APP_CONFIG && window.APP_CONFIG.API_URL)
-  ? window.APP_CONFIG.API_URL
-      : `${window.location.protocol}//${window.location.hostname}:3000`;
+const API_BASE = (() => {
+      const localHosts = ["localhost", "127.0.0.1", "::1", "0.0.0.0"];
+      const isLocalHost = window.location.protocol === 'file:'
+            || !window.location.hostname
+            || localHosts.includes(window.location.hostname);
+      if (window.APP_CONFIG && window.APP_CONFIG.API_URL) return window.APP_CONFIG.API_URL;
+      return isLocalHost ? 'http://localhost:3000' : '/api';
+})();
 
 // --- 1. UI HELPERS (Buttons) ---
 function generateFile(filename, content) {
@@ -63,7 +68,7 @@ async function submitBenefits() {
       const token = localStorage.getItem("token");
       const selectedPlans = Array.from(document.querySelectorAll('#benefitsContainer input:checked')).map(cb => cb.value);
       try {
-              const response = await fetch(`${API_BASE}/api/employee/benefits`, {
+              const response = await fetch(`${API_BASE}/employee/benefits`, {
                         method: 'POST',
                         headers: {
                                     "Authorization": `Bearer ${token}`,

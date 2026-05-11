@@ -1,9 +1,18 @@
 // login.js - Connected to backend
 
-// API base — use the same dynamic resolution strategy
-const LOGIN_API = (window.APP_CONFIG && window.APP_CONFIG.API_URL)
-  ? window.APP_CONFIG.API_URL
-  : window.location.protocol + '//' + window.location.hostname + ':3000';
+// API base — use the same dynamic resolution strategy as admin pages.
+const LOGIN_API = (() => {
+      const localHosts = ["localhost", "127.0.0.1", "::1", "0.0.0.0"];
+      const isLocalHost = window.location.protocol === 'file:'
+            || !window.location.hostname
+            || localHosts.includes(window.location.hostname);
+      if (window.APP_CONFIG && window.APP_CONFIG.API_URL) return window.APP_CONFIG.API_URL;
+      return isLocalHost ? 'http://localhost:3000' : window.location.protocol + '//' + window.location.hostname + ':3000';
+})();
+
+function navigateToPage(page) {
+  window.location.href = new URL(page, window.location.href).href;
+}
 
 // API Helper Functions
 async function login(username, password) {
@@ -73,11 +82,11 @@ document.querySelector(".login-input").addEventListener("submit", async (e) => {
   try {
     const result = await login(username, password);
     if (result.user && result.user.role === "admin") {
-      window.location.href = "admin.html";
+      navigateToPage("admin.html");
     } else {
       loginView.style.display = "none";
       if (employeeHome) employeeHome.style.display = "flex";
-      else window.location.href = "employee.html";
+      else navigateToPage("employee.html");
     }
   } catch (error) {
     alert("Login failed: " + error.message);
@@ -110,11 +119,11 @@ document.getElementById("create-account-form").addEventListener("submit", async 
     };
     const result = await register(userData);
     if (accountType === "admin") {
-      window.location.href = "admin.html";
+      navigateToPage("admin.html");
     } else {
       createView.style.display = "none";
       if (employeeHome) employeeHome.style.display = "flex";
-      else window.location.href = "employee.html";
+      else navigateToPage("employee.html");
     }
   } catch (error) {
     alert("Registration failed: " + error.message);

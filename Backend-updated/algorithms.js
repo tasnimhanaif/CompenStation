@@ -37,55 +37,82 @@ function toMySQLDate(date) {
 
 /**
  * Add Employee
- * Required: fullName, email, hourlyRate
- * Optional: phone, address, department, jobTitle
+ * Required: firstName, lastName, email, pay, payType
+ * Optional: middleName, birthDate, sex, employeeCode, employmentType, hoursWorked, address, city, state, zip, ssn, phone, jobTitle, benefitsList, accountType
  */
-async function addEmployee(store, { fullName, email, hourlyRate, phone, address, department, jobTitle }) {
-  assert(fullName && fullName.trim(), "fullName required");
+async function addEmployee(store, { firstName, lastName, email, pay, payType, middleName, birthDate, sex, employeeCode, employmentType, hoursWorked, address, city, state, zip, ssn, phone, jobTitle, benefitsList, accountType }) {
+  assert(firstName && firstName.trim(), "firstName required");
+  assert(lastName && lastName.trim(), "lastName required");
   assert(email && email.trim(), "email required");
-  const rate = Number(hourlyRate);
-  assert(!isNaN(rate) && rate >= 0, "hourlyRate must be >= 0");
+  const payAmount = Number(pay);
+  assert(!isNaN(payAmount) && payAmount >= 0, "pay must be >= 0");
 
   const existing = await store.getEmployeeByEmail(email.trim().toLowerCase());
   assert(!existing, "An employee with this email already exists");
 
   return store.createEmployee({
-    fullName: fullName.trim(),
+    firstName: firstName.trim(),
+    middleName: middleName ? middleName.trim() : null,
+    lastName: lastName.trim(),
+    birthDate: birthDate || null,
+    sex: sex || 'male',
+    employeeCode: employeeCode || null,
+    employmentType: employmentType || 'full-time',
     email: email.trim().toLowerCase(),
-    hourlyRate: round2(rate),
-    phone: phone || null,
+    payType: payType || 'hourly',
+    pay: round2(payAmount),
+    hoursWorked: hoursWorked || 0,
     address: address || null,
-    department: department || null,
+    city: city || null,
+    state: state || null,
+    zip: zip || null,
+    ssn: ssn || null,
+    phone: phone || null,
     jobTitle: jobTitle || null,
+    benefitsList: benefitsList || [],
+    accountType: accountType || 'employee',
   });
 }
 
 /**
- * Modify Employee personal info and/or hourly rate
+ * Modify Employee personal info and/or pay
  * Only provided fields are updated.
  */
-async function modifyEmployee(store, { employeeId, fullName, email, hourlyRate, phone, address, department, jobTitle, isActive }) {
+async function modifyEmployee(store, { employeeId, firstName, middleName, lastName, birthDate, sex, employeeCode, employmentType, email, payType, pay, hoursWorked, address, city, state, zip, ssn, phone, jobTitle, benefitsList, accountType, isActive }) {
   assert(employeeId != null, "employeeId required");
   const emp = await store.getEmployeeById(employeeId);
   assert(emp, "Employee not found");
 
   const patch = {};
-  if (fullName    !== undefined) patch.fullName    = fullName.trim();
-  if (email       !== undefined) {
+  if (firstName    !== undefined) patch.firstName    = firstName.trim();
+  if (middleName   !== undefined) patch.middleName   = middleName ? middleName.trim() : null;
+  if (lastName     !== undefined) patch.lastName     = lastName.trim();
+  if (birthDate    !== undefined) patch.birthDate    = birthDate;
+  if (sex          !== undefined) patch.sex          = sex;
+  if (employeeCode !== undefined) patch.employeeCode = employeeCode;
+  if (employmentType !== undefined) patch.employmentType = employmentType;
+  if (email        !== undefined) {
     const existing = await store.getEmployeeByEmail(email.trim().toLowerCase());
     assert(!existing || existing.id === employeeId, "Email already in use by another employee");
     patch.email = email.trim().toLowerCase();
   }
-  if (hourlyRate  !== undefined) {
-    const rate = Number(hourlyRate);
-    assert(!isNaN(rate) && rate >= 0, "hourlyRate must be >= 0");
-    patch.hourlyRate = round2(rate);
+  if (payType      !== undefined) patch.payType      = payType;
+  if (pay          !== undefined) {
+    const payAmount = Number(pay);
+    assert(!isNaN(payAmount) && payAmount >= 0, "pay must be >= 0");
+    patch.pay = round2(payAmount);
   }
-  if (phone       !== undefined) patch.phone       = phone;
-  if (address     !== undefined) patch.address     = address;
-  if (department  !== undefined) patch.department  = department;
-  if (jobTitle    !== undefined) patch.jobTitle     = jobTitle;
-  if (isActive    !== undefined) patch.isActive     = Boolean(isActive);
+  if (hoursWorked  !== undefined) patch.hoursWorked  = hoursWorked;
+  if (address      !== undefined) patch.address      = address;
+  if (city         !== undefined) patch.city         = city;
+  if (state        !== undefined) patch.state        = state;
+  if (zip          !== undefined) patch.zip          = zip;
+  if (ssn          !== undefined) patch.ssn          = ssn;
+  if (phone        !== undefined) patch.phone        = phone;
+  if (jobTitle     !== undefined) patch.jobTitle     = jobTitle;
+  if (benefitsList !== undefined) patch.benefitsList = benefitsList;
+  if (accountType  !== undefined) patch.accountType  = accountType;
+  if (isActive     !== undefined) patch.isActive     = Boolean(isActive);
 
   assert(Object.keys(patch).length > 0, "No fields provided to update");
   return store.updateEmployee(employeeId, patch);
@@ -441,7 +468,7 @@ async function runPayroll(store, { periodStart, periodEnd, executedBy }) {
     });
 
     lines.push({
-      employee:       { id: item.emp.id, fullName: item.emp.fullName },
+      employee:       { id: item.emp.id, fullName: [item.emp.firstName, item.emp.middleName, item.emp.lastName].filter(Boolean).join(' ') },
       grossPay:       item.grossPay,
       deductions:     item.activeDeductions,
       benefits:       item.enrolledBenefits,

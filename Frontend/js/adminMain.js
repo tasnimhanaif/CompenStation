@@ -1,11 +1,14 @@
 // Main functionality of the admin account
 
-// API base URL — reads from a global window.APP_CONFIG if set (injected by server),
-// otherwise falls back to the same origin so the frontend talks to whatever port
-// the backend is actually running on.
-const API = (window.APP_CONFIG && window.APP_CONFIG.API_URL)
-  ? window.APP_CONFIG.API_URL
-      : `${window.location.protocol}//${window.location.hostname}:3000`;
+// API base URL — read from global APP_CONFIG if available, otherwise use localhost for local/dev environments.
+const API = (() => {
+      const localHosts = ["localhost", "127.0.0.1", "::1", "0.0.0.0"];
+      const isLocalHost = window.location.protocol === 'file:'
+            || !window.location.hostname
+            || localHosts.includes(window.location.hostname);
+      if (window.APP_CONFIG && window.APP_CONFIG.API_URL) return window.APP_CONFIG.API_URL;
+      return isLocalHost ? 'http://localhost:3000' : '/api';
+})();
 
 // ─── Page Navigation ─────────────────────────────────────────────────────────
 const pages = document.querySelectorAll(".page");

@@ -10,7 +10,7 @@ const editEmployeeFields = getEmployeeFormFields(editEmployeeForm);
 
 let nextLocalEmployeeId = 1;
 let editingEmployeeId = null;
-let currentEmployees = employees.map(createSampleEmployeeRecord);
+let currentEmployees = [];
 
 // ---Adding an employee---
 document.querySelector("#employees .btn-primary").addEventListener("click", () => {
@@ -21,39 +21,54 @@ document.querySelector("#employees .btn-primary").addEventListener("click", () =
 addEmployeeForm.addEventListener("submit", async event => {
       event.preventDefault();
       const newEmployee = readEmployeeFromForm(addEmployeeFields, {
-              id: `local-${nextLocalEmployeeId++}`,
               payType: "per_period",
-              hours: "—",
+              hours: "",
               payDate: "—",
       });
-      currentEmployees.push(newEmployee);
-      renderEmployeeViews();
-      resetEmployeeForm(addEmployeeForm, addEmployeeFields);
+      const hoursWorkedValue = Number(newEmployee.hours);
+      const hoursWorked = Number.isFinite(hoursWorkedValue) ? hoursWorkedValue : 0;
+
+      const payload = {
+              firstName: newEmployee.firstName,
+              middleName: newEmployee.middleName,
+              lastName: newEmployee.lastName,
+              birthDate: newEmployee.birthDate,
+              sex: newEmployee.sex,
+              employeeCode: newEmployee.employeeCode,
+              employmentType: newEmployee.payFrequency === 'bi-weekly' ? 'full-time' : 'part-time',
+              email: newEmployee.email,
+              payType: newEmployee.payType,
+              pay: newEmployee.compensationValue,
+              hoursWorked,
+              address: newEmployee.address,
+              city: newEmployee.city,
+              state: newEmployee.state,
+              zip: newEmployee.zip,
+              ssn: newEmployee.ssn,
+              phone: newEmployee.phone,
+              jobTitle: newEmployee.jobTitle,
+              benefitsList: newEmployee.selectedBenefits,
+              accountType: 'employee',
+      };
+
       try {
               const response = await fetch(`${API}/employees`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                                    fullName: getEmployeeFullName(newEmployee),
-                                    email: newEmployee.email,
-                                    hourlyRate: newEmployee.compensationValue,
-                                    jobTitle: newEmployee.jobTitle || null,
-                                    phone: newEmployee.phone || null,
-                                    address: [newEmployee.address, newEmployee.city, newEmployee.state, newEmployee.zip].filter(Boolean).join(", ") || null,
-                        }),
+                        body: JSON.stringify(payload),
               });
-              if (!response.ok) throw new Error(`Failed to save employee: ${response.status}`);
               const savedEmployee = await response.json();
-              currentEmployees = currentEmployees.map(employee =>
-                        employee.id === newEmployee.id
-                                                              ? { ...employee, id: savedEmployee.id ?? employee.id, employeeCode: employee.employeeCode || String(savedEmployee.id ?? ""), email: savedEmployee.email ?? employee.email }
-                          : employee
-                                                          );
+              if (!response.ok) {
+                      throw new Error(savedEmployee.error || `Failed to save employee: ${response.status}`);
+              }
+              currentEmployees.push(createApiEmployeeRecord(savedEmployee));
               renderEmployeeViews();
+              resetEmployeeForm(addEmployeeForm, addEmployeeFields);
+              showPage("employees");
       } catch (error) {
+              alert("Failed to save employee: " + error.message);
               console.error("Failed to save employee:", error);
       }
-      showPage("employees");
 });
 
 editEmployeeForm.addEventListener("submit", async event => {
@@ -70,20 +85,37 @@ editEmployeeForm.addEventListener("submit", async event => {
                                     // Only call API for non-local (i.e. DB-backed) employees
                                     if (!String(editingEmployeeId).startsWith("local-") && !String(editingEmployeeId).startsWith("sample-")) {
                                             try {
+                                                      const hoursWorkedValue = Number(updatedEmployee.hours);
+                                                      const hoursWorked = Number.isFinite(hoursWorkedValue) ? hoursWorkedValue : 0;
                                                       const response = await fetch(`${API}/employees/${editingEmployeeId}`, {
                                                                   method: "PATCH",
                                                                   headers: { "Content-Type": "application/json" },
                                                                   body: JSON.stringify({
-                                                                                fullName: getEmployeeFullName(updatedEmployee),
+                                                                                firstName: updatedEmployee.firstName,
+                                                                                middleName: updatedEmployee.middleName,
+                                                                                lastName: updatedEmployee.lastName,
+                                                                                birthDate: updatedEmployee.birthDate,
+                                                                                sex: updatedEmployee.sex,
+                                                                                employeeCode: updatedEmployee.employeeCode,
+                                                                                employmentType: updatedEmployee.payFrequency === 'bi-weekly' ? 'full-time' : 'part-time',
                                                                                 email: updatedEmployee.email,
-                                                                                hourlyRate: updatedEmployee.compensationValue,
-                                                                                jobTitle: updatedEmployee.jobTitle || null,
-                                                                                phone: updatedEmployee.phone || null,
-                                                                                address: [updatedEmployee.address, updatedEmployee.city, updatedEmployee.state, updatedEmployee.zip].filter(Boolean).join(", ") || null,
+                                                                                payType: updatedEmployee.payType,
+                                                                                pay: updatedEmployee.compensationValue,
+                                                                                hoursWorked,
+                                                                                address: updatedEmployee.address,
+                                                                                city: updatedEmployee.city,
+                                                                                state: updatedEmployee.state,
+                                                                                zip: updatedEmployee.zip,
+                                                                                ssn: updatedEmployee.ssn,
+                                                                                phone: updatedEmployee.phone,
+                                                                                jobTitle: updatedEmployee.jobTitle,
+                                                                                benefitsList: updatedEmployee.selectedBenefits,
                                                                   }),
                                                       });
-                                                      if (!response.ok) throw new Error(`Failed to update employee: ${response.status}`);
+                                                      const result = await response.json();
+                                                      if (!response.ok) throw new Error(result.error || `Failed to update employee: ${response.status}`);
                                             } catch (error) {
+                                                      alert("Failed to update employee: " + error.message);
                                                       console.error("Failed to update employee:", error);
                                             }
                                     }
@@ -214,19 +246,28 @@ function createSampleEmployeeRecord(employee) {
 }
 
 function createApiEmployeeRecord(employee) {
-      const nameParts = splitFullName(employee.fullName);
       return {
               id: employee.id ?? `api-${nextLocalEmployeeId++}`,
-              ...nameParts,
-              birthDate: "", sex: "male",
-              employeeCode: employee.id != null ? String(employee.id) : "",
+              firstName: employee.firstName || "",
+              middleName: employee.middleName || "",
+              lastName: employee.lastName || "",
+              birthDate: employee.birthDate || "",
+              sex: employee.sex || "male",
+              employeeCode: employee.employeeCode || String(employee.id || ""),
               email: employee.email || "",
-              compensationValue: String(Number(employee.hourlyRate || 0)),
-              payType: "hourly", payFrequency: "weekly",
-              address: employee.address || "", city: "", state: "", zip: "",
-              phone: employee.phone || "", ssn: "",
-              jobTitle: employee.jobTitle || "", hours: "—", payDate: "—",
-              selectedBenefits: [],
+              compensationValue: String(Number(employee.pay || 0)),
+              payType: employee.payType || "hourly",
+              payFrequency: employee.employmentType === 'full-time' ? 'bi-weekly' : 'weekly',
+              address: employee.address || "",
+              city: employee.city || "",
+              state: employee.state || "",
+              zip: employee.zip || "",
+              phone: employee.phone || "",
+              ssn: employee.ssn || "",
+              jobTitle: employee.jobTitle || "",
+              hours: employee.hoursWorked || "—",
+              payDate: "—",
+              selectedBenefits: employee.benefitsList || [],
       };
 }
 
@@ -333,6 +374,9 @@ async function loadEmployees() {
       }
       renderEmployeeViews();
 }
+
+// Ensure persisted employees are loaded on startup.
+loadEmployees();
 
 // Edit/Remove employee buttons
 employeeTableBody.addEventListener("click", async event => {
